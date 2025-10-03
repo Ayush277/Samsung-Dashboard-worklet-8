@@ -1,0 +1,662 @@
+<h1
+id="samsung-worklet-8-unified-flask-dashboard-full-documentation">Samsung
+Worklet 8 — Unified Flask Dashboard (Full Documentation)</h1>
+<p>This repository bundles three independent Flask applications behind a
+single, branded dashboard. The dashboard starts each app on its own port
+and embeds it so you can operate everything from one place.</p>
+<ul>
+<li>Unified Dashboard: <code>dashboard/</code></li>
+<li>Case2 Sales Prediction (single + batch):
+<code>Case2-Nosalesuplift(pipeline) 2/</code></li>
+<li>Loan Default Predictor (form): <code>loan_app/</code></li>
+<li>Rossmann Sales Uplift (batch):
+<code>Sales Uplift 2/pipeline/</code></li>
+</ul>
+<p>All apps now share a consistent “Samsung Worklet 8” modern UI.</p>
+<h2 id="prerequisites">1) Prerequisites</h2>
+<ul>
+<li>OS: macOS (zsh shell)</li>
+<li>Python: 3.10+ (3.13 tested)</li>
+<li>Disk space: ~1 GB for Python wheels and models</li>
+<li>Optional: Homebrew for tools like <code>lsof</code></li>
+</ul>
+<p>Recommended: Use a dedicated virtual environment in the repo
+root.</p>
+<h2 id="setup-macos-zsh">2) Setup (macOS + zsh)</h2>
+<p>Create and activate a venv in the repo root:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;/Users/ayush/Downloads/Samsung Dashboard worklet 8&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span></code></pre></div>
+<p>Upgrade pip and install core dependencies used across apps:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> pip</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install flask pandas numpy scikit-learn joblib xgboost lightgbm catboost</span></code></pre></div>
+<p>Note on Apple Silicon (M1/M2/M3): LightGBM/CatBoost wheels are
+installed above. If compilation issues appear, reinstall with matching
+wheels or consult their docs.</p>
+<h2 id="how-to-run">3) How to Run</h2>
+<p>You can run everything via the dashboard or run apps
+individually.</p>
+<h3 id="a.-run-the-dashboard-recommended">A. Run the Dashboard
+(recommended)</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> dashboard</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> app.py</span></code></pre></div>
+<p>Open: http://127.0.0.1:5050</p>
+<ul>
+<li>Click a button to launch and view each app.</li>
+<li>The dashboard logs child app output to
+<code>dashboard/logs/&lt;app&gt;.log</code>.</li>
+<li>Child apps run with <code>flask run --no-reload</code> on these
+ports:
+<ul>
+<li>Case2 Sales Prediction: 7001</li>
+<li>Loan Default Predictor: 7002</li>
+<li>Rossmann Sales Uplift: 7003</li>
+</ul></li>
+</ul>
+<p>If a button fails, the dashboard shows the last lines from the
+corresponding log file to help debug quickly.</p>
+<h3 id="b.-run-apps-individually-direct">B. Run apps individually
+(direct)</h3>
+<p>Case2 Sales Prediction:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;Case2-Nosalesuplift(pipeline) 2&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">FLASK_APP</span><span class="op">=</span>app.py <span class="ex">python</span> <span class="at">-m</span> flask run <span class="at">--host</span> 127.0.0.1 <span class="at">--port</span> 7001 <span class="at">--no-reload</span></span></code></pre></div>
+<p>Loan Default Predictor:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> loan_app</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">FLASK_APP</span><span class="op">=</span>app.py <span class="ex">python</span> <span class="at">-m</span> flask run <span class="at">--host</span> 127.0.0.1 <span class="at">--port</span> 7002 <span class="at">--no-reload</span></span></code></pre></div>
+<p>Rossmann Sales Uplift:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;Sales Uplift 2/pipeline&quot;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">FLASK_APP</span><span class="op">=</span>app.py <span class="ex">python</span> <span class="at">-m</span> flask run <span class="at">--host</span> 127.0.0.1 <span class="at">--port</span> 7003 <span class="at">--no-reload</span></span></code></pre></div>
+<h2 id="data-models-and-artifacts">4) Data, Models, and Artifacts</h2>
+<p>Each app expects specific artifacts and/or data files. Place them in
+the listed folders before running.</p>
+<h3 id="a.-case2-sales-prediction-case2-nosalesupliftpipeline-2">A.
+Case2 Sales Prediction —
+<code>Case2-Nosalesuplift(pipeline) 2/</code></h3>
+<p>Purpose: Predict daily sales for a given store+item (single form) and
+batch CSV upload.</p>
+<p>Present artifacts in repo (already included): -
+<code>scaler.pkl</code> — StandardScaler used to normalize features -
+<code>catboost_model.pkl</code> — CatBoost regressor -
+<code>lgbm_model.pkl</code> — LightGBM regressor -
+<code>ridge_model.pkl</code> — Ridge regressor - Data files:
+<code>train2.csv</code> (for dropdowns), <code>test.csv</code>
+(sample)</p>
+<p>Model selection: UI lets you choose among any loaded models. If doing
+batch predictions, code prefers <code>random_forest</code> if present,
+else the first loaded model (with current artifacts that will be one of
+the above).</p>
+<p>Features (single prediction): - Inputs captured: <code>store</code>,
+<code>item</code>, <code>month</code>, <code>day</code> - Derived at
+runtime: <code>dayofweek</code>, <code>dayofyear</code>,
+<code>weekofyear</code> - All features are scaled by
+<code>scaler.pkl</code> before inference.</p>
+<p>Batch prediction (CSV): - Input CSV must include <code>date</code>,
+<code>store</code>, <code>item</code> - The app derives
+<code>month</code>, <code>day</code>, <code>dayofweek</code>,
+<code>dayofyear</code>, <code>weekofyear</code> - Output CSV adds
+<code>predicted_sales</code> (rounded int)</p>
+<p>Endpoints: - <code>GET /</code> — Form + batch UI -
+<code>POST /predict</code> — Single prediction -
+<code>POST /batch_predict</code> — CSV upload, returns JSON with
+<code>download_url</code> - <code>GET /download/&lt;filename&gt;</code>
+— Download processed CSV</p>
+<h3 id="b.-loan-default-predictor-loan_app">B. Loan Default Predictor —
+<code>loan_app/</code></h3>
+<p>Purpose: Classify a loan as Default vs Non-Default from form
+inputs.</p>
+<p>Expected artifacts (user-provided, not committed): -
+<code>loan_app/models/tabpfn.pkl</code> — Trained classifier (loaded
+with joblib) - <code>loan_app/models/scaler.pkl</code> — Fitted scaler
+for numeric features - <code>loan_app/models/dummy_columns.pkl</code> —
+List of training one-hot columns for alignment</p>
+<p>Important: Ensure that the library used to create
+<code>tabpfn.pkl</code> is installed if its class needs to be unpickled
+(e.g., TabPFN). In many cases, plain scikit-learn-compatible wrappers
+work with the stack installed above.</p>
+<p>Inputs (examples, must match training): - Numeric:
+<code>interest_rate</code>, … - Categorical: <code>source</code>,
+<code>loan_purpose</code>, <code>EducationLevel</code>,
+<code>MaritalStatus</code>, <code>Gender</code>,
+<code>EmploymentStatus</code></p>
+<p>Preprocessing: - One-hot encode categorical columns, then align to
+<code>dummy_columns.pkl</code> - Scale numeric columns via
+<code>scaler.pkl</code></p>
+<p>Endpoint: - <code>GET /</code> — Applicant form -
+<code>POST /predict</code> — Returns JSON:
+<code>{ "prediction": 0|1, "class": "Default"|"Non-Default" }</code></p>
+<h3 id="c.-rossmann-sales-uplift-sales-uplift-2pipeline">C. Rossmann
+Sales Uplift — <code>Sales Uplift 2/pipeline/</code></h3>
+<p>Purpose: Batch predictions for Rossmann stores using a trained
+XGBoost model.</p>
+<p>Artifacts in repo (already included): - <code>xgb_model.pkl</code> —
+Trained regressor - <code>scaler.pkl</code> — Scaler fitted on training
+features - <code>encoder.pkl</code> — OneHotEncoder for categorical
+features (if present); otherwise a safe dummy encoder is created</p>
+<p>Key processing (from <code>utils/data_processor.py</code>): - Type
+conversions (Date → datetime, encode StateHoliday) - Feature
+engineering: <code>WeekOfYear</code>, <code>Month</code>,
+<code>Year</code>, <code>CompetitionOpenNumMonths</code>,
+<code>Promo2NumWeeks</code> - Transformations: sqrt on
+<code>Sales</code>, <code>Customers</code>,
+<code>CompetitionOpenNumMonths</code>, <code>Promo2NumWeeks</code>; log
+on <code>CompetitionDistance</code> - One-hot encoding for
+<code>PromoInterval</code>, <code>StoreType</code>,
+<code>Assortment</code> (encoder if available; else pandas dummies) -
+Dummy trap avoidance by dropping a fixed set of columns - Feature order
+enforced to match scaler’s <code>feature_names_in_</code> (or a
+configured list)</p>
+<p>Inputs (CSV): - A test dataset with standard Rossmann features (no
+Sales column required)</p>
+<p>Outputs: - JSON: <code>{ success, row_count, download_url }</code> -
+CSV: Original columns + <code>Predicted_Sales</code></p>
+<p>Endpoints: - <code>GET /</code> — CSV upload UI -
+<code>POST /predict</code> — CSV upload, returns JSON -
+<code>GET /download/&lt;filename&gt;</code> — Download processed CSV</p>
+<h2 id="api-examples-curl">5) API Examples (cURL)</h2>
+<p>Case2 — single prediction (form post):</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST http://127.0.0.1:7001/predict <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span> <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;store=1&#39;</span> <span class="dt">\</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;item=1&#39;</span> <span class="dt">\</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;month=1&#39;</span> <span class="dt">\</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;day=15&#39;</span> <span class="dt">\</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;model_choice=catboost&#39;</span></span></code></pre></div>
+<p>Case2 — batch prediction:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST http://127.0.0.1:7001/batch_predict <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-F</span> file=@test.csv</span></code></pre></div>
+<p>Loan — predict:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST http://127.0.0.1:7002/predict <span class="dt">\</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span> <span class="dt">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;interest_rate=9.5&#39;</span> <span class="dt">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&quot;EducationLevel=Bachelor&#39;s&quot;</span> <span class="dt">\</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;source=Online&#39;</span> <span class="dt">\</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;loan_purpose=Personal&#39;</span> <span class="dt">\</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;MaritalStatus=Single&#39;</span> <span class="dt">\</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;Gender=Male&#39;</span> <span class="dt">\</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-urlencode</span> <span class="st">&#39;EmploymentStatus=Employed&#39;</span></span></code></pre></div>
+<p>Rossmann — batch prediction:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST http://127.0.0.1:7003/predict <span class="dt">\</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-F</span> file=@<span class="st">&quot;Sales Uplift 2/Dataset/test.csv&quot;</span></span></code></pre></div>
+<h2 id="common-tasks">6) Common Tasks</h2>
+<ul>
+<li>Change ports: Edit <code>APPS</code> in
+<code>dashboard/app.py</code>.</li>
+<li>Check logs: See <code>dashboard/logs/*.log</code> after attempting
+to start an app.</li>
+<li>Reset uploads: Each app writes outputs under its own
+<code>uploads/</code> folder.</li>
+<li>Re-theme UI: All pages share the same gradient/card style; customize
+in their HTML <code>&lt;style&gt;</code> blocks.</li>
+</ul>
+<h2 id="troubleshooting-quick">7) Troubleshooting (Quick)</h2>
+<ul>
+<li><p>Process died / Bad file descriptor: The dashboard now strips
+<code>WERKZEUG_*</code> env and uses <code>--no-reload</code> to avoid
+FD issues.</p></li>
+<li><p>scikit-learn unpickle warnings: Align versions or re-export
+models. Example to downgrade:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="st">&#39;scikit-learn==1.6.1&#39;</span></span></code></pre></div></li>
+<li><p>Port in use: Free ports with:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lsof</span> <span class="at">-ti:5050,7001,7002,7003</span> <span class="kw">|</span> <span class="fu">xargs</span> kill <span class="at">-9</span></span></code></pre></div></li>
+<li><p>Missing loan artifacts: Place <code>tabpfn.pkl</code>,
+<code>scaler.pkl</code>, <code>dummy_columns.pkl</code> under
+<code>loan_app/models/</code>.</p></li>
+</ul>
+<p>See <code>docs/troubleshooting.md</code> for detailed guidance.</p>
+<h2 id="project-layout">8) Project Layout</h2>
+<pre><code>Samsung Dashboard Worklet 8
+├── dashboard/                 # Unified control plane (Flask)
+│   ├── app.py                 # Spawns child apps, serves UI, logs
+│   ├── logs/                  # Per-app logs
+│   └── templates/             # Dashboard views
+├── Case2-Nosalesuplift(pipeline) 2/
+│   ├── app.py                 # Single &amp; batch sales prediction
+│   ├── templates/index.html   # UI (form + batch)
+│   ├── *.pkl                  # scaler + models (ridge, lgbm, catboost)
+│   └── uploads/               # Batch outputs
+├── loan_app/
+│   ├── app.py                 # Loan default predictor
+│   ├── templates/index.html   # UI (form)
+│   └── models/                # EXPECTED: tabpfn.pkl, scaler.pkl, dummy_columns.pkl
+└── Sales Uplift 2/pipeline/
+    ├── app.py                 # Rossmann batch app
+    ├── config.py              # Paths, expected features, upload folder
+    ├── utils/                 # Model loader, data processing, file IO
+    ├── templates/index.html   # UI (uploader)
+    └── uploads/               # Outputs</code></pre>
+<h2 id="security-production-notes">9) Security &amp; Production
+Notes</h2>
+<ul>
+<li>This stack is for local demos/dev. Do not expose directly to the
+internet.</li>
+<li>For production, use a WSGI server (gunicorn/uwsgi) behind a reverse
+proxy (nginx), configure HTTPS, CSRF protection for forms as needed, and
+secrets handling.</li>
+</ul>
+<h2 id="credits">10) Credits</h2>
+<ul>
+<li>Flask, Jinja2, Werkzeug</li>
+<li>scikit-learn, XGBoost, LightGBM, CatBoost</li>
+<li>Bootstrap 5, Font Awesome</li>
+</ul>
+<hr />
+<h1 id="executive-summary">Executive Summary</h1>
+<p>This project consolidates three independent ML use cases behind one
+dashboard: - No sales prediction (per store–item daily sales; form +
+batch CSV) - Loan predictor (delinquency/default classification from
+applicant features) - Sales prediction (Rossmann-style retail batch
+forecasting)</p>
+<p>Each use case is a separate Flask app with its own data schema,
+preprocessing, and model artifacts. The dashboard starts, health-checks,
+and embeds each app, providing a simple operator interface suitable for
+demos, reviews, and handover.</p>
+<p>Business outcomes: - Credit risk reduction via early identification
+of high-risk applicants - Inventory and operations planning via daily
+sales estimates - Campaign and planning support via store-level retail
+predictions</p>
+<h1 id="program-context-samsung-prism">Program Context (Samsung
+PRISM)</h1>
+<p>Samsung PRISM is a student–industry collaboration program. This
+worklet follows common data science report conventions for evaluation: -
+Clear problem statements and data schemas - Reproducible modeling
+approach and evaluation protocol - Practical deployment interface (web
+UI) for reviewers</p>
+<h1 id="system-overview">System Overview</h1>
+<p>Architecture: - Three Flask services (one per use case), each loading
+CSV-based input, applying deterministic preprocessing, running inference
+with persisted artifacts, and serving a small web UI plus HTTP endpoints
+- A unified Flask dashboard that spawns the services on fixed ports,
+verifies readiness, and embeds each app in an iframe with log-tail
+diagnostics on failure</p>
+<p>Ports (default): - Dashboard: 5050 - No sales prediction: 7001 - Loan
+predictor: 7002 - Sales prediction: 7003</p>
+<h1 id="detailed-use-cases">Detailed Use Cases</h1>
+<h2 id="a-no-sales-prediction-case2">A) No sales prediction (Case2)</h2>
+<ul>
+<li>Objective: Predict daily sales for a selected store–item and date;
+also support batch CSV predictions</li>
+<li>Data (single): store (int), item (int), month (1–12), day
+(1–31)</li>
+<li>Derived features: dayofweek, dayofyear, weekofyear</li>
+<li>Data (batch CSV): columns <code>date</code>, <code>store</code>,
+<code>item</code> (date features are derived)</li>
+<li>Preprocessing: StandardScaler on [store, item, month, day,
+dayofweek, dayofyear, weekofyear]</li>
+<li>Models provided: Ridge, LightGBM, CatBoost (choose at runtime)</li>
+<li>Metrics (suggested): MAE/RMSE, MAPE, and error by store/item</li>
+<li>Endpoints: <code>/</code>, <code>POST /predict</code>,
+<code>POST /batch_predict</code>,
+<code>GET /download/&lt;file&gt;</code></li>
+</ul>
+<h2 id="b-loan-predictor-delinquencydefault">B) Loan predictor
+(delinquency/default)</h2>
+<ul>
+<li>Objective: Estimate probability of default for policy cutoffs and
+monitoring</li>
+<li>Data: numeric (e.g., interest_rate), categorical (source,
+loan_purpose, EducationLevel, MaritalStatus, Gender, EmploymentStatus) —
+must match training</li>
+<li>Preprocessing: one-hot encode categoricals, align to
+<code>dummy_columns.pkl</code>, scale numeric features</li>
+<li>Artifacts: <code>tabpfn.pkl</code> (classifier),
+<code>scaler.pkl</code>, <code>dummy_columns.pkl</code></li>
+<li>Metrics (suggested): AUC, F1/precision/recall, KS, Brier score,
+calibration plot; policy threshold tied to expected loss</li>
+<li>Endpoint: <code>/</code>, <code>POST /predict</code></li>
+</ul>
+<h2 id="c-sales-prediction-rossmann-batch">C) Sales prediction (Rossmann
+batch)</h2>
+<ul>
+<li>Objective: Predict sales for many rows to support planning and
+analytics</li>
+<li>Input CSV: Rossmann-like features (Date, Store, DayOfWeek, Open,
+Promo, StateHoliday, SchoolHoliday, StoreType, Assortment,
+CompetitionDistance, etc.) — no Sales column required</li>
+<li>Preprocessing pipeline highlights: engineered time features;
+Competition/Pomo deltas; sqrt/log transforms; one-hot encoding with
+encoder fallback; dummy trap handling; feature order aligned to
+scaler</li>
+<li>Artifacts: <code>xgb_model.pkl</code>, <code>scaler.pkl</code>,
+<code>encoder.pkl</code></li>
+<li>Metrics (suggested): MAE/RMSE, segment-wise error; optional
+uplift-style metrics if experimentation data exists</li>
+<li>Endpoints: <code>/</code>, <code>POST /predict</code>,
+<code>GET /download/&lt;file&gt;</code></li>
+</ul>
+<h1 id="api-reference-consolidated">API Reference (Consolidated)</h1>
+<h2 id="dashboard">Dashboard</h2>
+<ul>
+<li><code>GET /</code> — List apps, status, and Open buttons</li>
+<li><code>GET /open/&lt;app_id&gt;</code> — Launch app on demand and
+embed it</li>
+<li><code>POST /api/start/&lt;app_id&gt;</code> — Programmatic
+start</li>
+<li><code>POST /api/stop/&lt;app_id&gt;</code> — Programmatic stop</li>
+</ul>
+<p>App IDs: <code>case2</code> (No sales prediction), <code>loan</code>
+(Loan predictor), <code>rossmann</code> (Sales prediction)</p>
+<h2 id="no-sales-prediction-case2">No sales prediction (Case2)</h2>
+<ul>
+<li><code>GET /</code> — HTML (form + batch)</li>
+<li><code>POST /predict</code> — Single prediction (form fields: store,
+item, month, day, model_choice)</li>
+<li><code>POST /batch_predict</code> — Multipart CSV (file)</li>
+<li><code>GET /download/&lt;filename&gt;</code> — CSV download</li>
+</ul>
+<h2 id="loan-predictor">Loan predictor</h2>
+<ul>
+<li><code>GET /</code> — Form</li>
+<li><code>POST /predict</code> — x-www-form-urlencoded; returns JSON
+<code>{ prediction, class }</code></li>
+</ul>
+<h2 id="sales-prediction-rossmann">Sales prediction (Rossmann)</h2>
+<ul>
+<li><code>GET /</code> — Uploader</li>
+<li><code>POST /predict</code> — Multipart CSV (file); returns
+<code>{ success, row_count, download_url }</code></li>
+<li><code>GET /download/&lt;filename&gt;</code> — CSV download</li>
+</ul>
+<h1 id="data-management-reproducibility">Data Management &amp;
+Reproducibility</h1>
+<p>Quality controls: - De-duplication by keys (e.g., (store, item, date)
+or applicant ID) - Missing value policy consistent between train and
+inference - Outlier treatment (clipping/winsorization, log transforms) -
+Encoding strategies documented for categorical fields - Consistent
+splits with seeded randomness</p>
+<p>Dataset documentation (per CSV): - Column name, type, allowed ranges,
+missingness, meaning, label definition, and leakage prevention notes</p>
+<p>Reproducibility: - Pin Python and package versions - Persist random
+seeds and training configs - Store scalers/encoders with models; enforce
+feature order (e.g., <code>scaler.feature_names_in_</code>)</p>
+<h1 id="model-evaluation-protocol">Model Evaluation Protocol</h1>
+<ul>
+<li>Classification (loan): stratified k-fold; report mean ± std for
+AUC/F1/etc.; final holdout</li>
+<li>Regression (sales): k-fold or time-aware split; report MAE/RMSE,
+error histograms and segments</li>
+<li>Thresholding: choose policy cutoffs based on cost/benefit and
+calibration; document rationale</li>
+<li>Overfitting checks: learning curves, validation gaps, SHAP/feature
+importance stability, drift checks</li>
+</ul>
+<h1 id="dashboard-design-ux">Dashboard Design &amp; UX</h1>
+<ul>
+<li>Single page with three primary actions: open No sales prediction,
+Loan predictor, or Sales prediction</li>
+<li>Each app page: KPI strip (e.g., AUC, RMSE), a couple of charts
+(ROC/uplift/error), CSV uploader or form, and data preview</li>
+<li>Theme: “Samsung Worklet 8” gradient cards and headers; embedded logs
+for quick debugging</li>
+</ul>
+<h1 id="implementation-details">Implementation Details</h1>
+<p>Tech stack: - Python 3.x, Flask for all apps - ML: scikit-learn,
+XGBoost, LightGBM, CatBoost - Data: pandas, numpy - Dashboard
+alternatives: Streamlit/Dash/Taipy (optional future migration)</p>
+<p>Run locally (recommended):</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;/Users/ayush/Downloads/Samsung Dashboard worklet 8&quot;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv <span class="kw">&amp;&amp;</span> <span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> pip <span class="kw">&amp;&amp;</span> <span class="ex">pip</span> install flask pandas numpy scikit-learn joblib xgboost lightgbm catboost</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> dashboard <span class="kw">&amp;&amp;</span> <span class="ex">python</span> app.py</span></code></pre></div>
+<p>Open http://127.0.0.1:5050 and click to open each app.</p>
+<h1 id="results-impact-template">Results &amp; Impact (Template)</h1>
+<ul>
+<li>No sales prediction: MAE/RMSE on holdout, error by store/item,
+planning guidance</li>
+<li>Loan predictor: AUC/ROC, KS, calibration; policy thresholds tied to
+expected loss</li>
+<li>Sales prediction: MAE/RMSE, segment-wise error; planning/campaign
+insights</li>
+</ul>
+<p>Include screenshots of each app view and an example CSV-to-prediction
+flow for reviewers.</p>
+<h1 id="troubleshooting-quick-1">Troubleshooting (Quick)</h1>
+<ul>
+<li>Startup failures: check <code>dashboard/logs/&lt;app&gt;.log</code>
+and free ports:
+<code>lsof -ti:5050,7001,7002,7003 | xargs kill -9</code></li>
+<li>scikit-learn pickle warnings: align versions or re-export
+models</li>
+<li>Missing loan artifacts: add <code>tabpfn.pkl</code>,
+<code>scaler.pkl</code>, <code>dummy_columns.pkl</code> under
+<code>loan_app/models/</code></li>
+</ul>
+<h1 id="limitations-next-steps">Limitations &amp; Next Steps</h1>
+<ul>
+<li>Class imbalance (loan) and feature drift risks (all)</li>
+<li>CSV IO for demo; migrate to Parquet or an RDBMS for production-like
+setups</li>
+<li>Add model cards, automated data checks in CI, periodic retraining
+with monitoring</li>
+<li>Optional migration to Streamlit/Dash/Taipy for richer analytics
+displays</li>
+</ul>
+<h1 id="credits-1">Credits</h1>
+<ul>
+<li>Flask, Jinja2, Werkzeug</li>
+<li>scikit-learn, XGBoost, LightGBM, CatBoost</li>
+<li>Bootstrap 5, Font Awesome</li>
+</ul>
+<hr />
+<h2 id="visual-overview">Visual Overview</h2>
+<p align="center">
+<img src="docs/assets/case2_daily_mean.png" alt="Case2 Daily Mean Sales" width="80%" />
+</p>
+<p align="center">
+<img src="docs/assets/banner_samsung_worklet8.svg" alt="Samsung Worklet 8" height="120" />
+</p>
+<p align="center">
+<a href="#how-to-run"><img alt="Run Local" src="https://img.shields.io/badge/Run-Local-667eea?logo=python&logoColor=white"></a>
+<a href="#data-models-and-artifacts"><img alt="Models" src="https://img.shields.io/badge/Models-Ridge%20%7C%20LGBM%20%7C%20CatBoost%20%7C%20XGBoost-764ba2"></a>
+<a href="#troubleshooting-quick"><img alt="Troubleshoot" src="https://img.shields.io/badge/Troubleshoot-Guide-success"></a>
+</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#1-prerequisites">Prerequisites</a></li>
+<li><a href="#2-setup-macos--zsh">Setup</a></li>
+<li><a href="#3-how-to-run">How to Run</a></li>
+<li><a href="#4-data-models-and-artifacts">Data, Models, and
+Artifacts</a></li>
+<li><a href="#5-api-examples-curl">API Examples</a></li>
+<li><a href="#use-case-walkthroughs">Use-Case Walkthroughs</a></li>
+<li><a href="#architecture-diagram">Architecture</a></li>
+<li><a href="#screenshots-and-charts">Screenshots and Charts</a></li>
+<li><a href="#7-troubleshooting-quick">Troubleshooting</a></li>
+</ul>
+<hr />
+<h2 id="use-case-walkthroughs">Use-Case Walkthroughs</h2>
+<h3 id="no-sales-prediction-case2-1">No sales prediction (Case2)</h3>
+<p>How it runs (UI and API): - Open Dashboard → click “No sales
+prediction” → form page loads - Fill store, item, date → click Predict →
+server derives date features, scales, selects model → returns prediction
+- For batch: upload CSV with date, store, item → receive download
+link</p>
+<p>Mermaid sequence (form flow):</p>
+<pre class="mermaid"><code>sequenceDiagram
+  autonumber
+  participant U as User
+  participant D as Dashboard (iframe)
+  participant C as Case2 Flask
+  U-&gt;&gt;D: Open No sales prediction
+  D-&gt;&gt;C: GET /
+  C--&gt;&gt;D: HTML (form)
+  U-&gt;&gt;C: POST /predict (store,item,month,day,model)
+  C-&gt;&gt;C: Derive features + scale + predict
+  C--&gt;&gt;U: HTML with Predicted Sales</code></pre>
+<p>Sample prediction (single):</p>
+<pre class="text"><code>Predicted Sales with Catboost: 184</code></pre>
+<p>Sample JSON (batch):</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;success&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;download_url&quot;</span><span class="fu">:</span> <span class="st">&quot;/download/predictions_test.csv&quot;</span><span class="fu">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;records_processed&quot;</span><span class="fu">:</span> <span class="dv">1000</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Tips: - Ensure scaler.pkl and at least one model .pkl exist in the
+Case2 folder - The dropdown list is populated from train2.csv
+(store/item values)</p>
+<hr />
+<h3 id="loan-predictor-delinquencydefault">Loan predictor
+(delinquency/default)</h3>
+<p>How it runs: - Open Dashboard → click “Loan predictor” → applicant
+form - Submit → server one-hot encodes categoricals, aligns to
+dummy_columns.pkl, scales numerics, predicts class</p>
+<p>Mermaid sequence:</p>
+<pre class="mermaid"><code>sequenceDiagram
+  autonumber
+  participant U as User
+  participant D as Dashboard (iframe)
+  participant L as Loan Flask
+  U-&gt;&gt;D: Open Loan predictor
+  D-&gt;&gt;L: GET /
+  L--&gt;&gt;D: HTML (form)
+  U-&gt;&gt;L: POST /predict (form-encoded)
+  L-&gt;&gt;L: Preprocess (dummies + scaler) + predict
+  L--&gt;&gt;U: JSON { prediction, class }</code></pre>
+<p>Sample JSON:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">&quot;prediction&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span> <span class="dt">&quot;class&quot;</span><span class="fu">:</span> <span class="st">&quot;Default&quot;</span> <span class="fu">}</span></span></code></pre></div>
+<p>Tips: - Place tabpfn.pkl, scaler.pkl, dummy_columns.pkl into
+loan_app/models/ - Column names in the form must match training-time
+schema for proper alignment</p>
+<hr />
+<h3 id="sales-prediction-rossmann-batch">Sales prediction (Rossmann
+batch)</h3>
+<p>How it runs: - Open Dashboard → click “Sales prediction” → CSV
+uploader - Upload Rossmann-style feature CSV → pipeline processes
+features, scales, predicts → download link returned</p>
+<p>Mermaid sequence:</p>
+<pre class="mermaid"><code>sequenceDiagram
+  autonumber
+  participant U as User
+  participant D as Dashboard (iframe)
+  participant R as Rossmann Flask
+  U-&gt;&gt;D: Open Sales prediction
+  D-&gt;&gt;R: GET /
+  R--&gt;&gt;D: HTML (uploader)
+  U-&gt;&gt;R: POST /predict (file)
+  R-&gt;&gt;R: DataProcessor (features→scale→predict)
+  R--&gt;&gt;U: JSON { success, row_count, download_url }</code></pre>
+<p>Sample JSON:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">&quot;success&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span> <span class="dt">&quot;row_count&quot;</span><span class="fu">:</span> <span class="dv">42157</span><span class="fu">,</span> <span class="dt">&quot;download_url&quot;</span><span class="fu">:</span> <span class="st">&quot;/download/predictions_test.csv&quot;</span> <span class="fu">}</span></span></code></pre></div>
+<p>Tips: - encoder.pkl is optional; a safe OneHotEncoder fallback is
+created if missing - scaler.feature_names_in_ is used to enforce feature
+order; otherwise Config.EXPECTED_FEATURES</p>
+<hr />
+<h2 id="architecture-diagram">Architecture Diagram</h2>
+<pre class="mermaid"><code>flowchart LR
+  subgraph Dashboard[Unified Dashboard (Flask)]
+    A[Buttons: No sales | Loan | Sales] --&gt;|spawn + health check| P1
+  end
+  subgraph Case2[No sales prediction]
+    P1[flask run 7001] --&gt; F1[Form + Batch]
+    F1 --&gt; M1[Scaler + Ridge/LGBM/CatBoost]
+  end
+  subgraph Loan[Loan predictor]
+    P2[flask run 7002] --&gt; F2[Applicant Form]
+    F2 --&gt; M2[Dummy Align + Scaler + Classifier]
+  end
+  subgraph Rossmann[Sales prediction]
+    P3[flask run 7003] --&gt; F3[CSV Upload]
+    F3 --&gt; M3[DataProcessor + Scaler + XGBoost]
+  end
+  A -. iframe .-&gt; F1
+  A -. iframe .-&gt; F2
+  A -. iframe .-&gt; F3</code></pre>
+<hr />
+<h2 id="screenshots-and-charts">Screenshots and Charts</h2>
+<ul>
+<li>Dashboard: add your own screenshot to
+<code>docs/assets/dashboard.png</code> (placeholder)</li>
+<li>No sales (form): add to <code>docs/assets/no_sales_form.png</code>
+(placeholder)</li>
+<li>No sales (batch success): add to
+<code>docs/assets/no_sales_batch.png</code> (placeholder)</li>
+<li>Loan predictor (form): add to <code>docs/assets/loan_form.png</code>
+(placeholder)</li>
+</ul>
+<p>Real charts generated from your data:</p>
+<p align="center">
+<img src="docs/assets/case2_month_box.png" alt="Case2 — Sales by Month" width="48%"/>
+<img src="docs/assets/rossmann_daily_mean.png" alt="Rossmann — Daily Mean Sales" width="48%"/>
+</p>
+<p align="center">
+<img src="docs/assets/rossmann_heatmap.png" alt="Rossmann — Heatmap" width="70%"/>
+</p>
+<p align="center">
+<img src="docs/assets/loan_corr.png" alt="Loan — Numeric Feature Correlation" width="70%"/>
+</p>
+<p align="center">
+<img src="docs/assets/dashboard.png" alt="Dashboard" width="85%"/>
+</p>
+<h3 id="example-metric-visuals-placeholders">Example Metric Visuals
+(placeholders)</h3>
+<pre class="mermaid"><code>pie title Loan Predictor — Class Distribution (Sample)
+  &quot;Non-Default&quot; : 78
+  &quot;Default&quot; : 22</code></pre>
+<pre class="mermaid"><code>pie title No Sales — Error Bucket (% of rows)
+  &quot;|err| &lt; 10&quot; : 45
+  &quot;10–50&quot; : 35
+  &quot;&gt;= 50&quot; : 20</code></pre>
+<hr />
+<h2 id="prediction-galleries">Prediction Galleries</h2>
+<details>
+<summary>
+<b>No sales — Single Prediction Examples</b>
+</summary>
+<pre class="text"><code>Store 1, Item 1, 2024-01-15 → 184
+Store 12, Item 3, 2024-02-02 → 97
+Store 5, Item 8, 2024-07-21 → 236</code></pre>
+</details>
+<details>
+<summary>
+<b>Loan predictor — JSON Responses</b>
+</summary>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">&quot;prediction&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span> <span class="dt">&quot;class&quot;</span><span class="fu">:</span> <span class="st">&quot;Non-Default&quot;</span> <span class="fu">}</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">&quot;prediction&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span> <span class="dt">&quot;class&quot;</span><span class="fu">:</span> <span class="st">&quot;Default&quot;</span> <span class="fu">}</span></span></code></pre></div>
+</details>
+<details>
+<summary>
+<b>Sales prediction — Batch Results (CSV head)</b>
+</summary>
+<pre class="csv"><code>...,Store,Date,DayOfWeek,Open,Promo,...,Predicted_Sales
+...,1,2015-08-01,6,1,1,...,4570
+...,1,2015-08-02,7,0,1,...,0</code></pre>
+</details>
+<hr />
+<h2 id="pro-tips-for-a-slick-demo">Pro Tips for a Slick Demo</h2>
+<ul>
+<li>Record a short GIF clicking the three buttons and downloading a CSV
+(<code>docs/assets/demo.gif</code>).</li>
+<li>Keep ports free before presenting:
+<code>lsof -ti:5050,7001,7002,7003 | xargs kill -9</code>.</li>
+<li>Warm the venv and dependencies ahead of time to avoid cold-start
+delays.</li>
+</ul>
+<hr />
+<h2 id="attributions-theme">Attributions &amp; Theme</h2>
+<ul>
+<li>Theme: gradient (#667eea → #764ba2), consistent cards, Samsung
+Worklet 8 navbars</li>
+<li>Icons: Font Awesome; Charts: Mermaid (rendered by GitHub)</li>
+<li>ML Stack: scikit-learn, XGBoost, LightGBM, CatBoost</li>
+</ul>
+<hr />
+<p align="center">
+<sub>Samsung PRISM — Unified Python Dashboard • © 2025</sub>
+</p>

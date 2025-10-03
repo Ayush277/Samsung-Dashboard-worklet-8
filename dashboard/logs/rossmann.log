@@ -135,3 +135,43 @@ Home route accessed
 127.0.0.1 - - [03/Oct/2025 10:30:12] "GET / HTTP/1.1" 200 -
 Home route accessed
 127.0.0.1 - - [03/Oct/2025 10:33:57] "GET / HTTP/1.1" 200 -
+Home route accessed
+127.0.0.1 - - [03/Oct/2025 12:08:31] "GET / HTTP/1.1" 200 -
+Predict route accessed
+Reading test file: sample_submission.csv
+Test file loaded successfully. Shape: (41088, 2)
+Columns found: ['Id', 'Sales']
+127.0.0.1 - - [03/Oct/2025 12:08:52] "POST /predict HTTP/1.1" 200 -
+Predict route accessed
+Reading test file: test.csv
+Test file loaded successfully. Shape: (41088, 8)
+Columns found: ['Id', 'Store', 'DayOfWeek', 'Date', 'Open', 'Promo', 'StateHoliday', 'SchoolHoliday']
+127.0.0.1 - - [03/Oct/2025 12:08:57] "POST /predict HTTP/1.1" 200 -
+Predict route accessed
+Reading test file: rossmann_test_data.csv
+Test file loaded successfully. Shape: (47945, 16)
+Columns found: ['Store', 'DayOfWeek', 'Date', 'Open', 'Promo', 'StateHoliday', 'SchoolHoliday', 'StoreType', 'Assortment', 'CompetitionDistance', 'CompetitionOpenSinceMonth', 'CompetitionOpenSinceYear', 'Promo2', 'Promo2SinceWeek', 'Promo2SinceYear', 'PromoInterval']
+✓ All required test columns found!
+Processing test data through pipeline...
+╭──────────────────────────────────────────────╮
+│ Processing test data for prediction …        │
+╰──────────────────────────────────────────────╯
+Input columns: ['Store', 'DayOfWeek', 'Date', 'Open', 'Promo', 'StateHoliday', 'SchoolHoliday', 'StoreType', 'Assortment', 'CompetitionDistance', 'CompetitionOpenSinceMonth', 'CompetitionOpenSinceYear', 'Promo2', 'Promo2SinceWeek', 'Promo2SinceYear', 'PromoInterval']
+Columns after removing targets: ['DayOfWeek', 'Open', 'Promo', 'StateHoliday', 'SchoolHoliday', 'CompetitionDistance', 'WeekOfYear', 'CompetitionOpenNumMonths', 'Promo2NumWeeks', 'PromoInterval_0', 'PromoInterval_Feb,May,Aug,Nov', 'PromoInterval_Mar,Jun,Sept,Dec', 'StoreType_a', 'StoreType_b', 'StoreType_d', 'Assortment_a', 'Assortment_c']
+Scaler feature list loaded from scaler.feature_names_in_
+Final column order: ['DayOfWeek', 'Open', 'Promo', 'StateHoliday', 'SchoolHoliday', 'CompetitionDistance', 'WeekOfYear', 'CompetitionOpenNumMonths', 'Promo2NumWeeks', 'PromoInterval_0', 'PromoInterval_Feb,May,Aug,Nov', 'PromoInterval_Mar,Jun,Sept,Dec', 'StoreType_a', 'StoreType_b', 'StoreType_d', 'Assortment_a', 'Assortment_c']
+Final feature shape before scaling: (47945, 17)
+Processed features ready: (47945, 17) NaNs: False
+Processed features shape: (47945, 17)
+Making predictions with pre-trained model...
+original_df rows: 47945
+processed_features rows: 47945
+predictions len: 47945
+Predictions stats: {'min': -4.487605094909668, 'max': 163.70855712890625, 'nan_count': 0}
+R2 score: not computed (no Sales column in upload).
+Final Predicted_Sales non-null count: 47945
+First 5 predictions: [75.69496154785156, 78.15299224853516, 90.79280090332031, 94.64690399169922, 74.48035430908203]
+Saved file SHA1: 78433002da4687f639e5922bb57137c46ae5c783
+✓ Predictions completed! Saved to: predictions_rossmann_test_data.csv
+127.0.0.1 - - [03/Oct/2025 12:09:09] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 12:09:15] "GET /download/predictions_rossmann_test_data.csv HTTP/1.1" 200 -
