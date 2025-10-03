@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Samsung Worklet 8 - Loan predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .main-container { margin-top: 30px; margin-bottom: 30px; }
+        .card { border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background: rgba(255, 255, 255, 0.95); }
+        .card-header { background: linear-gradient(45deg, #667eea, #764ba2); color: white; border-radius: 15px 15px 0 0 !important; padding: 20px; }
+        .form-control, .form-select { border-radius: 10px; padding: 12px; }
+        .btn-primary { background: linear-gradient(45deg, #667eea, #764ba2); border: none; border-radius: 25px; padding: 12px 30px; font-weight: 600; }
+        .results-card { margin-top: 20px; border-left: 4px solid #28a745; }
+        .visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
+        .navbar-gradient { background: linear-gradient(45deg, #667eea, #764ba2); }
+        .navbar-brand { color: #fff !important; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-gradient">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><i class="fas fa-gauge-high me-2"></i>Samsung Worklet 8</a>
+        </div>
+    </nav>
+    <div class="container main-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h1><i class="fas fa-money-check-alt me-2"></i>Loan predictor</h1>
+                        <p class="mb-0">Enter applicant details to predict default risk</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="predictionForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label" for="interest_rate">Interest Rate (%)</label>
+                                    <input id="interest_rate" type="number" step="0.01" name="interest_rate" class="form-control" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="EducationLevel">Education Level</label>
+                                    <select id="EducationLevel" name="EducationLevel" class="form-select" required>
+                                        <option value="High School">High School</option>
+                                        <option value="Bachelor's">Bachelor's</option>
+                                        <option value="Master's">Master's</option>
+                                        <option value="PhD">PhD</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="source">Source</label>
+                                    <select id="source" name="source" class="form-select" required>
+                                        <option value="Online">Online</option>
+                                        <option value="Branch">Branch</option>
+                                        <option value="Agent">Agent</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="loan_purpose">Loan Purpose</label>
+                                    <select id="loan_purpose" name="loan_purpose" class="form-select" required>
+                                        <option value="Personal">Personal</option>
+                                        <option value="Home">Home</option>
+                                        <option value="Auto">Auto</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="MaritalStatus">Marital Status</label>
+                                    <select id="MaritalStatus" name="MaritalStatus" class="form-select" required>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Divorced">Divorced</option>
+                                        <option value="Widowed">Widowed</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="Gender">Gender</label>
+                                    <select id="Gender" name="Gender" class="form-select" required>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="EmploymentStatus">Employment Status</label>
+                                    <select id="EmploymentStatus" name="EmploymentStatus" class="form-select" required>
+                                        <option value="Employed">Employed</option>
+                                        <option value="Self-Employed">Self-Employed</option>
+                                        <option value="Unemployed">Unemployed</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Retired">Retired</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-brain me-2"></i>Predict Risk</button>
+                            </div>
+                        </form>
+
+                        <div id="results" class="mt-4" style="display:none;">
+                            <div class="card results-card">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title">Prediction Result</h4>
+                                    <p class="mb-0" id="resultRaw"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="errorSection" class="mt-4" style="display:none;">
+                            <div class="alert alert-danger" id="errorContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('predictionForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: new URLSearchParams(formData)
+                });
+                if (!response.ok) throw new Error('Request failed');
+                const result = await response.json();
+                document.getElementById('resultRaw').textContent = `Class: ${result.class} (raw: ${result.prediction})`;
+                document.getElementById('results').style.display = 'block';
+                document.getElementById('errorSection').style.display = 'none';
+            } catch (err) {
+                document.getElementById('errorContent').textContent = err.message;
+                document.getElementById('errorSection').style.display = 'block';
+                document.getElementById('results').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

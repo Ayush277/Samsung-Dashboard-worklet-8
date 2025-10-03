@@ -1,0 +1,90 @@
+
+================================================================================
+Starting loan at Wed Oct  1 18:18:02 2025 on port 7002
+================================================================================
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/flask/__main__.py", line 3, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/flask/cli.py", line 1131, in main
+    cli.main()
+    ~~~~~~~~^^
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/click/core.py", line 1383, in main
+    rv = self.invoke(ctx)
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/click/core.py", line 1850, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/click/core.py", line 1246, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/click/core.py", line 814, in invoke
+    return callback(*args, **kwargs)
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/click/decorators.py", line 93, in new_func
+    return ctx.invoke(f, obj, *args, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/click/core.py", line 814, in invoke
+    return callback(*args, **kwargs)
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/flask/cli.py", line 991, in run_command
+    run_simple(
+    ~~~~~~~~~~^
+        host,
+        ^^^^^
+    ...<7 lines>...
+        exclude_patterns=exclude_patterns,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/werkzeug/serving.py", line 1093, in run_simple
+    srv = make_server(
+        hostname,
+    ...<7 lines>...
+        fd=fd,
+    )
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/werkzeug/serving.py", line 930, in make_server
+    return ThreadedWSGIServer(
+        host, port, app, request_handler, passthrough_errors, ssl_context, fd=fd
+    )
+  File "/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/werkzeug/serving.py", line 792, in __init__
+    self.socket = socket.fromfd(fd, address_family, socket.SOCK_STREAM)
+                  ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socket.py", line 548, in fromfd
+    nfd = dup(fd)
+OSError: [Errno 9] Bad file descriptor
+
+================================================================================
+Starting loan at Wed Oct  1 18:21:15 2025 on port 7002
+================================================================================
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:7002
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [01/Oct/2025 18:21:16] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2025 18:21:16] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2025 18:22:54] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2025 18:22:59] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+127.0.0.1 - - [01/Oct/2025 18:23:05] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+127.0.0.1 - - [01/Oct/2025 18:23:06] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+127.0.0.1 - - [01/Oct/2025 18:23:07] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+127.0.0.1 - - [01/Oct/2025 18:23:08] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+127.0.0.1 - - [01/Oct/2025 18:23:08] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+127.0.0.1 - - [01/Oct/2025 18:23:09] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+127.0.0.1 - - [01/Oct/2025 18:23:12] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2025 18:23:15] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
+127.0.0.1 - - [01/Oct/2025 18:47:19] "GET / HTTP/1.1" 200 -
+
+================================================================================
+Starting loan at Fri Oct  3 10:02:45 2025 on port 7002
+================================================================================
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:7002
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [03/Oct/2025 10:02:47] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 10:02:47] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 10:30:18] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 10:34:01] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 10:34:10] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -

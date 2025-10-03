@@ -1,0 +1,4 @@
+Model,R2 Score (Test),RMSE (Test),RMSPE (Test)
+Catboost,0.901,9.9261,17.99%
+Lightgbm,0.8685,11.4415,18.99%
+Ridge,0.0605,30.5791,85.03%
