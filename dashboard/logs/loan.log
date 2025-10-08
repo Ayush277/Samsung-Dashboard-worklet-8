@@ -209,3 +209,17 @@ Starting loan at Tue Oct  7 09:32:17 2025 on port 7002
 127.0.0.1 - - [07/Oct/2025 09:32:19] "GET / HTTP/1.1" 200 -
 127.0.0.1 - - [07/Oct/2025 09:32:20] "GET / HTTP/1.1" 200 -
 127.0.0.1 - - [07/Oct/2025 09:32:33] "POST /predict HTTP/1.1" 200 -
+
+================================================================================
+Starting loan at Wed Oct  8 14:14:12 2025 on port 7002
+================================================================================
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:7002
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [08/Oct/2025 14:14:15] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 14:14:15] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 14:14:31] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 17:25:47] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 17:26:01] "POST /predict HTTP/1.1" 200 -
