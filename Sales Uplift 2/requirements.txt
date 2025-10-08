@@ -10,6 +10,6 @@ scipy==1.15.3
 torch==2.7.1
 tqdm==4.67.1
 # TabDPT itself (if on PyPI or via source)
-tabdpt==1.1.0
+tabdpt==1.1.5
 # Or, if installing directly from GitHub, you can use:
 # git+https://github.com/SUDO-AI-Research/TabDPT.git@v1.1.0

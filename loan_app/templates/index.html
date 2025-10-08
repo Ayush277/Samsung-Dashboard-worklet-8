@@ -97,6 +97,38 @@
                                         <option value="Retired">Retired</option>
                                     </select>
                                 </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="unpaid_principal_bal">Unpaid Principal Balance</label>
+                                    <input id="unpaid_principal_bal" name="unpaid_principal_bal" type="number" step="1" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="loan_to_value">Loan To Value (%)</label>
+                                    <input id="loan_to_value" name="loan_to_value" type="number" step="0.1" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="debt_to_income_ratio">Debt To Income Ratio</label>
+                                    <input id="debt_to_income_ratio" name="debt_to_income_ratio" type="number" step="0.1" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="borrower_credit_score">Borrower Credit Score</label>
+                                    <input id="borrower_credit_score" name="borrower_credit_score" type="number" step="1" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="total_on_time_payments">Total On-Time Payments</label>
+                                    <input id="total_on_time_payments" name="total_on_time_payments" type="number" step="1" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="total_late_payments">Total Late Payments</label>
+                                    <input id="total_late_payments" name="total_late_payments" type="number" step="1" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="avg_payment_delay">Avg Payment Delay (days)</label>
+                                    <input id="avg_payment_delay" name="avg_payment_delay" type="number" step="0.1" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="current_dpd">Current DPD (days past due)</label>
+                                    <input id="current_dpd" name="current_dpd" type="number" step="1" class="form-control" />
+                                </div>
                             </div>
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-brain me-2"></i>Predict Risk</button>
@@ -106,8 +138,15 @@
                         <div id="results" class="mt-4" style="display:none;">
                             <div class="card results-card">
                                 <div class="card-body text-center">
-                                    <h4 class="card-title">Prediction Result</h4>
-                                    <p class="mb-0" id="resultRaw"></p>
+                                    <h4 class="card-title">Delinquency Risk Result</h4>
+                                    <p class="mb-1" id="riskLevel"></p>
+                                    <p class="mb-1" id="probability"></p>
+                                    <p class="mb-0" id="binary"></p>
+                                    <p class="mb-1" id="riskSummary"></p>
+                                    <div class="mt-3" id="drivers" style="display:none; text-align:left;">
+                                        <h6>Top Drivers</h6>
+                                        <ul id="driverList" class="small mb-0"></ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +171,23 @@
                 });
                 if (!response.ok) throw new Error('Request failed');
                 const result = await response.json();
-                document.getElementById('resultRaw').textContent = `Class: ${result.class} (raw: ${result.prediction})`;
+                document.getElementById('riskLevel').textContent = `Risk Level: ${result.risk_level}`;
+                document.getElementById('probability').textContent = `Delinquency Probability: ${result.delinquency_probability !== null ? (result.delinquency_probability*100).toFixed(2)+'%' : 'N/A'}`;
+                document.getElementById('binary').textContent = `Flag: ${result.delinquency_flag ? 'Delinquent' : 'On-Time'} (binary=${result.binary_prediction})`;
+                document.getElementById('riskSummary').textContent = result.risk_summary || '';
+                const drivers = result.top_drivers || [];
+                const listEl = document.getElementById('driverList');
+                listEl.innerHTML = '';
+                if (drivers.length) {
+                    drivers.forEach(d => {
+                        const li = document.createElement('li');
+                        li.textContent = `${d.feature}: value=${d.value} (median=${d.median}) z=${d.zscore} importance=${d.importance} -> ${d.direction}`;
+                        listEl.appendChild(li);
+                    });
+                    document.getElementById('drivers').style.display = 'block';
+                } else {
+                    document.getElementById('drivers').style.display = 'none';
+                }
                 document.getElementById('results').style.display = 'block';
                 document.getElementById('errorSection').style.display = 'none';
             } catch (err) {

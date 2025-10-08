@@ -101,3 +101,92 @@ https://scikit-learn.org/stable/model_persistence.html#security-maintainability-
 127.0.0.1 - - [03/Oct/2025 10:30:04] "GET / HTTP/1.1" 200 -
 127.0.0.1 - - [03/Oct/2025 10:33:54] "GET / HTTP/1.1" 200 -
 127.0.0.1 - - [03/Oct/2025 12:08:25] "GET / HTTP/1.1" 200 -
+
+================================================================================
+Starting case2 at Tue Oct  7 03:12:12 2025 on port 7001
+================================================================================
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/base.py:440: InconsistentVersionWarning: Trying to unpickle estimator Ridge from version 1.6.1 when using version 1.7.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/base.py:440: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.6.1 when using version 1.7.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:7001
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [07/Oct/2025 03:12:33] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 03:12:33] "GET / HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:37] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:40] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:40] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:41] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:41] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:41] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:41] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:41] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:41] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 03:12:42] "GET / HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:42] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:43] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:43] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:43] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:46] "POST /predict HTTP/1.1" 200 -
+/Users/ayush/Downloads/Samsung Dashboard worklet 8/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+127.0.0.1 - - [07/Oct/2025 03:12:48] "POST /predict HTTP/1.1" 200 -

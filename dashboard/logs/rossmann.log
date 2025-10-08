@@ -175,3 +175,65 @@ Saved file SHA1: 78433002da4687f639e5922bb57137c46ae5c783
 ✓ Predictions completed! Saved to: predictions_rossmann_test_data.csv
 127.0.0.1 - - [03/Oct/2025 12:09:09] "POST /predict HTTP/1.1" 200 -
 127.0.0.1 - - [03/Oct/2025 12:09:15] "GET /download/predictions_rossmann_test_data.csv HTTP/1.1" 200 -
+
+================================================================================
+Starting rossmann at Tue Oct  7 03:12:51 2025 on port 7003
+================================================================================
+==================================================
+STARTING FLASK APPLICATION DEBUG
+==================================================
+1. Importing Flask modules...
+   ✓ Flask imported successfully
+2. Importing os...
+   ✓ os imported successfully
+3. Current working directory: /Users/ayush/Downloads/Samsung Dashboard worklet 8/Sales Uplift 2/pipeline
+4. Files in current directory: ['scaler.pkl', 'xgb_model.pkl', 'config.py', 'encoder.pkl', 'ec.py', 'train_and_save_model.py', 'uploads', 'utils', '__pycache__', 'app.py', 'templates', 'train.csv', 'store.csv']
+5. Importing Config...
+   ✓ Config imported successfully
+6. Checking Config attributes...
+   - UPLOAD_FOLDER: uploads
+   - EXPECTED_FEATURES: 17 features
+7. Importing ModelLoader...
+   ✓ ModelLoader imported successfully
+8. Importing DataProcessor...
+   ✓ DataProcessor imported successfully
+9. Importing FileHandler...
+   ✓ FileHandler imported successfully
+
+==================================================
+CREATING FLASK APP
+==================================================
+✓ Flask app created
+✓ Config loaded into app
+
+==================================================
+INITIALIZING COMPONENTS
+==================================================
+Loading ModelLoader...
+Initializing ModelLoader...
+✓ Model loaded
+✓ Scaler loaded
+✓ Encoder loaded
+✓ ModelLoader initialized
+Loading DataProcessor...
+✓ DataProcessor initialized
+Loading FileHandler...
+✓ FileHandler initialized
+
+==================================================
+DEFINING ROUTES
+==================================================
+✓ Routes defined
+
+==================================================
+STARTING FLASK SERVER
+==================================================
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:7003
+[33mPress CTRL+C to quit[0m
+Home route accessed
+127.0.0.1 - - [07/Oct/2025 03:12:53] "GET / HTTP/1.1" 200 -
+Home route accessed
+127.0.0.1 - - [07/Oct/2025 03:12:53] "GET / HTTP/1.1" 200 -
