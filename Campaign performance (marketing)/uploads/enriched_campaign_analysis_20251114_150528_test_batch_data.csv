@@ -1,0 +1,6 @@
+date,store,item,month,day,dayofweek,dayofyear,weekofyear,predicted_sales,predicted_uplift,predicted_conversion,predicted_best_campaign_channel,segment_uplift_score,risk_cost_ratio,recommended_action,model_used,processing_timestamp
+2013-01-01,1,1,1,1,1,1,1,13,0.155,0.109,standard_email,0.227,0.72,Test Small Campaign,catboost,2025-11-14 15:05:28
+2013-01-02,1,2,1,2,2,2,1,36,0.21,0.313,standard_email,0.337,7.16,Low Priority - Basic Campaign,catboost,2025-11-14 15:05:28
+2013-01-03,2,1,1,3,3,3,1,19,0.26,0.177,targeted_email,0.284,0.73,Test Small Campaign,catboost,2025-11-14 15:05:28
+2013-01-04,2,2,1,4,4,4,1,51,0.32,0.493,personalized_offers,0.443,2.76,Low Priority - Basic Campaign,catboost,2025-11-14 15:05:28
+2013-01-05,3,1,1,5,5,5,1,19,0.365,0.234,targeted_email,0.329,1.03,Test Small Campaign,catboost,2025-11-14 15:05:28

@@ -1,0 +1,6 @@
+interest_rate,unpaid_principal_bal,Loan_term,loan_to_value,source,loan_purpose,number_of_borrowers,debt_to_income_ratio,borrower_credit_score,insurance_percent,co-borrower_credit_score,Age,NumberOfDependents,Annual Income,total_on_time_payments,total_late_payments,avg_payment_delay,current_dpd,EducationLevel,MaritalStatus,Gender,EmploymentStatus,predicted_binary,predicted_probability,predicted_risk_level,predicted_confidence,processing_timestamp
+4.5,250000,30,80,X,A23,1,35,720,10,750,35,2,75000,24,0,0,0,Bachelor's,Married,Male,Employed,0,0.04275842714108782,Low,0.914,2025-11-14 14:35:37
+6.2,180000,24,85,Y,B12,1,45,650,15,680,28,1,50000,18,3,5,0,High School,Single,Female,Employed,0,0.4790982354824241,Moderate,0.042,2025-11-14 14:35:37
+3.8,300000,36,70,X,A23,2,25,780,8,800,42,3,95000,30,0,0,0,Master's,Married,Male,Employed,0,0.04569349352287555,Low,0.909,2025-11-14 14:35:37
+7.1,120000,18,90,Z,C86,1,55,580,20,600,25,0,38000,12,8,12,30,High School,Single,Male,Unemployed,1,0.5026760531623451,High,0.005,2025-11-14 14:35:37
+5.0,200000,30,75,Y,A23,1,40,700,12,720,38,2,65000,22,1,2,0,Bachelor's,Divorced,Female,Self-Employed,0,0.22999803800815805,Low,0.54,2025-11-14 14:35:37

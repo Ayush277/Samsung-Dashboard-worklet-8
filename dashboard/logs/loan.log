@@ -248,3 +248,42 @@ https://scikit-learn.org/stable/model_persistence.html#security-maintainability-
 127.0.0.1 - - [14/Nov/2025 09:43:01] "GET / HTTP/1.1" 200 -
 127.0.0.1 - - [14/Nov/2025 09:43:02] "POST /predict HTTP/1.1" 200 -
 127.0.0.1 - - [14/Nov/2025 09:43:04] "POST /upload HTTP/1.1" 404 -
+
+================================================================================
+Starting loan at Fri Nov 14 14:04:26 2025 on port 7001
+================================================================================
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:7001
+Press CTRL+C to quit
+/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py:442: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.7.0 when using version 1.7.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py:442: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.7.0 when using version 1.7.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py:442: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.7.0 when using version 1.7.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+127.0.0.1 - - [14/Nov/2025 14:04:29] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:04:30] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:06:20] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:06:42] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:20:55] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:24:18] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:24:44] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:25:30] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:25:45] "GET /download/loan_risk_predictions_20251114_142530_sample_loan_applications.csv HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:28:34] "GET /sample_csv HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:28:44] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:31:22] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:34:03] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:34:37] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:35:37] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:36:13] "GET /download/loan_risk_predictions_20251114_143537_sample_loan_applications.csv HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:38:45] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:39:20] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:40:08] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:40:12] "GET /download/loan_risk_predictions_20251114_144008_sample_loan_applications.csv HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:40:46] "GET /download/loan_risk_predictions_20251114_144008_sample_loan_applications.csv HTTP/1.1" 304 -

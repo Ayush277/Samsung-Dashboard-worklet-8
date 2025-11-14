@@ -1,0 +1,11 @@
+date,store,item,month,day,dayofweek,dayofyear,weekofyear,predicted_sales,predicted_uplift,predicted_conversion,predicted_best_campaign_channel,segment_uplift_score,risk_cost_ratio,recommended_action,model_used,processing_timestamp
+2013-06-15,3,12,6,15,5,166,24,105,0.95,0.95,premium_digital,0.829,26.6,High Priority - Launch Premium Campaign,catboost,2025-11-14 15:05:51
+2013-06-16,5,8,6,16,6,167,24,80,1.1,0.95,premium_digital,0.805,20.27,High Priority - Launch Premium Campaign,catboost,2025-11-14 15:05:51
+2013-06-17,2,25,6,17,0,168,25,91,0.5,0.95,premium_digital,0.688,23.05,High Priority - Launch Premium Campaign,catboost,2025-11-14 15:05:51
+2013-06-18,7,33,6,18,1,169,25,56,1.55,0.492,personalized_offers,0.632,3.02,High Priority - Launch Premium Campaign,catboost,2025-11-14 15:05:51
+2013-06-19,4,15,6,19,2,170,25,97,1.1,0.95,premium_digital,0.83,24.57,High Priority - Launch Premium Campaign,catboost,2025-11-14 15:05:51
+2013-06-20,1,42,6,20,3,171,25,39,0.21,0.5,display_ads,0.398,3.25,Medium Priority - Standard Campaign,catboost,2025-11-14 15:05:51
+2013-06-21,9,7,6,21,4,172,25,80,1.565,0.95,premium_digital,0.805,20.27,High Priority - Launch Premium Campaign,catboost,2025-11-14 15:05:51
+2013-06-22,6,29,6,22,5,173,25,71,1.32,0.95,premium_digital,0.792,17.99,High Priority - Launch Premium Campaign,catboost,2025-11-14 15:05:51
+2013-06-23,8,18,6,23,6,174,25,130,1.7,0.95,premium_digital,0.88,32.93,High Priority - Launch Premium Campaign,catboost,2025-11-14 15:05:51
+2013-06-24,10,36,6,24,0,175,26,78,0.5,0.933,premium_digital,0.663,17.39,High Priority - Launch Premium Campaign,catboost,2025-11-14 15:05:51

@@ -1,0 +1,2 @@
+store,item,date,current_sales,baseline_sales,uplift_pct,uplift_amount,performance_category,performance_by_amount,is_top_performer,is_underperformer,has_actual_data
+3,12,2013-06-15,94.0,86.0,9.3,8.0,Average Performer,$+8.00 (+9.3% from baseline),False,False,True

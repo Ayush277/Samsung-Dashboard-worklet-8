@@ -59,6 +59,40 @@ ELECTRONIC_DEVICES_CONFIG = {
     }
 }
 
+# --- Campaign Configuration for Analysis Functions ---
+CAMPAIGN_CONFIG = {
+    'uplift_thresholds': {
+        'high': 0.5,      # 50%+ uplift is high
+        'low': 0.2        # 20%+ uplift is moderate, below is low
+    },
+    'conversion_thresholds': {
+        'high': 0.7,      # 70%+ conversion is high
+        'low': 0.4        # 40%+ conversion is moderate, below is low
+    },
+    'channel_mapping': {
+        'high_uplift_high_conversion': 'premium_digital',
+        'high_uplift_moderate_conversion': 'personalized_offers',
+        'high_uplift_low_conversion': 'targeted_email',
+        'moderate_uplift_high_conversion': 'social_media',
+        'moderate_uplift_moderate_conversion': 'display_ads',
+        'moderate_uplift_low_conversion': 'standard_email',
+        'low_uplift_high_conversion': 'retention_program',
+        'low_uplift_moderate_conversion': 'newsletter',
+        'low_uplift_low_conversion': 'broad_awareness'
+    },
+    'base_cost_per_channel': {
+        'premium_digital': 25.0,
+        'targeted_email': 5.0,
+        'social_media': 8.0,
+        'personalized_offers': 15.0,
+        'standard_email': 2.0,
+        'display_ads': 10.0,
+        'retention_program': 20.0,
+        'newsletter': 1.5,
+        'broad_awareness': 12.0
+    }
+}
+
 # --- Campaign Analysis Functions ---
 
 def calculate_uplift_metrics(predicted_sales, store_id, item_id, base_sales_avg=None):
@@ -464,6 +498,7 @@ def predict():
         return render_template(TEMPLATE_MAIN, options=dropdown_options, prediction_text=f'An error occurred: {e}', form_data=form_data, available_models=list(models.keys()))
 
 
+@app.route('/batch_predict', methods=['POST'])
 @app.route('/batch_predict', methods=['POST'])
 def batch_predict():
     """Handles batch prediction from an uploaded CSV file."""

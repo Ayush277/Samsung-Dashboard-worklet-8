@@ -15,3 +15,33 @@ Press CTRL+C to quit
 127.0.0.1 - - [14/Nov/2025 11:02:47] "GET / HTTP/1.1" 200 -
 127.0.0.1 - - [14/Nov/2025 11:03:02] "POST /analyze_store_performance HTTP/1.1" 200 -
 127.0.0.1 - - [14/Nov/2025 11:06:36] "GET / HTTP/1.1" 200 -
+
+================================================================================
+Starting campaign at Fri Nov 14 14:06:57 2025 on port 7002
+================================================================================
+✓ Loaded sales data: 913000 records
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:7002
+Press CTRL+C to quit
+127.0.0.1 - - [14/Nov/2025 14:07:01] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:07:01] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:07:11] "POST /analyze_store_performance HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:07:17] "GET /sample_csv HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:07:33] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:07:45] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:07:46] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:07:52] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:08:01] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:08:02] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:08:02] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:08:07] "POST /analyze_store_performance HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:08:20] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:08:22] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:08:42] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:08:43] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:08:43] "POST /batch_predict HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:37:05] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:41:19] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 14:41:58] "POST /analyze_store_performance HTTP/1.1" 200 -
