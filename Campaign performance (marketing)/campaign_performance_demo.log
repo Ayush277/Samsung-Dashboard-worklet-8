@@ -1,0 +1,88 @@
+2025-11-14 09:42:59,755 - INFO - Initialized Campaign Performance Marketing Demo System v2.0
+2025-11-14 09:42:59,755 - INFO - Base URL: http://127.0.0.1:7002
+2025-11-14 09:42:59,755 - INFO - Campaign Performance Demo System Started
+2025-11-14 09:42:59,755 - INFO - 🏥 Step 1: System Health Check
+2025-11-14 09:42:59,755 - INFO - 🔍 Starting comprehensive system health check...
+2025-11-14 09:42:59,755 - INFO - 📡 Checking server connectivity...
+2025-11-14 09:42:59,815 - INFO - ✅ Server is running and accessible
+2025-11-14 09:42:59,815 - INFO - 🤖 Checking model files...
+2025-11-14 09:42:59,815 - INFO - ✅ All model files found
+2025-11-14 09:42:59,815 - INFO - 📦 Checking Python dependencies...
+2025-11-14 09:43:01,938 - ERROR - ❌ Missing packages: ['scikit-learn']
+2025-11-14 09:43:01,938 - ERROR -    Please install: pip install scikit-learn
+2025-11-14 09:43:01,938 - INFO - 🔗 Testing API endpoints...
+2025-11-14 09:43:01,943 - INFO - ✅ API endpoints are responsive
+2025-11-14 09:43:01,943 - INFO - 
+📋 Health Check Summary:
+2025-11-14 09:43:01,943 - INFO -    ✅ Server Running: PASS
+2025-11-14 09:43:01,943 - INFO -    ✅ Models Loaded: PASS
+2025-11-14 09:43:01,943 - INFO -    ❌ Dependencies Ok: FAIL
+2025-11-14 09:43:01,943 - INFO -    ✅ Api Responsive: PASS
+2025-11-14 09:43:01,943 - WARNING - ⚠️ Some health checks failed. Proceeding with available functionality.
+2025-11-14 09:43:01,943 - WARNING - ⚠️ Some health checks failed, but continuing with demo...
+2025-11-14 09:43:01,943 - INFO - 
+🎲 Step 2: Sample Data Generation
+2025-11-14 09:43:01,943 - INFO - 🎲 Generating 5 sample store performance records...
+2025-11-14 09:43:01,945 - INFO - ✅ Sample data generated successfully
+2025-11-14 09:43:01,945 - INFO - 
+🔮 Step 3: Individual Store Performance Prediction Demo
+2025-11-14 09:43:01,945 - INFO - 🔮 Demonstrating Individual Store Performance Prediction...
+2025-11-14 09:43:01,945 - INFO - 📊 Store: Electronics Hub Suwon (ID: ST1000)
+2025-11-14 09:43:01,945 - INFO - 🎯 Input Features: 13 parameters
+2025-11-14 09:43:02,296 - INFO - ✅ Prediction successful!
+2025-11-14 09:43:02,296 - ERROR - ❌ Unexpected response format
+2025-11-14 09:43:02,296 - ERROR - Response: {'binary_prediction': 0, 'confidence_score': 0.022, 'delinquency_flag': False, 'delinquency_probability': 0.4890179389529048, 'explanation': 'Comprehensive loan default risk analysis using machine learning model trained on historical loan performance data.', 'loan_summary': {'annual_income': 0, 'borrower_age': 40.0, 'credit_score': 782.0, 'debt_to_income': 31.0, 'interest_rate': 3.875, 'loan_amount': 183000.0, 'loan_term': 18.0, 'ltv_ratio': 72.0}, 'model_info': {'categorical_features': 6, 'features_analyzed': 22, 'model_type': 'RandomForest Enhanced', 'numeric_features': 16}, 'risk_level': 'Moderate', 'risk_summary': 'Loan default probability: 48.9% (Moderate Risk). Model analyzed 16 numeric features and 6 categorical features. Risk assessment based on borrower profile, loan characteristics, and payment history patterns.', 'timestamp': '2025-11-14T09:43:02.294741', 'top_drivers': []}
+2025-11-14 09:43:04,299 - INFO - 
+📊 Step 4: Batch Store Performance Prediction Demo
+2025-11-14 09:43:04,299 - INFO - 📊 Demonstrating Batch Store Performance Prediction for 5 stores...
+2025-11-14 09:43:04,305 - INFO - 📄 Created temporary CSV file: temp_batch_stores.csv
+2025-11-14 09:43:04,305 - INFO - 📋 Batch size: 5 stores
+2025-11-14 09:43:04,311 - ERROR - ❌ Batch prediction failed with status 404
+2025-11-14 09:43:04,311 - ERROR - Response: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2025-11-14 09:43:06,312 - INFO - 
+🔗 Step 5: API Endpoints Documentation
+2025-11-14 09:43:06,312 - INFO - 🔗 Demonstrating API Endpoints...
+2025-11-14 09:43:06,312 - INFO - 📚 API Documentation:
+2025-11-14 09:43:06,312 - INFO - 
+🔷 Campaign Performance Marketing API
+2025-11-14 09:43:06,312 - INFO -    Base URL: http://127.0.0.1:7002
+2025-11-14 09:43:06,312 - INFO -    Endpoints:
+2025-11-14 09:43:06,312 - INFO - 
+   📍 GET /
+2025-11-14 09:43:06,312 - INFO -       Description: Main application interface
+2025-11-14 09:43:06,312 - INFO -       Example:
+2025-11-14 09:43:06,312 - INFO -       curl -X GET http://127.0.0.1:7002/
+2025-11-14 09:43:06,312 - INFO - 
+   📍 POST /predict
+2025-11-14 09:43:06,312 - INFO -       Description: Individual store performance prediction
+2025-11-14 09:43:06,312 - INFO -       Content-Type: application/json
+2025-11-14 09:43:06,313 - INFO -       Example:
+2025-11-14 09:43:06,313 - INFO -       curl -X POST http://127.0.0.1:7002/predict \
+  -H "Content-Type: application/json" \
+  -d '{"monthly_sales": 150000, "customer_visits": 3000, "conversion_rate": 0.25, "marketing_spend": 15000}'
+2025-11-14 09:43:06,313 - INFO - 
+   📍 POST /upload
+2025-11-14 09:43:06,313 - INFO -       Description: Batch prediction via CSV upload
+2025-11-14 09:43:06,313 - INFO -       Content-Type: multipart/form-data
+2025-11-14 09:43:06,313 - INFO -       Example:
+2025-11-14 09:43:06,313 - INFO -       curl -X POST http://127.0.0.1:7002/upload -F 'file=@stores_data.csv'
+2025-11-14 09:43:06,313 - INFO - 
+================================================================================
+2025-11-14 09:43:06,313 - INFO - 🎉 Campaign Performance Marketing Demo Complete!
+2025-11-14 09:43:06,313 - INFO - ⏱️ Total Duration: 6.56 seconds
+2025-11-14 09:43:06,313 - INFO - 📊 Application: Campaign Performance Marketing
+2025-11-14 09:43:06,313 - INFO - 🌐 Web Interface: http://127.0.0.1:7002
+2025-11-14 09:43:06,313 - INFO - 📋 Log File: campaign_performance_demo.log
+2025-11-14 09:43:06,313 - INFO - ='*80}
+2025-11-14 09:43:06,313 - INFO - 
+🔧 Integration Instructions for Samsung Mentors:
+2025-11-14 09:43:06,313 - INFO - 1. Ensure application is running: python app.py
+2025-11-14 09:43:06,313 - INFO - 2. Access web interface at: http://127.0.0.1:7002
+2025-11-14 09:43:06,313 - INFO - 3. Use API endpoints for programmatic access
+2025-11-14 09:43:06,313 - INFO - 4. Upload CSV files for batch processing
+2025-11-14 09:43:06,313 - INFO - 5. Review logs for detailed performance metrics

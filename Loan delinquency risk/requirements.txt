@@ -1,0 +1,30 @@
+# Loan Delinquency Risk - Python Dependencies  
+# PRISM Worklet 8 - Samsung Project
+
+# Core Framework
+flask>=2.3.0
+werkzeug>=2.3.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Machine Learning Core
+scikit-learn>=1.3.0
+joblib>=1.3.0
+
+# Ensemble Models
+xgboost>=1.7.0
+
+# Foundation Models  
+tabpfn>=0.1.8
+
+# Utilities
+requests>=2.31.0
+
+# File Processing
+openpyxl>=3.1.0
+
+# Development (Optional)
+jupyter>=1.0.0
+matplotlib>=3.7.0

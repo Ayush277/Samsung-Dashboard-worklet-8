@@ -1,0 +1,64 @@
+
+================================================================================
+Starting sales at Fri Nov 14 03:54:10 2025 on port 7003
+================================================================================
+==================================================
+STARTING FLASK APPLICATION DEBUG
+==================================================
+1. Importing Flask modules...
+   ✓ Flask imported successfully
+2. Importing os...
+   ✓ os imported successfully
+3. Current working directory: /Users/ayush/Samsung-Dashboard-worklet-8/Sell-out performance forecasting (sales uplift)/pipeline
+4. Files in current directory: ['scaler.pkl', 'xgb_model.pkl', 'config.py', 'encoder.pkl', 'ec.py', 'train_and_save_model.py', 'uploads', 'utils', '__pycache__', 'static', 'app.py', 'templates', 'train.csv', 'store.csv']
+5. Importing Config...
+   ✓ Config imported successfully
+6. Checking Config attributes...
+   - UPLOAD_FOLDER: uploads
+   - EXPECTED_FEATURES: 17 features
+7. Importing ModelLoader...
+   ✓ ModelLoader imported successfully
+8. Importing DataProcessor...
+   ✓ DataProcessor imported successfully
+9. Importing FileHandler...
+   ✓ FileHandler imported successfully
+
+==================================================
+CREATING FLASK APP
+==================================================
+✓ Flask app created
+✓ Config loaded into app
+
+==================================================
+INITIALIZING COMPONENTS
+==================================================
+Loading ModelLoader...
+Initializing ModelLoader...
+✓ Model loaded
+✓ Scaler loaded
+✓ Encoder loaded
+✓ ModelLoader initialized
+Loading DataProcessor...
+✓ DataProcessor initialized
+Loading FileHandler...
+✓ FileHandler initialized
+
+==================================================
+DEFINING ROUTES
+==================================================
+✓ Routes defined
+
+==================================================
+STARTING FLASK SERVER
+==================================================
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:7003
+Press CTRL+C to quit
+Home route accessed
+127.0.0.1 - - [14/Nov/2025 03:54:13] "GET / HTTP/1.1" 200 -
+Home route accessed
+127.0.0.1 - - [14/Nov/2025 03:54:13] "GET / HTTP/1.1" 200 -
+Home route accessed
+127.0.0.1 - - [14/Nov/2025 04:06:48] "GET / HTTP/1.1" 200 -

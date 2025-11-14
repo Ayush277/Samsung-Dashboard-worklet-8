@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worklet 8 - Visual Documentation Index</title>
+    <style>
+        :root {
+            --samsung-blue: #1428A0;
+            --prism-blue: #2D7DD8;
+            --accent-green: #28a745;
+            --accent-orange: #fd7e14;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--samsung-blue) 0%, var(--prism-blue) 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .doc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .doc-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--samsung-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .doc-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        .doc-title {
+            color: var(--samsung-blue);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .doc-description {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        .doc-link {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--samsung-blue) 0%, var(--prism-blue) 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .doc-link:hover {
+            background: linear-gradient(135deg, var(--prism-blue) 0%, var(--samsung-blue) 100%);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .overview-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 6px solid var(--accent-green);
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .prism-logo {
+            background: linear-gradient(135deg, var(--samsung-blue) 0%, var(--prism-blue) 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 18px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="prism-logo">PRISM</div>
+            <h1>📋 Worklet 8 - Visual Documentation Center</h1>
+            <p>Complete Schematics, Block Diagrams & Flow Charts</p>
+            <p><em>Harnessing TabFM and AI to Drive Smarter Financing, Campaign, and Sales</em></p>
+        </div>
+        
+        <div class="content">
+            <div class="overview-section">
+                <h2>🎯 Documentation Overview</h2>
+                <p>This comprehensive visual documentation provides detailed schematics, block diagrams, and flow charts for all three AI applications in Worklet 8. Each document offers in-depth technical insights, system architecture details, and business impact analysis.</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <strong>🏗️ Architecture Diagrams</strong>
+                        <p>System-level design patterns</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>🔄 Flow Charts</strong>
+                        <p>Process workflow visualization</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>📊 Block Diagrams</strong>
+                        <p>Component relationships</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>🤖 ML Pipeline Views</strong>
+                        <p>AI model integration flows</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>📚 Complete Documentation Set</h2>
+            
+            <div class="doc-grid">
+                <div class="doc-card">
+                    <div class="doc-icon">🏗️</div>
+                    <div class="doc-title">Overall System Architecture</div>
+                    <div class="doc-description">
+                        High-level system overview showing the complete integration of all three AI applications, technology stack, and data flow architecture for the entire Worklet 8 ecosystem.
+                    </div>
+                    <a href="System Architecture/01_Overall_System_Architecture.html" class="doc-link">
+                        View Architecture →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <div class="doc-icon">🎛️</div>
+                    <div class="doc-title">Complete System Architecture (Interactive)</div>
+                    <div class="doc-description">
+                        Interactive Mermaid diagrams showing the complete system architecture, data flows, technology stack, and port configurations with animated visualizations and detailed technical specifications.
+                    </div>
+                    <a href="System Architecture/Complete_System_Architecture_Interactive.html" class="doc-link">
+                        View Interactive Architecture →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <div class="doc-icon">🎯</div>
+                    <div class="doc-title">Complete Dashboard Integration Flow</div>
+                    <div class="doc-description">
+                        Unified sequence diagram showing the complete user journey through the dashboard, including cross-application navigation, API integration, and system performance metrics.
+                    </div>
+                    <a href="System Architecture/Dashboard_Integration_Complete_Flow.html" class="doc-link">
+                        View Complete Flow →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <div class="doc-icon">🏦</div>
+                    <div class="doc-title">Loan Delinquency Risk System</div>
+                    <div class="doc-description">
+                        Detailed flow chart and system diagram for the loan risk assessment application, including ML model ensemble, risk classification, and decision-making processes.
+                    </div>
+                    <a href="Loan Delinquency Risk/Loan_Risk_Flow_Chart.html" class="doc-link">
+                        View Risk System →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <div class="doc-icon">🏪</div>
+                    <div class="doc-title">Loan Risk - UI/API Flow</div>
+                    <div class="doc-description">
+                        Interactive sequence diagram showing user interactions, form submissions, API calls, and ML processing flow for the loan risk assessment system.
+                    </div>
+                    <a href="Loan Delinquency Risk/Loan_Risk_UI_API_Flow.html" class="doc-link">
+                        View UI Flow →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <div class="doc-icon">📈</div>
+                    <div class="doc-title">Campaign Performance Marketing</div>
+                    <div class="doc-description">
+                        Comprehensive system diagram for marketing analytics and campaign optimization, featuring ML ensemble methods and performance analysis workflows.
+                    </div>
+                    <a href="Campaign Performance Marketing/Campaign_Performance_System_Diagram.html" class="doc-link">
+                        View Campaign System →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <div class="doc-icon">📊</div>
+                    <div class="doc-title">Campaign Performance - UI/API Flow</div>
+                    <div class="doc-description">
+                        Interactive sequence diagram for campaign performance analysis, showing store data input, ML processing pipeline, and ROI optimization workflow.
+                    </div>
+                    <a href="Campaign Performance Marketing/Campaign_Performance_UI_API_Flow.html" class="doc-link">
+                        View Campaign Flow →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <div class="doc-icon">📊</div>
+                    <div class="doc-title">Sales Uplift Forecasting</div>
+                    <div class="doc-description">
+                        System architecture for sales performance prediction and uplift analysis, including time series modeling and business impact forecasting capabilities.
+                    </div>
+                    <a href="Sales Uplift Forecasting/Sales_Uplift_System_Architecture.html" class="doc-link">
+                        View Sales System →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <div class="doc-icon">📈</div>
+                    <div class="doc-title">Sales Uplift - UI/API Flow</div>
+                    <div class="doc-description">
+                        Interactive sequence diagram for sales forecasting, showing time series input, uplift calculation, confidence scoring, and business impact analysis.
+                    </div>
+                    <a href="Sales Uplift Forecasting/Sales_Uplift_UI_API_Flow.html" class="doc-link">
+                        View Sales Flow →
+                    </a>
+                </div>
+                
+                <div class="doc-card">
+                    <div class="doc-icon">🔗</div>
+                    <div class="doc-title">Unified AI Pipeline Integration</div>
+                    <div class="doc-description">
+                        Integration architecture showing how all applications work together through the unified pipeline, including API endpoints, data flow, and deployment architecture.
+                    </div>
+                    <a href="Unified Pipeline/Unified_AI_Pipeline_Architecture.html" class="doc-link">
+                        View Integration →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="overview-section">
+                <h2>🎯 Key Features of Visual Documentation</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 25px;">
+                    <div>
+                        <h4 style="color: var(--samsung-blue);">📋 Comprehensive Coverage</h4>
+                        <ul>
+                            <li>Complete system architecture views</li>
+                            <li>Detailed component breakdowns</li>
+                            <li>End-to-end process flows</li>
+                            <li>Integration and deployment diagrams</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent-green);">🎨 Professional Design</h4>
+                        <ul>
+                            <li>Samsung/PRISM branding consistency</li>
+                            <li>Interactive hover effects</li>
+                            <li>Responsive layouts</li>
+                            <li>Print-friendly formats</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent-orange);">🚀 Business Value</h4>
+                        <ul>
+                            <li>Clear ROI and impact metrics</li>
+                            <li>Performance benchmarking</li>
+                            <li>Implementation timelines</li>
+                            <li>Strategic advantage analysis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; padding: 30px; background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%); border-radius: 10px; margin-top: 40px;">
+                <h3>💼 Ready for Samsung Mentor Presentation</h3>
+                <p><strong>Professional documentation designed for executive review and technical evaluation</strong></p>
+                <p>Each diagram provides comprehensive insights suitable for both technical teams and business stakeholders</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

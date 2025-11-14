@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worklet 8 - Overall System Architecture</title>
+    <style>
+        :root {
+            --samsung-blue: #1428A0;
+            --prism-blue: #2D7DD8;
+            --accent-green: #28a745;
+            --accent-orange: #fd7e14;
+            --accent-purple: #6f42c1;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--samsung-blue) 0%, var(--prism-blue) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .architecture-diagram {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .layer {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid var(--samsung-blue);
+        }
+        
+        .component {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .component:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            font-size: 24px;
+            color: var(--samsung-blue);
+            margin: 20px 0;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .tech-badge {
+            background: var(--prism-blue);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .data-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(90deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 10px;
+        }
+        
+        .data-node {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-width: 150px;
+        }
+        
+        .arrow {
+            font-size: 20px;
+            color: var(--samsung-blue);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ Worklet 8 - Overall System Architecture</h1>
+            <p>Harnessing TabFM and AI to Drive Smarter Financing, Campaign, and Sales</p>
+        </div>
+        
+        <div class="content">
+            <h2>📊 High-Level Architecture Overview</h2>
+            
+            <div class="architecture-diagram">
+                <div class="layer">
+                    <h3 style="color: var(--accent-green);">🎯 Application Layer</h3>
+                    <div class="component">
+                        <strong>Dashboard Portal</strong>
+                        <p>Central hub for all applications</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Flask</span>
+                            <span class="tech-badge">Bootstrap</span>
+                            <span class="tech-badge">Port 5050</span>
+                        </div>
+                    </div>
+                    <div class="component">
+                        <strong>Loan Risk Assessment</strong>
+                        <p>Delinquency prediction system</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Port 5001</span>
+                        </div>
+                    </div>
+                    <div class="component">
+                        <strong>Campaign Performance</strong>
+                        <p>Marketing optimization</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Port 7002</span>
+                        </div>
+                    </div>
+                    <div class="component">
+                        <strong>Sales Forecasting</strong>
+                        <p>Uplift prediction system</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Port 7003</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layer">
+                    <h3 style="color: var(--accent-orange);">🤖 AI/ML Layer</h3>
+                    <div class="component">
+                        <strong>TabFM Models</strong>
+                        <p>Tabular Foundation Models</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">TabPFN</span>
+                            <span class="tech-badge">AutoML</span>
+                        </div>
+                    </div>
+                    <div class="component">
+                        <strong>Ensemble Methods</strong>
+                        <p>Multi-model predictions</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">CatBoost</span>
+                            <span class="tech-badge">LightGBM</span>
+                            <span class="tech-badge">Ridge</span>
+                        </div>
+                    </div>
+                    <div class="component">
+                        <strong>Feature Engineering</strong>
+                        <p>Automated preprocessing</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Scikit-learn</span>
+                            <span class="tech-badge">Pandas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layer">
+                    <h3 style="color: var(--accent-purple);">💾 Data Layer</h3>
+                    <div class="component">
+                        <strong>Model Storage</strong>
+                        <p>Serialized ML models</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Pickle</span>
+                            <span class="tech-badge">Joblib</span>
+                        </div>
+                    </div>
+                    <div class="component">
+                        <strong>File Processing</strong>
+                        <p>CSV/Excel handling</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Upload API</span>
+                            <span class="tech-badge">Validation</span>
+                        </div>
+                    </div>
+                    <div class="component">
+                        <strong>Result Export</strong>
+                        <p>Prediction outputs</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">CSV</span>
+                            <span class="tech-badge">JSON</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>🔄 Data Flow Architecture</h2>
+            <div class="data-flow">
+                <div class="data-node">
+                    <strong>📤 Input Data</strong>
+                    <p>CSV/Excel Files</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="data-node">
+                    <strong>🔧 Preprocessing</strong>
+                    <p>Feature Engineering</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="data-node">
+                    <strong>🤖 ML Models</strong>
+                    <p>TabFM + Ensemble</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="data-node">
+                    <strong>📊 Predictions</strong>
+                    <p>Risk/Performance/Sales</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="data-node">
+                    <strong>📥 Export</strong>
+                    <p>Downloadable Results</p>
+                </div>
+            </div>
+            
+            <h2>🎯 Core Technologies & Integration</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 30px;">
+                <div class="component">
+                    <h3>🐍 Backend Stack</h3>
+                    <ul>
+                        <li><strong>Flask:</strong> Web framework for all applications</li>
+                        <li><strong>Python 3.12:</strong> Core programming language</li>
+                        <li><strong>TabPFN:</strong> Foundation model for tabular data</li>
+                        <li><strong>Scikit-learn:</strong> Machine learning library</li>
+                    </ul>
+                </div>
+                <div class="component">
+                    <h3>🎨 Frontend Stack</h3>
+                    <ul>
+                        <li><strong>Bootstrap 5:</strong> Responsive UI framework</li>
+                        <li><strong>HTML5/CSS3:</strong> Modern web standards</li>
+                        <li><strong>JavaScript:</strong> Interactive functionality</li>
+                        <li><strong>Samsung Design:</strong> Professional branding</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">⬇️</div>
+            
+            <div style="text-align: center; padding: 30px; background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%); border-radius: 10px;">
+                <h3>🎯 Business Impact</h3>
+                <p><strong>Unified AI platform enabling data-driven decisions across financing, marketing, and sales operations</strong></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

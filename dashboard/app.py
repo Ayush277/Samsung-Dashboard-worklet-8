@@ -14,19 +14,19 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Apps to manage (run via `flask run` so we can set ports without touching app code)
 APPS = {
-    "case2": {
-        "name": "No sales prediction",
-        "cwd": os.path.join(ROOT_DIR, "Case2-Nosalesuplift(pipeline) 2"),
+    "loan": {
+        "name": "Loan delinquency risk",
+        "cwd": os.path.join(ROOT_DIR, "Loan delinquency risk"),
         "port": 7001,
     },
-    "loan": {
-        "name": "Loan predictor",
-        "cwd": os.path.join(ROOT_DIR, "loan_app"),
+    "campaign": {
+        "name": "Campaign performance (marketing)",
+        "cwd": os.path.join(ROOT_DIR, "Campaign performance (marketing)"),
         "port": 7002,
     },
-    "rossmann": {
-        "name": "Sales prediction",
-        "cwd": os.path.join(ROOT_DIR, "Sales Uplift 2", "pipeline"),
+    "sales": {
+        "name": "Sell-out performance forecasting (sales uplift)",
+        "cwd": os.path.join(ROOT_DIR, "Sell-out performance forecasting (sales uplift)", "pipeline"),
         "port": 7003,
     },
 }

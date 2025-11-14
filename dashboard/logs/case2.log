@@ -222,3 +222,15 @@ https://scikit-learn.org/stable/model_persistence.html#security-maintainability-
   warnings.warn(
 127.0.0.1 - - [08/Oct/2025 17:39:25] "POST /batch_predict HTTP/1.1" 200 -
 127.0.0.1 - - [08/Oct/2025 17:39:26] "GET /download/predictions_test.csv HTTP/1.1" 200 -
+
+================================================================================
+Starting case2 at Fri Nov 14 03:44:02 2025 on port 7001
+================================================================================
+✓ Loaded sales data: 913000 records
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:7001
+Press CTRL+C to quit
+127.0.0.1 - - [14/Nov/2025 03:44:07] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 03:44:07] "GET / HTTP/1.1" 200 -

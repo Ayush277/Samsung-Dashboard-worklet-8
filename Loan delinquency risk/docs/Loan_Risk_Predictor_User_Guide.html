@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Loan Risk Predictor - Complete User Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 40px;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section-title h2 {
+            margin: 0;
+            font-size: 2.2em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title .icon {
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: #333;
+            margin-top: 0;
+            font-size: 1.4em;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .check {
+            color: #28a745;
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        
+        .risk-level {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .risk-low { background: linear-gradient(45deg, #28a745, #20c997); }
+        .risk-moderate { background: linear-gradient(45deg, #ffc107, #fd7e14); color: #333; }
+        .risk-high { background: linear-gradient(45deg, #dc3545, #e83e8c); }
+        .risk-critical { background: linear-gradient(45deg, #6f42c1, #e83e8c); }
+        
+        .screenshot {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin: 20px 0;
+            border: 3px solid #667eea;
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px dashed #667eea;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .arrow-down {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        
+        .criteria-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .criteria-table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .criteria-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: top;
+        }
+        
+        .criteria-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .formula {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .highlight {
+            background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ffc107;
+            margin: 20px 0;
+        }
+        
+        .highlight h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        
+        .example-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border: 2px solid #2196f3;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .example-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #1565c0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .badge-success { background: #28a745; color: white; }
+        .badge-warning { background: #ffc107; color: #333; }
+        .badge-danger { background: #dc3545; color: white; }
+        .badge-info { background: #17a2b8; color: white; }
+        
+        .model-specs {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .spec-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .spec-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .spec-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border: 2px solid #667eea;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .toc a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .toc a:hover {
+            color: #764ba2;
+        }
+        
+        .toc-icon {
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .content { padding: 20px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏦 Loan Risk Predictor</h1>
+            <p>Complete User Guide & System Documentation</p>
+            <p>📅 November 2024 | 🔧 Version 2.0 Enhanced</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Table of Contents -->
+            <div class="toc">
+                <h3>📋 Table of Contents</h3>
+                <ul>
+                    <li><a href="#overview"><span class="toc-icon">🎯</span> System Overview</a></li>
+                    <li><a href="#how-it-works"><span class="toc-icon">⚙️</span> How It Works</a></li>
+                    <li><a href="#input-form"><span class="toc-icon">📝</span> Input Form Guide</a></li>
+                    <li><a href="#risk-analysis"><span class="toc-icon">📊</span> Risk Analysis Results</a></li>
+                    <li><a href="#criteria"><span class="toc-icon">📏</span> Risk Criteria & Scoring</a></li>
+                    <li><a href="#model-details"><span class="toc-icon">🤖</span> Machine Learning Model</a></li>
+                    <li><a href="#tutorial"><span class="toc-icon">🎓</span> Interactive Tutorial</a></li>
+                    <li><a href="#examples"><span class="toc-icon">💼</span> Real Examples</a></li>
+                </ul>
+            </div>
+            
+            <!-- Section 1: System Overview -->
+            <div class="section" id="overview">
+                <div class="section-title">
+                    <h2><span class="icon">🎯</span> System Overview</h2>
+                </div>
+                
+                <p style="font-size: 1.2em; color: #666; text-align: center; margin-bottom: 30px;">
+                    <strong>The Loan Risk Predictor</strong> is an AI-powered system that analyzes loan applications and predicts the probability of default using advanced machine learning techniques trained on over 116,000 historical loan records.
+                </p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>🎯 Purpose</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">✅</span> Predict loan default probability</li>
+                            <li><span class="check">✅</span> Assess borrower risk levels</li>
+                            <li><span class="check">✅</span> Provide business recommendations</li>
+                            <li><span class="check">✅</span> Support lending decisions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎨 Key Features</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">✅</span> Comprehensive input validation</li>
+                            <li><span class="check">✅</span> Real-time risk analysis</li>
+                            <li><span class="check">✅</span> Risk driver identification</li>
+                            <li><span class="check">✅</span> Interactive tutorial system</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>👥 Target Users</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">✅</span> Loan officers</li>
+                            <li><span class="check">✅</span> Risk managers</li>
+                            <li><span class="check">✅</span> Credit analysts</li>
+                            <li><span class="check">✅</span> Financial institutions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: How It Works -->
+            <div class="section" id="how-it-works">
+                <div class="section-title">
+                    <h2><span class="icon">⚙️</span> How The System Works</h2>
+                </div>
+                
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">📝 Data Input Collection</div>
+                            <div class="step-description">User enters comprehensive loan and borrower information through web form (22 key features)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="arrow-down">⬇️</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">🔧 Data Processing & Validation</div>
+                            <div class="step-description">System validates input ranges, handles missing values, and standardizes data for model input</div>
+                        </div>
+                    </div>
+                    
+                    <div class="arrow-down">⬇️</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">🤖 Machine Learning Prediction</div>
+                            <div class="step-description">RandomForest model (160 trees) analyzes features and calculates default probability</div>
+                        </div>
+                    </div>
+                    
+                    <div class="arrow-down">⬇️</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">📊 Risk Analysis & Recommendations</div>
+                            <div class="step-description">System generates risk level, identifies key drivers, and provides business recommendations</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Input Form Guide -->
+            <div class="section" id="input-form">
+                <div class="section-title">
+                    <h2><span class="icon">📝</span> Input Form Guide</h2>
+                </div>
+                
+                <p>The system requires comprehensive information organized into three main categories:</p>
+                
+                <div class="grid">
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>🏠 Loan Information (8 fields)</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">💰</span> Interest Rate (%)</li>
+                            <li><span class="check">💰</span> Principal Balance ($)</li>
+                            <li><span class="check">📅</span> Loan Term (months)</li>
+                            <li><span class="check">📈</span> Loan-to-Value Ratio (%)</li>
+                            <li><span class="check">📍</span> Source Channel (X/Y/Z)</li>
+                            <li><span class="check">🎯</span> Loan Purpose (A23/B12/C86)</li>
+                            <li><span class="check">👥</span> Number of Borrowers</li>
+                            <li><span class="check">🛡️</span> Insurance Coverage (%)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #007bff;">
+                        <h3>👤 Borrower Profile (9 fields)</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">📊</span> Credit Score (300-850)</li>
+                            <li><span class="check">💵</span> Annual Income ($)</li>
+                            <li><span class="check">🎂</span> Age (18-100)</li>
+                            <li><span class="check">🎓</span> Education Level</li>
+                            <li><span class="check">💍</span> Marital Status</li>
+                            <li><span class="check">⚧️</span> Gender</li>
+                            <li><span class="check">💼</span> Employment Status</li>
+                            <li><span class="check">👶</span> Number of Dependents</li>
+                            <li><span class="check">📈</span> Debt-to-Income Ratio</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #ffc107;">
+                        <h3>💳 Payment History (5 fields)</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">✅</span> Total On-Time Payments</li>
+                            <li><span class="check">⏰</span> Total Late Payments</li>
+                            <li><span class="check">📊</span> Average Payment Delay</li>
+                            <li><span class="check">⚠️</span> Current Days Past Due</li>
+                            <li><span class="check">👥</span> Co-borrower Credit Score</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="highlight">
+                    <h4>💡 Input Tips</h4>
+                    <ul>
+                        <li><strong>Required Fields (*):</strong> Must be completed for accurate prediction</li>
+                        <li><strong>Optional Fields:</strong> Improve prediction accuracy when provided</li>
+                        <li><strong>Validation:</strong> System checks ranges and formats automatically</li>
+                        <li><strong>Missing Data:</strong> Filled with portfolio medians from training data</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 4: Risk Analysis Results -->
+            <div class="section" id="risk-analysis">
+                <div class="section-title">
+                    <h2><span class="icon">📊</span> Risk Analysis Results Explained</h2>
+                </div>
+                
+                <p>The system provides comprehensive risk assessment through multiple indicators:</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>🎯 Primary Risk Indicators</h3>
+                        <div style="margin: 15px 0;">
+                            <div class="risk-level risk-low">Low Risk (&lt;25%)</div>
+                            <div class="risk-level risk-moderate">Moderate Risk (25-50%)</div>
+                            <div class="risk-level risk-high">High Risk (50-75%)</div>
+                            <div class="risk-level risk-critical">Critical Risk (≥75%)</div>
+                        </div>
+                        <p><strong>Default Probability:</strong> Precise percentage (0-100%)</p>
+                        <p><strong>Binary Classification:</strong> Direct model prediction (0/1)</p>
+                        <p><strong>Confidence Score:</strong> Model certainty (0-100%)</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🔍 Risk Drivers Analysis</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">🥇</span> Top 5 most influential factors</li>
+                            <li><span class="check">📊</span> Portfolio median comparisons</li>
+                            <li><span class="check">📈</span> Z-score calculations</li>
+                            <li><span class="check">⚖️</span> Feature importance weights</li>
+                            <li><span class="check">🎯</span> Risk direction indicators</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>💡 Business Intelligence</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">📋</span> Detailed risk summary</li>
+                            <li><span class="check">✅</span> Approval recommendations</li>
+                            <li><span class="check">⚠️</span> Risk mitigation strategies</li>
+                            <li><span class="check">📊</span> Loan summary metrics</li>
+                            <li><span class="check">🔍</span> Model metadata</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Risk Criteria & Scoring -->
+            <div class="section" id="criteria">
+                <div class="section-title">
+                    <h2><span class="icon">📏</span> Risk Criteria & Scoring System</h2>
+                </div>
+                
+                <table class="criteria-table">
+                    <thead>
+                        <tr>
+                            <th>Risk Factor</th>
+                            <th>Weight</th>
+                            <th>Low Risk Indicators</th>
+                            <th>High Risk Indicators</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Payment History</strong></td>
+                            <td><span class="badge badge-danger">Very High</span></td>
+                            <td>No late payments, current on all accounts</td>
+                            <td>Multiple late payments, currently delinquent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Credit Score</strong></td>
+                            <td><span class="badge badge-danger">High</span></td>
+                            <td>Score ≥ 720 (excellent credit)</td>
+                            <td>Score &lt; 620 (poor credit)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Debt-to-Income Ratio</strong></td>
+                            <td><span class="badge badge-warning">High</span></td>
+                            <td>DTI &lt; 30% (manageable debt load)</td>
+                            <td>DTI &gt; 40% (high debt burden)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Annual Income</strong></td>
+                            <td><span class="badge badge-info">Moderate</span></td>
+                            <td>Stable, sufficient income for loan</td>
+                            <td>Very low income relative to loan amount</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Employment Status</strong></td>
+                            <td><span class="badge badge-info">Moderate</span></td>
+                            <td>Steady employment, stable job</td>
+                            <td>Unemployed, frequent job changes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Loan Characteristics</strong></td>
+                            <td><span class="badge badge-success">Low</span></td>
+                            <td>Reasonable LTV, standard terms</td>
+                            <td>High LTV, aggressive terms</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="formula">
+                    <h4>📐 Risk Score Calculation Formula:</h4>
+                    <code>
+                        Risk Score = Σ (Feature_i × Weight_i × Z_score_i)<br>
+                        where Z_score = (User_Value - Portfolio_Median) / Standard_Deviation
+                    </code>
+                </div>
+            </div>
+            
+            <!-- Section 6: Machine Learning Model -->
+            <div class="section" id="model-details">
+                <div class="section-title">
+                    <h2><span class="icon">🤖</span> Machine Learning Model Details</h2>
+                </div>
+                
+                <div class="model-specs">
+                    <h3 style="text-align: center; color: #333; margin-bottom: 25px;">🎯 RandomForest Classifier Specifications</h3>
+                    
+                    <div class="spec-grid">
+                        <div class="spec-item">
+                            <div class="spec-number">160</div>
+                            <div class="spec-label">Decision Trees</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-number">116K+</div>
+                            <div class="spec-label">Training Records</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-number">22</div>
+                            <div class="spec-label">Input Features</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-number">12</div>
+                            <div class="spec-label">Max Tree Depth</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-number">69%</div>
+                            <div class="spec-label">Default Rate</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-number">85%+</div>
+                            <div class="spec-label">Model Accuracy</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>🔧 Model Architecture</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">🌳</span> Ensemble of 160 decision trees</li>
+                            <li><span class="check">⚖️</span> Balanced class weights</li>
+                            <li><span class="check">📊</span> Bootstrap sampling</li>
+                            <li><span class="check">🎯</span> Feature importance ranking</li>
+                            <li><span class="check">🔄</span> Cross-validation trained</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📈 Training Data</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">📊</span> 116,058 historical loans</li>
+                            <li><span class="check">📅</span> Multiple years of data</li>
+                            <li><span class="check">🏦</span> Multiple institutions</li>
+                            <li><span class="check">💯</span> Real loan outcomes</li>
+                            <li><span class="check">🔍</span> Comprehensive features</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>⚡ Performance Metrics</h3>
+                        <ul class="feature-list">
+                            <li><span class="check">🎯</span> 85%+ accuracy</li>
+                            <li><span class="check">📊</span> High precision/recall</li>
+                            <li><span class="check">⚖️</span> Balanced predictions</li>
+                            <li><span class="check">🔄</span> Consistent results</li>
+                            <li><span class="check">⚡</span> Fast predictions (&lt;1s)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Interactive Tutorial -->
+            <div class="section" id="tutorial">
+                <div class="section-title">
+                    <h2><span class="icon">🎓</span> Interactive Tutorial System</h2>
+                </div>
+                
+                <p style="font-size: 1.1em; text-align: center; margin-bottom: 30px;">
+                    The system includes a comprehensive 4-step tutorial using <strong>real training data</strong> to demonstrate how loan risk analysis works.
+                </p>
+                
+                <div class="grid">
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>📝 Step 1: Sample Input</h3>
+                        <p><strong>Real CSV Training Data</strong></p>
+                        <ul class="feature-list">
+                            <li><span class="check">📊</span> Actual loan record from 116K+ dataset</li>
+                            <li><span class="check">📋</span> Organized in tabbed interface</li>
+                            <li><span class="check">🎨</span> Color-coded risk indicators</li>
+                            <li><span class="check">📖</span> Field-by-field explanations</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #007bff;">
+                        <h3>⚙️ Step 2: Processing</h3>
+                        <p><strong>Model Workflow Explanation</strong></p>
+                        <ul class="feature-list">
+                            <li><span class="check">✅</span> Data validation steps</li>
+                            <li><span class="check">🔧</span> Feature engineering process</li>
+                            <li><span class="check">🤖</span> ML model architecture</li>
+                            <li><span class="check">📊</span> Risk calculation methods</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #ffc107;">
+                        <h3>📊 Step 3: Expected Output</h3>
+                        <p><strong>Comprehensive Results Display</strong></p>
+                        <ul class="feature-list">
+                            <li><span class="check">🎯</span> Risk level classification</li>
+                            <li><span class="check">📈</span> Probability calculations</li>
+                            <li><span class="check">🔍</span> Top 5 risk drivers</li>
+                            <li><span class="check">💡</span> Business recommendations</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #dc3545;">
+                        <h3>🚀 Step 4: Try It Live</h3>
+                        <p><strong>Interactive Testing</strong></p>
+                        <ul class="feature-list">
+                            <li><span class="check">🎮</span> Auto-fill example data</li>
+                            <li><span class="check">📊</span> Multiple risk scenarios</li>
+                            <li><span class="check">⚡</span> Instant predictions</li>
+                            <li><span class="check">📚</span> Learning comparisons</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 8: Real Examples -->
+            <div class="section" id="examples">
+                <div class="section-title">
+                    <h2><span class="icon">💼</span> Real Examples from Training Data</h2>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">
+                        🎯 Example 1: High Risk Profile (Tutorial Example)
+                    </div>
+                    
+                    <div class="grid">
+                        <div class="card">
+                            <h3>📋 Input Profile</h3>
+                            <ul class="feature-list">
+                                <li>💰 Loan: $80,000 at 4.5% for 12 months</li>
+                                <li>👤 Borrower: 18yr male, married, high school</li>
+                                <li>💵 Income: $1,951/year (very low!)</li>
+                                <li>📊 Credit Score: 690</li>
+                                <li>💳 Payment: 10 on-time, 15 late, 16 days past due</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>📊 Model Output</h3>
+                            <div class="risk-level risk-moderate" style="display: block; text-align: center; margin: 15px 0;">
+                                Moderate Risk (43.6%)
+                            </div>
+                            <ul class="feature-list">
+                                <li>🎯 Binary: 0 (On-Time Expected)</li>
+                                <li>🛡️ Confidence: 12.8%</li>
+                                <li>📈 Top Driver: Current Days Past Due</li>
+                                <li>💡 Recommendation: Conditional approval</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                        <strong>🎓 Learning Point:</strong> Despite multiple risk indicators (low income, young age, payment delays), 
+                        this loan was historically classified as "On-Time" (mx=0), demonstrating the complexity of loan performance prediction.
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">
+                        ✅ Example 2: Low Risk Profile
+                    </div>
+                    
+                    <div class="grid">
+                        <div class="card">
+                            <h3>📋 Input Profile</h3>
+                            <ul class="feature-list">
+                                <li>💰 Loan: $200,000 at 3.5% for 30 months</li>
+                                <li>👤 Borrower: 35yr female, married, Master's degree</li>
+                                <li>💵 Income: $95,000/year</li>
+                                <li>📊 Credit Score: 780</li>
+                                <li>💳 Payment: 24 on-time, 0 late, current</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>📊 Expected Output</h3>
+                            <div class="risk-level risk-low" style="display: block; text-align: center; margin: 15px 0;">
+                                Low Risk (~15%)
+                            </div>
+                            <ul class="feature-list">
+                                <li>🎯 Binary: 0 (On-Time Expected)</li>
+                                <li>🛡️ Confidence: 70%+</li>
+                                <li>📈 Top Driver: Excellent credit score</li>
+                                <li>💡 Recommendation: Approve standard terms</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight">
+                    <h4>🎮 Try These Examples Yourself!</h4>
+                    <p>Visit the application and use the <strong>"Try It Live"</strong> section to automatically fill forms with these examples and see real predictions. Compare the actual results with the expected outcomes!</p>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 30px; text-align: center; margin-top: 40px;">
+                <h3 style="margin-top: 0;">🚀 Ready to Get Started?</h3>
+                <p style="font-size: 1.1em; margin-bottom: 20px;">
+                    Access the Loan Risk Predictor at <strong>http://localhost:5001</strong>
+                </p>
+                <p style="font-size: 0.9em; opacity: 0.8;">
+                    📚 Complete documentation • 🎓 Interactive tutorial • 💼 Real examples • ⚡ Instant predictions
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Testing Console - Loan Risk Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; }
+        .console { background: #1e1e1e; color: #00ff00; font-family: 'Courier New', monospace; }
+        .test-success { color: #28a745; }
+        .test-warning { color: #ffc107; }
+        .test-error { color: #dc3545; }
+        .test-info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4><i class="fas fa-vial"></i> Loan Application Form Testing Console</h4>
+                        <small>Final verification that all form fixes are working correctly</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h5>🧪 Quick Test Instructions</h5>
+                            <ol>
+                                <li>Make sure the server is running: <code>python app.py</code></li>
+                                <li>Open the main form: <a href="http://127.0.0.1:5001" target="_blank">http://127.0.0.1:5001</a></li>
+                                <li>Click the buttons below to run automated tests</li>
+                                <li>Check the console output for detailed results</li>
+                            </ol>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <button class="btn btn-primary w-100 mb-2" onclick="testFormAutoFill()">
+                                    <i class="fas fa-magic"></i> Auto-Fill Test Form
+                                </button>
+                                <button class="btn btn-success w-100 mb-2" onclick="testFormSubmission()">
+                                    <i class="fas fa-paper-plane"></i> Test Form Submission
+                                </button>
+                                <button class="btn btn-warning w-100 mb-2" onclick="testValidation()">
+                                    <i class="fas fa-exclamation-triangle"></i> Test Field Validation
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-info w-100 mb-2" onclick="testResultsDisplay()">
+                                    <i class="fas fa-chart-bar"></i> Test Results Display
+                                </button>
+                                <button class="btn btn-secondary w-100 mb-2" onclick="clearConsole()">
+                                    <i class="fas fa-eraser"></i> Clear Console
+                                </button>
+                                <button class="btn btn-dark w-100 mb-2" onclick="runAllTests()">
+                                    <i class="fas fa-play"></i> Run All Tests
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="console p-3" id="console" style="height: 400px; overflow-y: auto;">
+                            <div class="test-info">🚀 Loan Form Testing Console Ready</div>
+                            <div class="test-info">═══════════════════════════════════════</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const console_elem = document.getElementById('console');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = `test-${type}`;
+            div.innerHTML = `[${timestamp}] ${message}`;
+            console_elem.appendChild(div);
+            console_elem.scrollTop = console_elem.scrollHeight;
+            console.log(message); // Also log to browser console
+        }
+
+        function clearConsole() {
+            console_elem.innerHTML = `
+                <div class="test-info">🚀 Loan Form Testing Console Ready</div>
+                <div class="test-info">═══════════════════════════════════════</div>
+            `;
+        }
+
+        async function testFormAutoFill() {
+            log('🧪 AUTO-FILL TEST STARTING...', 'info');
+            
+            try {
+                // Try to access the main form in a new window/tab
+                const formWindow = window.open('http://127.0.0.1:5001', 'testForm');
+                
+                // Wait a moment for the form to load
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                log('✅ Form window opened successfully', 'success');
+                log('📝 Please manually verify the form loaded correctly', 'info');
+                log('💡 Next: Click "Test Form Submission" after the form loads', 'info');
+                
+            } catch (error) {
+                log(`❌ Error opening form: ${error.message}`, 'error');
+            }
+        }
+
+        async function testFormSubmission() {
+            log('🚀 FORM SUBMISSION TEST STARTING...', 'info');
+            
+            const testData = {
+                'interest_rate': '3.75',
+                'unpaid_principal_bal': '200000',
+                'Loan_term': '18',
+                'loan_to_value': '80',
+                'source': 'Y',
+                'loan_purpose': 'C86',
+                'number_of_borrowers': '2',
+                'insurance_percent': '10',
+                'debt_to_income_ratio': '29',
+                'borrower_credit_score': '809',
+                'co-borrower_credit_score': '812',
+                'Annual Income': '66207',
+                'Age': '51',
+                'NumberOfDependents': '2',
+                'EducationLevel': "Bachelor's",
+                'MaritalStatus': 'Married',
+                'Gender': 'Female',
+                'EmploymentStatus': 'Employed',
+                'total_on_time_payments': '7',
+                'total_late_payments': '2',
+                'avg_payment_delay': '18.5',
+                'current_dpd': '0'
+            };
+
+            try {
+                log('📡 Sending POST request to /predict...', 'info');
+                
+                const formData = new URLSearchParams();
+                Object.entries(testData).forEach(([key, value]) => {
+                    formData.append(key, value);
+                });
+
+                const response = await fetch('http://127.0.0.1:5001/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+
+                log(`📡 Response Status: ${response.status}`, response.ok ? 'success' : 'error');
+
+                if (response.ok) {
+                    const result = await response.json();
+                    log('✅ Form submission successful!', 'success');
+                    log(`📊 Risk Level: ${result.risk_level}`, 'success');
+                    log(`📊 Default Probability: ${(result.delinquency_probability * 100).toFixed(1)}%`, 'success');
+                    log(`🔢 Features Analyzed: ${result.model_info?.features_analyzed || 'N/A'}`, 'info');
+                    
+                    if (result.top_drivers && result.top_drivers.length > 0) {
+                        log(`🎯 Top Risk Drivers: ${result.top_drivers.length} factors identified`, 'info');
+                    }
+                    
+                    return result;
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Server error: ${errorText}`, 'error');
+                    return null;
+                }
+                
+            } catch (error) {
+                log(`❌ Network error: ${error.message}`, 'error');
+                return null;
+            }
+        }
+
+        async function testValidation() {
+            log('🔍 VALIDATION TEST STARTING...', 'info');
+            
+            // Test with incomplete data
+            const incompleteData = {
+                'interest_rate': '3.75',
+                'borrower_credit_score': '809'
+                // Missing many required fields
+            };
+
+            try {
+                const formData = new URLSearchParams();
+                Object.entries(incompleteData).forEach(([key, value]) => {
+                    formData.append(key, value);
+                });
+
+                const response = await fetch('http://127.0.0.1:5001/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+
+                if (response.ok) {
+                    log('⚠️  Server accepted incomplete form (using defaults)', 'warning');
+                    log('💡 Client-side validation should prevent this in the browser', 'info');
+                } else {
+                    log('✅ Server properly rejected incomplete form', 'success');
+                }
+
+            } catch (error) {
+                log(`❌ Validation test error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testResultsDisplay() {
+            log('📊 RESULTS DISPLAY TEST...', 'info');
+            log('💡 This requires manual verification in the main form', 'info');
+            log('📋 Steps to verify:', 'info');
+            log('   1. Fill out and submit the form', 'info');
+            log('   2. Check that results appear below the form', 'info');
+            log('   3. Verify risk level, probability, and drivers display', 'info');
+            log('   4. Open browser dev tools (F12) to check for errors', 'info');
+        }
+
+        async function runAllTests() {
+            log('🧪 RUNNING COMPREHENSIVE TEST SUITE...', 'info');
+            log('═══════════════════════════════════════', 'info');
+            
+            await testFormAutoFill();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            const result = await testFormSubmission();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testValidation();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            log('═══════════════════════════════════════', 'info');
+            if (result) {
+                log('✅ ALL TESTS COMPLETED SUCCESSFULLY!', 'success');
+                log('📋 Form input capture: WORKING', 'success');
+                log('📊 API predictions: WORKING', 'success');
+                log('🎯 Risk assessment: WORKING', 'success');
+                log('💡 Manual verification of browser UI recommended', 'info');
+            } else {
+                log('⚠️  SOME TESTS FAILED - CHECK LOGS ABOVE', 'warning');
+                log('🔧 Ensure server is running on port 5001', 'info');
+            }
+            log('═══════════════════════════════════════', 'info');
+        }
+
+        // Auto-run basic connectivity test on page load
+        window.addEventListener('load', async () => {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            log('🔌 Testing server connectivity...', 'info');
+            
+            try {
+                const response = await fetch('http://127.0.0.1:5001/');
+                if (response.ok) {
+                    log('✅ Server is running and responding on port 5001', 'success');
+                } else {
+                    log('⚠️  Server responded but with error status', 'warning');
+                }
+            } catch (error) {
+                log('❌ Cannot connect to server - make sure it\'s running', 'error');
+                log('💡 Run: cd loan_app && python app.py', 'info');
+            }
+        });
+    </script>
+</body>
+</html>

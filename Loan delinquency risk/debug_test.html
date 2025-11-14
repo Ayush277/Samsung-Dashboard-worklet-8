@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan App Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-info { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        input, select { margin: 5px; padding: 8px; width: 200px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:disabled { background: #6c757d; cursor: not-allowed; }
+        .results-container { border: 2px solid #007bff; padding: 20px; margin: 20px 0; border-radius: 10px; display: none; }
+        .visible { display: block !important; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Loan App Debug Test</h1>
+    <div class="debug-info">
+        <strong>Purpose:</strong> Test form submission and results display step by step<br>
+        <strong>Server:</strong> http://localhost:5003<br>
+        <strong>Status:</strong> <span id="serverStatus">Checking...</span>
+    </div>
+
+    <h2>📝 Step 1: Form Submission Test</h2>
+    <form id="debugForm">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <!-- Essential Required Fields -->
+            <input name="interest_rate" placeholder="Interest Rate" value="3.75" required>
+            <input name="unpaid_principal_bal" placeholder="Loan Amount" value="200000" required>
+            <input name="Loan_term" placeholder="Term (months)" value="18" required>
+            <input name="loan_to_value" placeholder="LTV %" value="80" required>
+            <select name="source" required>
+                <option value="">Source</option>
+                <option value="Y" selected>Y</option>
+            </select>
+            <select name="loan_purpose" required>
+                <option value="">Purpose</option>
+                <option value="C86" selected>C86</option>
+            </select>
+            <select name="number_of_borrowers" required>
+                <option value="">Borrowers</option>
+                <option value="2" selected>2</option>
+            </select>
+            <input name="debt_to_income_ratio" placeholder="DTI Ratio" value="29" required>
+            <input name="borrower_credit_score" placeholder="Credit Score" value="809" required>
+            <input name="Annual Income" placeholder="Annual Income" value="66200" required>
+            <input name="Age" placeholder="Age" value="51" required>
+            <select name="NumberOfDependents" required>
+                <option value="">Dependents</option>
+                <option value="2" selected>2</option>
+            </select>
+            <select name="EducationLevel" required>
+                <option value="">Education</option>
+                <option value="Bachelor's" selected>Bachelor's</option>
+            </select>
+            <select name="MaritalStatus" required>
+                <option value="">Marital</option>
+                <option value="Married" selected>Married</option>
+            </select>
+            <select name="Gender" required>
+                <option value="">Gender</option>
+                <option value="Female" selected>Female</option>
+            </select>
+            <select name="EmploymentStatus" required>
+                <option value="">Employment</option>
+                <option value="Employed" selected>Employed</option>
+            </select>
+        </div>
+        <br>
+        <button type="submit" id="submitBtn">🧪 Test Form Submission</button>
+    </form>
+
+    <div id="debugLog" class="debug-info"></div>
+
+    <h2>📊 Step 2: Results Display Test</h2>
+    <div id="resultsContainer" class="results-container">
+        <h3>🎯 Risk Analysis Results</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+            <div>
+                <strong>Risk Level:</strong>
+                <div id="riskLevel" style="font-size: 24px; margin: 10px 0;">-</div>
+            </div>
+            <div>
+                <strong>Default Probability:</strong>
+                <div id="probability" style="font-size: 24px; margin: 10px 0;">-</div>
+            </div>
+            <div>
+                <strong>Binary Classification:</strong>
+                <div id="binaryResult" style="font-size: 24px; margin: 10px 0;">-</div>
+            </div>
+            <div>
+                <strong>Model Confidence:</strong>
+                <div id="confidence" style="font-size: 24px; margin: 10px 0;">-</div>
+            </div>
+        </div>
+        <div style="margin-top: 20px;">
+            <strong>Risk Summary:</strong>
+            <div id="riskSummary" style="padding: 10px; background: #f8f9fa; border-radius: 5px; margin: 10px 0;">-</div>
+        </div>
+    </div>
+
+    <button onclick="testResultsDisplay()" style="background: #28a745;">🧪 Test Results Display (Manual)</button>
+
+    <h2>📋 Debug Information</h2>
+    <div id="stepByStep"></div>
+
+    <script>
+        let debugStep = 0;
+        
+        function log(message, type = 'info') {
+            debugStep++;
+            const colors = {
+                'success': '#d4edda',
+                'error': '#f8d7da', 
+                'warning': '#fff3cd',
+                'info': '#f8f9fa'
+            };
+            
+            const logEl = document.getElementById('debugLog');
+            logEl.innerHTML += `
+                <div style="background: ${colors[type]}; padding: 10px; margin: 5px 0; border-radius: 5px;">
+                    <strong>Step ${debugStep}:</strong> ${message}
+                </div>
+            `;
+            console.log(`Debug Step ${debugStep}: ${message}`);
+        }
+
+        // Test server connectivity
+        async function checkServer() {
+            try {
+                const response = await fetch('/');
+                if (response.ok) {
+                    document.getElementById('serverStatus').textContent = '✅ Server Running';
+                    log('Server connectivity confirmed', 'success');
+                } else {
+                    document.getElementById('serverStatus').textContent = '❌ Server Error';
+                    log('Server returned error: ' + response.status, 'error');
+                }
+            } catch (err) {
+                document.getElementById('serverStatus').textContent = '❌ Server Offline';
+                log('Server connection failed: ' + err.message, 'error');
+            }
+        }
+
+        // Test form submission
+        document.getElementById('debugForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            log('Form submission started', 'info');
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.textContent = '⏳ Testing...';
+            submitBtn.disabled = true;
+            
+            const formData = new FormData(e.target);
+            
+            // Log form data
+            log(`Collecting form data: ${formData.entries().next().value ? 'Found data' : 'No data'}`, 'info');
+            let fieldCount = 0;
+            for (let [key, value] of formData.entries()) {
+                fieldCount++;
+                console.log(`Field ${fieldCount}: ${key} = ${value}`);
+            }
+            log(`Total fields collected: ${fieldCount}`, fieldCount > 15 ? 'success' : 'warning');
+            
+            try {
+                log('Sending POST request to /predict', 'info');
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: new URLSearchParams(formData)
+                });
+                
+                log(`Server response status: ${response.status}`, response.ok ? 'success' : 'error');
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    log('JSON response received successfully', 'success');
+                    log(`Risk Level: ${result.risk_level} | Probability: ${(result.delinquency_probability * 100).toFixed(1)}%`, 'success');
+                    
+                    // Test updating results
+                    updateResults(result);
+                    
+                } else {
+                    const errorText = await response.text();
+                    log(`Server error: ${errorText}`, 'error');
+                }
+                
+            } catch (err) {
+                log(`Network error: ${err.message}`, 'error');
+            }
+            
+            submitBtn.textContent = '🧪 Test Form Submission';
+            submitBtn.disabled = false;
+        });
+
+        function updateResults(result) {
+            log('Starting results update...', 'info');
+            
+            // Show results container
+            const container = document.getElementById('resultsContainer');
+            if (container) {
+                container.classList.add('visible');
+                log('Results container made visible', 'success');
+            } else {
+                log('Results container not found!', 'error');
+                return;
+            }
+            
+            // Update each field
+            const updates = [
+                ['riskLevel', result.risk_level],
+                ['probability', `${(result.delinquency_probability * 100).toFixed(1)}%`],
+                ['binaryResult', result.delinquency_flag ? 'High Risk' : 'Low Risk'],
+                ['confidence', `${Math.abs(result.delinquency_probability - 0.5) * 200}%`],
+                ['riskSummary', result.risk_summary || 'Risk assessment completed']
+            ];
+            
+            updates.forEach(([id, value]) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = value;
+                    log(`Updated ${id}: ${value}`, 'success');
+                } else {
+                    log(`Element ${id} not found!`, 'error');
+                }
+            });
+            
+            log('Results update completed!', 'success');
+        }
+
+        function testResultsDisplay() {
+            log('Testing manual results display...', 'info');
+            
+            const mockResult = {
+                risk_level: 'Moderate',
+                delinquency_probability: 0.497,
+                delinquency_flag: false,
+                risk_summary: 'Mock test data - everything is working!'
+            };
+            
+            updateResults(mockResult);
+        }
+
+        // Initialize
+        checkServer();
+        log('Debug test page loaded successfully', 'success');
+    </script>
+</body>
+</html>

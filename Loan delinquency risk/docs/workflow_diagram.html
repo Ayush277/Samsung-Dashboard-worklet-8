@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Risk Predictor - Workflow Diagram</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+        
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #667eea;
+            position: relative;
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .step-description {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .step-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .input-section, .output-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .field-group {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .field-group h4 {
+            margin: 0 0 10px 0;
+            color: #1976d2;
+        }
+        
+        .field-list {
+            font-size: 0.9em;
+            color: #555;
+        }
+        
+        .field-list li {
+            margin-bottom: 5px;
+        }
+        
+        .output-group {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .output-group h4 {
+            margin: 0 0 10px 0;
+            color: #2e7d32;
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        
+        .example-box {
+            background: #fff3e0;
+            border: 1px solid #ffb74d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            color: #ef6c00;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .json-code {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .risk-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .risk-level {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .risk-low { background: #28a745; }
+        .risk-moderate { background: #ffc107; color: #333; }
+        .risk-high { background: #dc3545; }
+        .risk-critical { background: #6f42c1; }
+        
+        .tech-specs {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .spec-label {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .spec-value {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 Loan Risk Predictor Workflow</h1>
+        
+        <div class="workflow">
+            <!-- Step 1: Data Input -->
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">📝 Comprehensive Data Input</div>
+                    <div class="step-description">
+                        User provides comprehensive loan and borrower information through an enhanced web form with validation and guidance.
+                    </div>
+                    <div class="step-details">
+                        <div class="input-section">
+                            <div class="field-group">
+                                <h4>🏠 Loan Information</h4>
+                                <ul class="field-list">
+                                    <li>Interest Rate (%)*</li>
+                                    <li>Unpaid Principal Balance*</li>
+                                    <li>Loan Term (months)*</li>
+                                    <li>Loan-to-Value Ratio*</li>
+                                    <li>Source (X/Y/Z)*</li>
+                                    <li>Purpose (A23/B12/C86)*</li>
+                                    <li>Number of Borrowers*</li>
+                                    <li>Insurance Coverage</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="field-group">
+                                <h4>👤 Borrower Demographics</h4>
+                                <ul class="field-list">
+                                    <li>Credit Score (300-850)*</li>
+                                    <li>Co-borrower Credit Score</li>
+                                    <li>Annual Income*</li>
+                                    <li>Age (18-100)*</li>
+                                    <li>Number of Dependents*</li>
+                                    <li>Education Level*</li>
+                                    <li>Marital Status*</li>
+                                    <li>Gender*</li>
+                                    <li>Employment Status*</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="field-group">
+                                <h4>💳 Payment History</h4>
+                                <ul class="field-list">
+                                    <li>Debt-to-Income Ratio*</li>
+                                    <li>Total On-time Payments</li>
+                                    <li>Total Late Payments</li>
+                                    <li>Average Payment Delay</li>
+                                    <li>Current Days Past Due</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">⬇️</div>
+            
+            <!-- Step 2: Data Preprocessing -->
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">🔧 Advanced Data Preprocessing</div>
+                    <div class="step-description">
+                        System validates, cleans, and transforms input data using sophisticated preprocessing pipeline.
+                    </div>
+                    <div class="step-details">
+                        <h4>Processing Steps:</h4>
+                        <ul>
+                            <li><strong>Validation:</strong> Range checks, data type validation, business rule enforcement</li>
+                            <li><strong>Imputation:</strong> Missing values filled with portfolio medians from training data</li>
+                            <li><strong>Standardization:</strong> Numeric features scaled using training distribution parameters</li>
+                            <li><strong>Encoding:</strong> Categorical variables converted to one-hot encoded features</li>
+                            <li><strong>Feature Alignment:</strong> Ensures exact match with training feature set (22 features)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">⬇️</div>
+            
+            <!-- Step 3: ML Prediction -->
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">🤖 Machine Learning Prediction</div>
+                    <div class="step-description">
+                        Enhanced RandomForest model processes features to generate probability and binary predictions.
+                    </div>
+                    <div class="step-details">
+                        <div class="tech-specs">
+                            <div class="spec-grid">
+                                <div class="spec-item">
+                                    <span class="spec-label">Model Type:</span>
+                                    <span class="spec-value">RandomForest Classifier</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Estimators:</span>
+                                    <span class="spec-value">160 trees</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Max Depth:</span>
+                                    <span class="spec-value">12 levels</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Training Records:</span>
+                                    <span class="spec-value">116,058 loans</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Feature Count:</span>
+                                    <span class="spec-value">22 total (16 numeric + 6 categorical)</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Class Balance:</span>
+                                    <span class="spec-value">69% default, 31% on-time</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">⬇️</div>
+            
+            <!-- Step 4: Risk Analysis -->
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-title">📊 Comprehensive Risk Analysis</div>
+                    <div class="step-description">
+                        System performs detailed risk assessment including driver analysis and confidence scoring.
+                    </div>
+                    <div class="step-details">
+                        <h4>Risk Level Classification:</h4>
+                        <div class="risk-levels">
+                            <div class="risk-level risk-low">
+                                Low Risk<br>
+                                < 25%
+                            </div>
+                            <div class="risk-level risk-moderate">
+                                Moderate Risk<br>
+                                25% - 50%
+                            </div>
+                            <div class="risk-level risk-high">
+                                High Risk<br>
+                                50% - 75%
+                            </div>
+                            <div class="risk-level risk-critical">
+                                Critical Risk<br>
+                                ≥ 75%
+                            </div>
+                        </div>
+                        
+                        <h4 style="margin-top: 20px;">Driver Analysis:</h4>
+                        <ul>
+                            <li><strong>Z-Score Calculation:</strong> Deviation from portfolio medians</li>
+                            <li><strong>Feature Importance:</strong> Model-derived feature weights</li>
+                            <li><strong>Risk Direction:</strong> Higher/Lower risk contribution</li>
+                            <li><strong>Top 5 Drivers:</strong> Most influential factors for this prediction</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">⬇️</div>
+            
+            <!-- Step 5: Results Output -->
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <div class="step-title">📋 Comprehensive Results Output</div>
+                    <div class="step-description">
+                        Rich, structured output provides complete risk assessment with actionable insights and recommendations.
+                    </div>
+                    <div class="step-details">
+                        <div class="input-section">
+                            <div class="output-group">
+                                <h4>🎯 Primary Indicators</h4>
+                                <ul class="field-list">
+                                    <li>Risk Level (Low/Moderate/High/Critical)</li>
+                                    <li>Default Probability (0-100%)</li>
+                                    <li>Binary Classification (0/1)</li>
+                                    <li>Confidence Score (0-100%)</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="output-group">
+                                <h4>📈 Risk Analysis</h4>
+                                <ul class="field-list">
+                                    <li>Detailed Risk Summary</li>
+                                    <li>Top 5 Risk Drivers</li>
+                                    <li>Feature Importance Scores</li>
+                                    <li>Portfolio Comparison</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="output-group">
+                                <h4>💡 Business Intelligence</h4>
+                                <ul class="field-list">
+                                    <li>Loan Summary Metrics</li>
+                                    <li>Model Metadata</li>
+                                    <li>Actionable Recommendations</li>
+                                    <li>Timestamp & Audit Trail</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Example Section -->
+        <div class="example-box">
+            <div class="example-title">💼 Real-World Example</div>
+            
+            <h4>Input Sample:</h4>
+            <div class="json-code">{
+  "interest_rate": 4.5,
+  "unpaid_principal_bal": 250000,
+  "Loan_term": 36,
+  "borrower_credit_score": 720,
+  "Annual_Income": 75000,
+  "Age": 35,
+  "EducationLevel": "Bachelor's",
+  "MaritalStatus": "Married",
+  "EmploymentStatus": "Employed",
+  "debt_to_income_ratio": 35,
+  ...
+}</div>
+            
+            <h4>Output Sample:</h4>
+            <div class="json-code">{
+  "risk_level": "Low",
+  "delinquency_probability": 0.18,
+  "confidence_score": 0.64,
+  "risk_summary": "Loan default probability: 18.0% (Low Risk). Strong borrower profile with excellent credit score and stable employment.",
+  "top_drivers": [
+    {
+      "feature": "Borrower Credit Score",
+      "value": 720,
+      "median": 695,
+      "direction": "Lower Risk"
+    }
+  ],
+  "recommendation": "Approve loan with standard terms. Borrower profile shows low default risk."
+}</div>
+        </div>
+    </div>
+</body>
+</html>
