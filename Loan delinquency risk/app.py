@@ -11,12 +11,19 @@ import json
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
+import os
+from datetime import datetime
+from werkzeug.utils import secure_filename
+from flask import send_from_directory
 
 app = Flask(__name__)
 
 # Load artifacts lazily to avoid import-time crashes
-import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Configure upload folder for batch processing
+app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, 'uploads')
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 model = None
 scaler = None
@@ -343,9 +350,7 @@ def predict():
                 f"Risk assessment based on borrower profile, loan characteristics, and payment history patterns."
             )
         else:
-            risk_summary = "Risk assessment completed using enhanced fallback model. Comprehensive analysis of borrower and loan characteristics performed."
-
-        # Additional metrics for comprehensive output
+            risk_summary = "Risk assessment completed using enhanced fallback model. Comprehensive analysis of borrower and loan characteristics performed."        # Additional metrics for comprehensive output
         confidence_score = abs(proba - 0.5) * 2 if proba is not None else 0.5
         
         # Loan characteristics summary
@@ -382,6 +387,169 @@ def predict():
     except Exception as e:
         logging.exception("Prediction error")
         return jsonify({'error': str(e), 'details': 'Please check input values and try again.'}), 400
+
+
+@app.route('/batch_predict', methods=['POST'])
+def batch_predict():
+    """Handle batch prediction from an uploaded CSV file."""
+    try:
+        if not load_artifacts():
+            return jsonify({'success': False, 'error': f'Artifacts not loaded: {ARTIFACT_ERR}'}), 500
+
+        if 'file' not in request.files:
+            return jsonify({'success': False, 'error': 'No file part'})
+        
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'success': False, 'error': 'No selected file'})
+
+        if file and file.filename.endswith('.csv'):
+            # Save uploaded file
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+
+            # Read and process the CSV
+            df = pd.read_csv(filepath)
+            
+            # Validate required columns
+            required_cols = set(NUMERIC_COLS + CATEGORICAL_COLS)
+            available_cols = set(df.columns)
+            missing_cols = required_cols - available_cols
+            
+            if missing_cols:
+                logging.warning(f"Missing columns in uploaded CSV: {missing_cols}")
+            
+            results = []
+            
+            # Process each row
+            for index, row in df.iterrows():
+                try:
+                    # Convert row to dict for preprocessing
+                    row_data = row.to_dict()
+                    
+                    # Process the row through the same pipeline as individual predictions
+                    x_processed, processed_row = preprocess(row_data)
+                    
+                    # Make prediction
+                    raw_prediction = int(model.predict(x_processed)[0])
+                    prediction = 1 - raw_prediction  # Invert for consistency
+                    
+                    # Get probability
+                    proba = None
+                    try:
+                        proba_array = model.predict_proba(x_processed)[0]
+                        proba = float(proba_array[0])  # probability of default
+                    except Exception as e:
+                        logging.warning(f"Probability calculation failed for row {index}: {e}")
+                    
+                    risk_level = _risk_bucket(proba)
+                    confidence_score = abs(proba - 0.5) * 2 if proba is not None else 0.5
+                    
+                    # Create result for this row
+                    result = {
+                        'row_index': index,
+                        'binary_prediction': prediction,
+                        'delinquency_probability': proba,
+                        'risk_level': risk_level,
+                        'delinquency_flag': bool(prediction),
+                        'confidence_score': round(confidence_score, 3),
+                        'loan_amount': processed_row.get('unpaid_principal_bal', 0),
+                        'credit_score': processed_row.get('borrower_credit_score', 0),
+                        'annual_income': processed_row.get('Annual_Income', 0)
+                    }
+                    results.append(result)
+                    
+                except Exception as e:
+                    logging.warning(f"Failed to process row {index}: {e}")
+                    # Add error result
+                    results.append({
+                        'row_index': index,
+                        'error': str(e),
+                        'binary_prediction': None,
+                        'delinquency_probability': None,
+                        'risk_level': 'Error',
+                        'delinquency_flag': None,
+                        'confidence_score': None
+                    })
+            
+            # Create results DataFrame
+            results_df = pd.DataFrame(results)
+            
+            # Combine original data with predictions
+            output_df = df.copy()
+            output_df['predicted_binary'] = results_df['binary_prediction']
+            output_df['predicted_probability'] = results_df['delinquency_probability'] 
+            output_df['predicted_risk_level'] = results_df['risk_level']
+            output_df['predicted_confidence'] = results_df['confidence_score']
+            output_df['processing_timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            # Save results file
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            result_filename = f'loan_risk_predictions_{timestamp}_{filename}'
+            result_filepath = os.path.join(app.config['UPLOAD_FOLDER'], result_filename)
+            output_df.to_csv(result_filepath, index=False)
+            
+            # Calculate summary statistics
+            successful_predictions = [r for r in results if r.get('binary_prediction') is not None]
+            if successful_predictions:
+                high_risk_count = sum(1 for r in successful_predictions if r['delinquency_flag'])
+                avg_probability = np.mean([r['delinquency_probability'] for r in successful_predictions if r['delinquency_probability'] is not None])
+                
+                summary_stats = {
+                    'total_records': len(df),
+                    'successful_predictions': len(successful_predictions),
+                    'failed_predictions': len(results) - len(successful_predictions),
+                    'high_risk_count': high_risk_count,
+                    'low_risk_count': len(successful_predictions) - high_risk_count,
+                    'average_default_probability': round(float(avg_probability), 3) if not np.isnan(avg_probability) else None,
+                    'risk_distribution': {
+                        'Low': sum(1 for r in successful_predictions if r['risk_level'] == 'Low'),
+                        'Moderate': sum(1 for r in successful_predictions if r['risk_level'] == 'Moderate'),
+                        'High': sum(1 for r in successful_predictions if r['risk_level'] == 'High'),
+                        'Critical': sum(1 for r in successful_predictions if r['risk_level'] == 'Critical')
+                    }
+                }
+            else:
+                summary_stats = {
+                    'total_records': len(df),
+                    'successful_predictions': 0,
+                    'failed_predictions': len(results),
+                    'error': 'No successful predictions'
+                }
+            
+            return jsonify({
+                'success': True,
+                'download_url': f'/download/{result_filename}',
+                'filename': result_filename,
+                'summary': summary_stats
+            })
+            
+        else:        return jsonify({'success': False, 'error': 'Invalid file type. Please upload a CSV file.'})
+            
+    except Exception as e:
+        logging.exception("Batch prediction error")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    """Provide download for batch prediction results."""
+    try:
+        return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+    except Exception as e:
+        return jsonify({'error': f'File not found: {str(e)}'}), 404
+
+
+@app.route('/sample_csv')
+def download_sample_csv():
+    """Provide download for sample CSV file."""
+    try:
+        sample_path = os.path.join(BASE_DIR, 'sample_loan_applications.csv')
+        return send_from_directory(BASE_DIR, 'sample_loan_applications.csv', as_attachment=True, download_name='sample_loan_applications.csv')
+    except Exception as e:
+        return jsonify({'error': f'Sample file not found: {str(e)}'}), 404
+
 
 if __name__ == '__main__':
     import os

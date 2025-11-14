@@ -227,10 +227,14 @@
                                 <button class="nav-link" id="tutorial-tab" data-bs-toggle="tab" data-bs-target="#tutorial" type="button" role="tab">
                                     <i class="fas fa-graduation-cap me-2"></i>Tutorial & Examples
                                 </button>
+                            </li>                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="individual-tab" data-bs-toggle="tab" data-bs-target="#individual" type="button" role="tab">
+                                    <i class="fas fa-user me-2"></i>Individual Prediction
+                                </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button" role="tab">
-                                    <i class="fas fa-cloud-upload-alt me-2"></i>Upload & Predict
+                                    <i class="fas fa-cloud-upload-alt me-2"></i>Batch Processing
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
@@ -238,9 +242,95 @@
                                     <i class="fas fa-book me-2"></i>Documentation
                                 </button>
                             </li>
-                        </ul>
+                        </ul>                        <div class="tab-content" id="mainTabContent">
+                            <!-- Individual Prediction Tab -->
+                            <div class="tab-pane fade" id="individual" role="tabpanel">
+                                <div class="row mt-4">
+                                    <div class="col-lg-8 mx-auto">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Sales Uplift Prediction</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <form id="individualPredictionForm">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label" for="store_id">Store ID</label>
+                                                            <input type="number" class="form-control" id="store_id" name="store_id" min="1" max="1115" required>
+                                                            <small class="text-muted">Enter store number (1-1115)</small>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label" for="dayofweek">Day of Week</label>
+                                                            <select class="form-select" id="dayofweek" name="dayofweek" required>
+                                                                <option value="">Select Day</option>
+                                                                <option value="1">Monday</option>
+                                                                <option value="2">Tuesday</option>
+                                                                <option value="3">Wednesday</option>
+                                                                <option value="4">Thursday</option>
+                                                                <option value="5">Friday</option>
+                                                                <option value="6">Saturday</option>
+                                                                <option value="7">Sunday</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label" for="open">Store Open</label>
+                                                            <select class="form-select" id="open" name="open" required>
+                                                                <option value="">Select Status</option>
+                                                                <option value="1">Open</option>
+                                                                <option value="0">Closed</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label" for="promo">Promotion Active</label>
+                                                            <select class="form-select" id="promo" name="promo" required>
+                                                                <option value="">Select Promo Status</option>
+                                                                <option value="1">Yes - Promotion Active</option>
+                                                                <option value="0">No - No Promotion</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label" for="stateholiday">State Holiday</label>
+                                                            <select class="form-select" id="stateholiday" name="stateholiday" required>
+                                                                <option value="">Select Holiday Status</option>
+                                                                <option value="0">No Holiday</option>
+                                                                <option value="a">Public Holiday</option>
+                                                                <option value="b">Easter Holiday</option>
+                                                                <option value="c">Christmas</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label" for="schoolholiday">School Holiday</label>
+                                                            <select class="form-select" id="schoolholiday" name="schoolholiday" required>
+                                                                <option value="">Select School Holiday</option>
+                                                                <option value="1">Yes - School Holiday</option>
+                                                                <option value="0">No - School in Session</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center mt-4">
+                                                        <button type="submit" class="btn btn-primary btn-lg">
+                                                            <i class="fas fa-chart-line me-2"></i>Predict Sales Uplift
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Individual Results -->
+                                        <div id="individualResults" class="mt-4" style="display: none;">
+                                            <div class="card">
+                                                <div class="card-header bg-success text-white">
+                                                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Prediction Results</h5>
+                                                </div>
+                                                <div class="card-body" id="individualResultContent">
+                                                    <!-- Results will be populated here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="tab-content" id="mainTabContent">
                             <!-- Tutorial Tab -->
                             <div class="tab-pane fade" id="tutorial" role="tabpanel">
                                 <div class="row mt-4">
@@ -834,9 +924,151 @@
                 fileNameEl.textContent = `${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
                 fileInfo.style.display = 'block';
                 uploadArea.style.border = '2px solid #28a745';
-                predictBtn.disabled = false;
-            }
+                predictBtn.disabled = false;            }
     }
+
+    // Individual prediction form handling
+    document.getElementById('individualPredictionForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+        
+        // Hide previous results
+        document.getElementById('individualResults').style.display = 'none';
+        
+        try {
+            // For individual predictions, we need to create a minimal CSV with the form data
+            const csvData = {
+                Store: formData.get('store_id'),
+                DayOfWeek: formData.get('dayofweek'),
+                Open: formData.get('open'),
+                Promo: formData.get('promo'),
+                StateHoliday: formData.get('stateholiday'),
+                SchoolHoliday: formData.get('schoolholiday'),
+                // Add minimal required fields with defaults
+                Date: '2013-01-01',
+                StoreType: 'a',
+                Assortment: 'a',
+                CompetitionDistance: 1270,
+                CompetitionOpenSinceMonth: 1,
+                CompetitionOpenSinceYear: 2008,
+                Promo2: 0,
+                Promo2SinceWeek: 1,
+                Promo2SinceYear: 2013,
+                PromoInterval: '0'
+            };
+            
+            // Create CSV content
+            const csvContent = Object.keys(csvData).join(',') + '\n' + Object.values(csvData).join(',');
+            
+            // Create a blob and file from CSV content
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const file = new File([blob], 'individual_prediction.csv', { type: 'text/csv' });
+            
+            // Create form data for the request
+            const requestFormData = new FormData();
+            requestFormData.append('file', file);
+            
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: requestFormData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Display success results
+                document.getElementById('individualResultContent').innerHTML = `
+                    <div class="row">
+                        <div class="col-md-8 mx-auto">
+                            <div class="text-center">
+                                <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                                <h4>Sales Prediction Complete</h4>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="card border-primary">
+                                        <div class="card-body text-center">
+                                            <h5 class="text-primary">Store ID</h5>
+                                            <h3>${csvData.Store}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-success">
+                                        <div class="card-body text-center">
+                                            <h5 class="text-success">Day of Week</h5>
+                                            <h3>${['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][csvData.DayOfWeek]}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="card border-info">
+                                        <div class="card-body text-center">
+                                            <h5 class="text-info">Store Status</h5>
+                                            <h3>${csvData.Open == '1' ? 'Open' : 'Closed'}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-warning">
+                                        <div class="card-body text-center">
+                                            <h5 class="text-warning">Promotion</h5>
+                                            <h3>${csvData.Promo == '1' ? 'Active' : 'None'}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-success mt-4">
+                                <h5><i class="fas fa-info-circle me-2"></i>Prediction Generated</h5>
+                                <p class="mb-0">Your individual prediction has been processed. For detailed results with sales forecasts, please download the results file below.</p>
+                            </div>
+                            
+                            <div class="text-center mt-3">
+                                <a href="${result.download_url}" class="btn btn-success btn-lg">
+                                    <i class="fas fa-download me-2"></i>Download Prediction Results
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('individualResults').style.display = 'block';
+            } else {
+                // Display error
+                document.getElementById('individualResultContent').innerHTML = `
+                    <div class="alert alert-danger">
+                        <h6><i class="fas fa-exclamation-triangle me-2"></i>Prediction Failed</h6>
+                        <p>${result.error}</p>
+                    </div>
+                `;
+                document.getElementById('individualResults').style.display = 'block';
+            }
+        } catch (error) {
+            // Display network error
+            document.getElementById('individualResultContent').innerHTML = `
+                <div class="alert alert-danger">
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Network Error</h6>
+                    <p>Failed to process prediction: ${error.message}</p>
+                </div>
+            `;
+            document.getElementById('individualResults').style.display = 'block';
+        } finally {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
+    });
     </script>
 
 <!-- Professional Footer -->

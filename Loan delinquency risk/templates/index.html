@@ -192,10 +192,27 @@
                 <div class="card">
                     <div class="card-header text-center">
                         <h2><i class="fas fa-user-plus me-2"></i>Loan Delinquency Risk Assessment</h2>
-                        <p class="mb-0">Enter comprehensive borrower and loan information for risk analysis</p>
+                        <p class="mb-0">Individual and Batch Risk Analysis</p>
                     </div>
                     <div class="card-body p-4">
-                        <form id="predictionForm">
+                        <!-- Navigation Tabs -->
+                        <ul class="nav nav-pills nav-fill mb-4" id="predictionTabs">
+                            <li class="nav-item">
+                                <button class="nav-link active" id="individual-tab" data-bs-toggle="tab" data-bs-target="#individual-prediction" type="button" role="tab">
+                                    <i class="fas fa-user me-2"></i>Individual Assessment
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" id="batch-tab" data-bs-toggle="tab" data-bs-target="#batch-prediction" type="button" role="tab">
+                                    <i class="fas fa-file-csv me-2"></i>Batch Processing
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <!-- Individual Prediction Tab -->
+                            <div class="tab-pane fade show active" id="individual-prediction" role="tabpanel">
+                                <form id="predictionForm">
                             <!-- Loan Information Section -->
                             <div class="section-header">
                                 <i class="fas fa-money-bill me-2"></i>Loan Information
@@ -369,6 +386,96 @@
                                 </button>
                             </div>
                         </form>
+                            </div>
+
+                            <!-- Batch Prediction Tab -->
+                            <div class="tab-pane fade" id="batch-prediction" role="tabpanel">
+                                <div class="batch-container">
+                                    <div class="text-center mb-4">
+                                        <h4><i class="fas fa-file-csv me-2"></i>Batch Loan Risk Assessment</h4>
+                                        <p class="text-muted">Upload a CSV file containing multiple loan applications for batch risk analysis</p>
+                                    </div>
+                                    
+                                    <form id="batchForm" enctype="multipart/form-data">
+                                        <div class="upload-area mb-4" onclick="document.getElementById('batchFileInput').click();" style="border: 2px dashed #007bff; padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer; background: rgba(0,123,255,0.05);">
+                                            <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                                            <h4>Upload Loan Applications CSV</h4>
+                                            <p class="text-muted" id="batchFileName">Click to select file or drag and drop</p>
+                                            <input type="file" id="batchFileInput" name="file" class="d-none" accept=".csv">
+                                            <div class="mt-3">
+                                                <small class="text-info">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    CSV should include columns: interest_rate, unpaid_principal_bal, Loan_term, etc.
+                                                </small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-success btn-lg" id="batchProcessBtn" disabled>
+                                                <i class="fas fa-cogs me-2"></i>Process Batch Risk Analysis
+                                            </button>
+                                        </div>
+                                    </form>
+                                    
+                                    <!-- Batch Results Section -->
+                                    <div id="batchResults" class="mt-4" style="display: none;">
+                                        <div class="card">
+                                            <div class="card-header bg-success text-white">
+                                                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Batch Processing Results</h5>
+                                            </div>
+                                            <div class="card-body" id="batchResultContent">
+                                                <!-- Results will be populated here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Sample CSV Format -->
+                                    <div class="mt-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0"><i class="fas fa-table me-2"></i>Expected CSV Format</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>interest_rate</th>
+                                                                <th>unpaid_principal_bal</th>
+                                                                <th>Loan_term</th>
+                                                                <th>loan_to_value</th>
+                                                                <th>source</th>
+                                                                <th>loan_purpose</th>
+                                                                <th>borrower_credit_score</th>
+                                                                <th>Annual_Income</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>4.5</td>
+                                                                <td>250000</td>
+                                                                <td>30</td>
+                                                                <td>80</td>
+                                                                <td>X</td>
+                                                                <td>A23</td>
+                                                                <td>720</td>
+                                                                <td>75000</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <small class="text-muted">Include all required fields as shown in the individual assessment form</small>
+                                                <div class="text-center mt-3">
+                                                    <a href="/sample_csv" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-download me-2"></i>Download Sample CSV
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1659,6 +1766,112 @@
                 block: 'start' 
             });
         }
+
+        // Batch prediction functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const batchFileInput = document.getElementById('batchFileInput');
+            const batchFileName = document.getElementById('batchFileName');
+            const batchProcessBtn = document.getElementById('batchProcessBtn');
+            const batchForm = document.getElementById('batchForm');
+            const batchResults = document.getElementById('batchResults');
+            const batchResultContent = document.getElementById('batchResultContent');
+
+            // Handle file selection
+            batchFileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    batchFileName.textContent = file.name;
+                    batchProcessBtn.disabled = false;
+                } else {
+                    batchFileName.textContent = 'Click to select file or drag and drop';
+                    batchProcessBtn.disabled = true;
+                }
+            });
+
+            // Handle batch form submission
+            batchForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData();
+                const file = batchFileInput.files[0];
+                
+                if (!file) {
+                    alert('Please select a CSV file');
+                    return;
+                }
+                
+                formData.append('file', file);
+                
+                // Show loading state
+                batchProcessBtn.disabled = true;
+                batchProcessBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+                batchResults.style.display = 'none';
+                
+                try {
+                    const response = await fetch('/batch_predict', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Display success results
+                        batchResultContent.innerHTML = `
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6><i class="fas fa-check-circle text-success me-2"></i>Processing Complete</h6>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Total Records:</strong> ${result.summary.total_records}</li>
+                                        <li><strong>Successful Predictions:</strong> ${result.summary.successful_predictions}</li>
+                                        <li><strong>High Risk Count:</strong> ${result.summary.high_risk_count}</li>
+                                        <li><strong>Low Risk Count:</strong> ${result.summary.low_risk_count}</li>
+                                        <li><strong>Average Default Probability:</strong> ${(result.summary.average_default_probability * 100).toFixed(1)}%</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6><i class="fas fa-chart-pie text-primary me-2"></i>Risk Distribution</h6>
+                                    <ul class="list-unstyled">
+                                        <li><span class="badge bg-success me-2">${result.summary.risk_distribution.Low}</span>Low Risk</li>
+                                        <li><span class="badge bg-warning me-2">${result.summary.risk_distribution.Moderate}</span>Moderate Risk</li>
+                                        <li><span class="badge bg-danger me-2">${result.summary.risk_distribution.High}</span>High Risk</li>
+                                        <li><span class="badge bg-dark me-2">${result.summary.risk_distribution.Critical}</span>Critical Risk</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="${result.download_url}" class="btn btn-success">
+                                    <i class="fas fa-download me-2"></i>Download Results CSV
+                                </a>
+                            </div>
+                        `;
+                        batchResults.style.display = 'block';
+                    } else {
+                        // Display error
+                        batchResultContent.innerHTML = `
+                            <div class="alert alert-danger">
+                                <h6><i class="fas fa-exclamation-triangle me-2"></i>Processing Failed</h6>
+                                <p>${result.error}</p>
+                            </div>
+                        `;
+                        batchResults.style.display = 'block';
+                    }
+                } catch (error) {
+                    // Display network error
+                    batchResultContent.innerHTML = `
+                        <div class="alert alert-danger">
+                            <h6><i class="fas fa-exclamation-triangle me-2"></i>Network Error</h6>
+                            <p>Failed to process batch prediction: ${error.message}</p>
+                        </div>
+                    `;
+                    batchResults.style.display = 'block';
+                } finally {
+                    // Reset button state
+                    batchProcessBtn.disabled = false;
+                    batchProcessBtn.innerHTML = '<i class="fas fa-cogs me-2"></i>Process Batch Risk Analysis';
+                }
+            });
+        });
     </script>
 
 <!-- Professional Footer -->

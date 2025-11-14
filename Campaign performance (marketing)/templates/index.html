@@ -398,9 +398,18 @@
                                         </div>
                                     </div>
                                     <div class="text-center mt-3">
-                                        <button type="submit" class="btn btn-primary btn-lg" id="batchProcessBtn" disabled>
-                                            <i class="fas fa-chart-bar me-2"></i>Analyze Batch Performance
-                                        </button>
+                                        <div class="row g-2 justify-content-center">
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-primary btn-lg w-100" id="batchProcessBtn" disabled>
+                                                    <i class="fas fa-chart-bar me-2"></i>Analyze Batch Performance
+                                                </button>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <a href="/sample_csv" class="btn btn-outline-secondary btn-lg w-100" download>
+                                                    <i class="fas fa-download me-2"></i>Sample CSV
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -659,14 +668,14 @@
             showLoading('Processing batch analysis...');
 
             try {
-                const response = await fetch('/analyze_store_performance', {
+                const response = await fetch('/batch_predict', {
                     method: 'POST',
                     body: formData
                 });
                 const data = await response.json();
 
                 if (data.success) {
-                    displayStorePerformanceResults(data);
+                    displayBatchPredictionResults(data);
                 } else {
                     showError(data.error);
                 }
@@ -831,6 +840,132 @@
         const batchBtn = document.querySelector('#batch-prediction button[type="submit"]');
         singleBtn?.setAttribute('disabled', 'disabled');
         batchBtn?.setAttribute('disabled', 'disabled');
+    }
+
+    function displayBatchPredictionResults(data) {
+        // Hide loading and show results
+        document.getElementById('results-area').innerHTML = '';
+        document.getElementById('performanceResults').style.display = 'block';
+
+        // Create download section with enhanced CSV info
+        const downloadSection = `
+            <div class="mb-4">
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-download me-2"></i>Batch Analysis Complete - Enhanced CSV Ready
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h6>📊 Enhanced CSV Features:</h6>
+                                <ul class="list-unstyled mb-3">
+                                    <li><i class="fas fa-check text-success me-2"></i><strong>Original Data:</strong> All your input columns preserved</li>
+                                    <li><i class="fas fa-check text-success me-2"></i><strong>Predicted Sales:</strong> AI-powered sales forecasts</li>
+                                    <li><i class="fas fa-check text-success me-2"></i><strong>Campaign Insights:</strong> Predicted uplift & conversion rates</li>
+                                    <li><i class="fas fa-check text-success me-2"></i><strong>Strategic Recommendations:</strong> Best campaign channels & timing</li>
+                                    <li><i class="fas fa-check text-success me-2"></i><strong>Risk Analysis:</strong> Cost-benefit ratios & risk scores</li>
+                                    <li><i class="fas fa-check text-success me-2"></i><strong>Metadata:</strong> Processing timestamp & model info</li>
+                                </ul>
+                                <div class="alert alert-info mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>File:</strong> ${data.filename} | 
+                                    <strong>Records:</strong> ${data.summary.total_records} | 
+                                    <strong>Model:</strong> ${data.summary.model_used}
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="mb-3">
+                                    <i class="fas fa-file-csv fa-4x text-success mb-3"></i>
+                                    <h6>Enhanced CSV Ready</h6>
+                                </div>
+                                <a href="${data.download_url}" class="btn btn-success btn-lg" download>
+                                    <i class="fas fa-download me-2"></i>Download Enhanced CSV
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Display batch summary statistics
+        const summarySection = `
+            <div class="mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Batch Analysis Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <h3 class="text-primary">${data.summary.total_records}</h3>
+                                <p class="mb-0">Records Processed</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h3 class="text-success">$${data.summary.average_predicted_sales}</h3>
+                                <p class="mb-0">Avg Predicted Sales</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h3 class="text-warning">${data.summary.high_uplift_count}</h3>
+                                <p class="mb-0">High Uplift Opportunities</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h3 class="text-info">${data.summary.high_conversion_count}</h3>
+                                <p class="mb-0">High Conversion Potential</p>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="alert alert-primary">
+                                    <strong>Top Channel:</strong> ${data.summary.top_channel}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="alert alert-secondary">
+                                    <strong>Risk-Cost Ratio:</strong> ${data.summary.avg_risk_cost_ratio}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Inject the content into performance results
+        const performanceResults = document.getElementById('performanceResults');
+        const resultsContent = document.querySelector('#performanceResults .mt-5');
+        
+        if (resultsContent) {
+            resultsContent.innerHTML = `
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold text-dark">
+                        <i class="fas fa-chart-bar me-2 text-primary"></i>
+                        Batch Campaign Analysis Results
+                    </h3>
+                </div>
+                ${downloadSection}
+                ${summarySection}
+            `;
+        } else {
+            // If structure doesn't exist, create it
+            performanceResults.innerHTML = `
+                <div class="mt-5">
+                    <div class="text-center mb-4">
+                        <h3 class="fw-bold text-dark">
+                            <i class="fas fa-chart-bar me-2 text-primary"></i>
+                            Batch Campaign Analysis Results
+                        </h3>
+                    </div>
+                    ${downloadSection}
+                    ${summarySection}
+                </div>
+            `;
+        }
+
+        // Scroll to results
+        performanceResults.scrollIntoView({ behavior: 'smooth' });
     }
 
     // Live Demo Function

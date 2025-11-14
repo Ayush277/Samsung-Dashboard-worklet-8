@@ -1,0 +1,59 @@
+sequenceDiagram
+    participant U as 👤 User
+    participant D as 📊 Dashboard
+    participant L as 🏦 Loan App
+    participant C as 📈 Campaign App  
+    participant S as 📊 Sales App
+    participant M as 🧠 ML Models
+    participant DB as 💾 Data Store
+    
+    %% Dashboard Initialization
+    Note over U,DB: Dashboard Startup & Application Orchestration
+    U->>D: Access http://127.0.0.1:5050
+    D->>D: Load Application Status
+    D->>L: Check Port 7001 Status
+    D->>C: Check Port 7002 Status
+    D->>S: Check Port 7003 Status
+    D-->>U: Display Unified Interface
+    
+    %% Application Launch Flow
+    Note over U,DB: Individual Application Launch
+    U->>D: Click "Launch Loan Risk App"
+    D->>L: Start Process (Port 7001)
+    L->>M: Load TabPFN Models
+    L->>DB: Load Training Data
+    L-->>D: Application Ready
+    D-->>U: Redirect to Loan App
+    
+    %% Prediction Flow - Individual
+    Note over U,DB: Individual Prediction Workflow
+    U->>L: Submit Loan Application
+    L->>L: Validate Input Data
+    L->>M: Process with TabPFN/RF/XGB
+    M->>M: Calculate Risk Score
+    M-->>L: Return Prediction + Confidence
+    L->>L: Generate Risk Classification
+    L-->>U: Risk Assessment Results
+    
+    %% Batch Processing Flow
+    Note over U,DB: Batch Processing Workflow
+    U->>C: Upload CSV File (Store Data)
+    C->>DB: Save to uploads/
+    C->>C: Validate CSV Schema
+    loop For Each Record
+        C->>M: Process with CatBoost/LGBM
+        M-->>C: Performance Score
+    end
+    C->>DB: Save Results
+    C-->>U: Download Results CSV
+    
+    %% Cross-Application Integration
+    Note over U,DB: Multi-Application Workflow
+    U->>D: Access Unified Dashboard
+    D->>L: Get Loan Risk Metrics
+    D->>C: Get Campaign Performance
+    D->>S: Get Sales Forecasts
+    L-->>D: Risk Portfolio Stats
+    C-->>D: Marketing ROI Data
+    S-->>D: Revenue Predictions
+    D-->>U: Consolidated Business Intelligence

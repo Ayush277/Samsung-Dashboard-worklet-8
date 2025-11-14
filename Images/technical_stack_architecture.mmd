@@ -1,0 +1,103 @@
+graph LR
+    %% Frontend Layer
+    subgraph "🎨 Frontend Layer"
+        HTML["`📄 **HTML5**
+        Semantic Structure`"]
+        CSS["`🎨 **CSS3/Bootstrap**
+        Samsung UI Theme`"]
+        JS["`⚡ **JavaScript**
+        Interactive Elements`"]
+    end
+    
+    %% Application Layer
+    subgraph "🔧 Application Layer"
+        FLASK["`🌶️ **Flask Framework**
+        • Routing & Templates
+        • Request Handling
+        • Session Management`"]
+        
+        JINJA["`📝 **Jinja2 Templates**
+        • Dynamic Content
+        • Component Reuse
+        • Data Binding`"]
+        
+        WERKZEUG["`⚙️ **Werkzeug WSGI**
+        • HTTP Protocol
+        • Request/Response
+        • File Uploads`"]
+    end
+    
+    %% ML & Data Layer
+    subgraph "🤖 ML & Data Processing"
+        PANDAS["`🐼 **Pandas**
+        Data Manipulation`"]
+        
+        NUMPY["`🔢 **NumPy**
+        Numerical Computing`"]
+        
+        SKLEARN["`📊 **Scikit-learn**
+        ML Pipeline`"]
+        
+        XGBOOST["`🚀 **XGBoost**
+        Gradient Boosting`"]
+        
+        TABPFN["`🧠 **TabPFN**
+        Foundation Model`"]
+        
+        CATBOOST["`🐱 **CatBoost**
+        Categorical Features`"]
+        
+        LIGHTGBM["`💡 **LightGBM**
+        Fast Training`"]
+    end
+    
+    %% Infrastructure Layer
+    subgraph "🏗️ Infrastructure"
+        PYTHON["`🐍 **Python 3.10+**
+        Runtime Environment`"]
+        
+        VENV["`📦 **Virtual Environment**
+        Dependency Isolation`"]
+        
+        PIP["`📥 **Pip Package Manager**
+        Dependency Management`"]
+        
+        OS["`💻 **macOS/Linux**
+        Operating System`"]
+    end
+    
+    %% Connections
+    HTML --> FLASK
+    CSS --> FLASK
+    JS --> FLASK
+    
+    FLASK --> JINJA
+    FLASK --> WERKZEUG
+    
+    FLASK --> PANDAS
+    PANDAS --> NUMPY
+    PANDAS --> SKLEARN
+    
+    SKLEARN --> XGBOOST
+    SKLEARN --> TABPFN
+    SKLEARN --> CATBOOST
+    SKLEARN --> LIGHTGBM
+    
+    FLASK --> PYTHON
+    PANDAS --> PYTHON
+    SKLEARN --> PYTHON
+    
+    PYTHON --> VENV
+    VENV --> PIP
+    PYTHON --> OS
+    
+    %% Styling
+    classDef frontend fill:#e3f2fd,stroke:#0277bd
+    classDef application fill:#f1f8e9,stroke:#388e3c
+    classDef ml fill:#fff8e1,stroke:#f57c00
+    classDef infrastructure fill:#fce4ec,stroke:#c2185b
+    
+    class HTML,CSS,JS frontend
+    class FLASK,JINJA,WERKZEUG application
+    class PANDAS,NUMPY,SKLEARN,XGBOOST,TABPFN,CATBOOST,LIGHTGBM ml
+    class PYTHON,VENV,PIP,OS infrastructure

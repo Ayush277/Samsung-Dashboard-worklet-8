@@ -542,6 +542,12 @@ def download(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
 
+@app.route('/sample_csv')
+def download_sample_csv():
+    """Provides a sample CSV file for download."""
+    return send_from_directory('.', 'sample_campaign_data.csv', as_attachment=True)
+
+
 @app.route('/analyze_store_performance', methods=['POST'])
 def analyze_store_performance():
     """Analyze store performance using actual sales data from train2.csv"""

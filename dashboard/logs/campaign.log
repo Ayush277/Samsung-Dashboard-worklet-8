@@ -1,0 +1,17 @@
+
+================================================================================
+Starting campaign at Fri Nov 14 10:56:27 2025 on port 7002
+================================================================================
+✓ Loaded sales data: 913000 records
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:7002
+Press CTRL+C to quit
+127.0.0.1 - - [14/Nov/2025 10:56:32] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 10:56:33] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 10:56:53] "POST /analyze_store_performance HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 10:57:43] "POST /analyze_store_performance HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 11:02:47] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 11:03:02] "POST /analyze_store_performance HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2025 11:06:36] "GET / HTTP/1.1" 200 -

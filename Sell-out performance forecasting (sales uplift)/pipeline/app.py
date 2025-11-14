@@ -115,6 +115,45 @@ def predict():
         traceback.print_exc()
         return jsonify({'error': str(e)})
 
+@app.route('/batch_predict', methods=['POST'])
+def batch_predict():
+    """Handle batch prediction with enhanced sales uplift analysis."""
+    print("Batch predict route accessed")
+    try:
+        if 'file' not in request.files:
+            return jsonify({'success': False, 'error': 'No file uploaded'})
+        
+        file = request.files['file']
+        
+        if file.filename == '':
+            return jsonify({'success': False, 'error': 'No file selected'})
+        
+        if not file.filename.endswith('.csv'):
+            return jsonify({'success': False, 'error': 'File must be CSV format'})
+        
+        # Use the existing file handler for processing
+        result = file_handler.handle_single_csv_upload(
+            file, model_loader.model, data_processor
+        )
+        
+        # Enhance the result with batch-specific information
+        if result.get('success', False):
+            # Add summary statistics for batch processing
+            result['batch_summary'] = {
+                'processing_method': 'XGBoost Sales Uplift Forecasting',
+                'prediction_type': 'Sales Performance & Uplift Analysis',
+                'model_features': 'Time Series + Store Characteristics',
+                'output_columns': 'Original Data + Predicted_Sales + Metadata'
+            }
+            
+        return jsonify(result)
+    
+    except Exception as e:
+        print(f"Batch prediction error: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)})
+
 @app.route('/download/<filename>')
 def download_file(filename):
     try:

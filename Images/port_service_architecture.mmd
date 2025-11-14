@@ -1,0 +1,55 @@
+graph TB
+    subgraph "🌐 Network Layer (127.0.0.1)"
+        PORT_5050["`🎛️ **Port 5050**
+        Main Dashboard
+        • Process Management
+        • Unified Interface
+        • Health Monitoring`"]
+        
+        PORT_7001["`🏦 **Port 7001**
+        Loan Risk Assessment
+        • Individual Predictions
+        • Batch Processing
+        • Risk Classification`"]
+        
+        PORT_7002["`📈 **Port 7002**
+        Campaign Performance
+        • Store Analysis
+        • Marketing ROI
+        • Performance Benchmarks`"]
+        
+        PORT_7003["`📊 **Port 7003**
+        Sales Forecasting
+        • Uplift Predictions
+        • Revenue Projections
+        • Time Series Analysis`"]
+    end
+    
+    subgraph "🔄 Service Dependencies"
+        HEALTH["`💚 **Health Checks**
+        • Port Availability
+        • Service Status
+        • Response Validation`"]
+        
+        LOGS["`📝 **Centralized Logging**
+        • Application Logs
+        • Error Tracking
+        • Performance Metrics`"]
+        
+        PROC["`⚙️ **Process Control**
+        • Start/Stop Services
+        • Resource Management
+        • Dependency Handling`"]
+    end
+    
+    PORT_5050 --> PORT_7001
+    PORT_5050 --> PORT_7002
+    PORT_5050 --> PORT_7003
+    
+    PORT_5050 --> HEALTH
+    PORT_5050 --> LOGS
+    PORT_5050 --> PROC
+    
+    HEALTH --> PORT_7001
+    HEALTH --> PORT_7002
+    HEALTH --> PORT_7003
