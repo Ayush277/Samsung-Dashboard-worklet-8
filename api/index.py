@@ -1,18 +1,6 @@
-import os
-import sys
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, jsonify
 
-# Get the project root directory
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# Set up Flask app with correct template folder
-template_dir = os.path.join(PROJECT_ROOT, 'dashboard', 'templates')
-app = Flask(__name__, template_folder=template_dir)
-
-# Simple module placeholders (will be loaded dynamically when needed)
-loan_app = None
-campaign_app = None
-sales_app = None
+app = Flask(__name__)
 
 @app.route('/')
 def index():

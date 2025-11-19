@@ -1,23 +1,10 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/simple.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/simple.py"
-    }
-  ],
   "functions": {
-    "api/simple.py": {
-      "maxDuration": 10
+    "api/*.py": {
+      "runtime": "python3.9"
     }
   },
-  "env": {
-    "PYTHONPATH": "."
-  }
+  "routes": [
+    { "src": "/(.*)", "dest": "/api/app" }
+  ]
 }

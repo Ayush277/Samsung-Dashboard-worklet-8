@@ -3,7 +3,8 @@ from flask import Flask
 app = Flask(__name__)
 
 @app.route('/')
-def hello():
+@app.route('/index')
+def index():
     return '''
     <html>
     <head>
@@ -70,8 +71,8 @@ def health():
         "version": "1.0.0"
     }
 
-# For Vercel
-app.debug = False
+# This is the entry point Vercel will use
+app.wsgi_app = app.wsgi_app
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
