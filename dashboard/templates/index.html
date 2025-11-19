@@ -327,7 +327,7 @@
                                             </div>
                                             <div>
                                                 <h5 class="card-title mb-1">{{ info.name }}</h5>
-                                                <small class="text-muted">Port: {{ info.port }}</small>
+                                                <small class="text-muted">{% if info.port %}Port: {{ info.port }}{% else %}Serverless{% endif %}</small>
                                             </div>
                                         </div>
                                         
