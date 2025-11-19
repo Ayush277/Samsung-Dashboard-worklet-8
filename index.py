@@ -1,9 +1,8 @@
 from flask import Flask, jsonify, render_template_string, request, redirect, url_for
 import os
-import pandas as pd
-import numpy as np
-from datetime import datetime
 import json
+import math
+from datetime import datetime
 
 app = Flask(__name__)
 
