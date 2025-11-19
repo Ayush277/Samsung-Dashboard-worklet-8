@@ -2,23 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.py",
+      "src": "api/simple.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/index.py"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/api/index.py"
+      "dest": "/api/simple.py"
     }
   ],
   "functions": {
-    "api/index.py": {
-      "maxDuration": 30
+    "api/simple.py": {
+      "maxDuration": 10
     }
+  },
+  "env": {
+    "PYTHONPATH": "."
   }
 }

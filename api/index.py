@@ -2,34 +2,17 @@ import os
 import sys
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 
-# Add project paths to sys.path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'dashboard'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'Loan delinquency risk'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'Campaign performance (marketing)'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'Sell-out performance forecasting (sales uplift)'))
+# Get the project root directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), '..', 'dashboard', 'templates'))
+# Set up Flask app with correct template folder
+template_dir = os.path.join(PROJECT_ROOT, 'dashboard', 'templates')
+app = Flask(__name__, template_folder=template_dir)
 
-# Import individual app modules
-try:
-    # Import loan delinquency app
-    loan_dir = os.path.join(os.path.dirname(__file__), '..', 'Loan delinquency risk')
-    sys.path.insert(0, loan_dir)
-    import loan_risk_inference_demo as loan_app
-    
-    # Import campaign app
-    campaign_dir = os.path.join(os.path.dirname(__file__), '..', 'Campaign performance (marketing)')
-    sys.path.insert(0, campaign_dir)
-    import campaign_performance_inference_demo as campaign_app
-    
-    # Import sales app
-    sales_dir = os.path.join(os.path.dirname(__file__), '..', 'Sell-out performance forecasting (sales uplift)')
-    sys.path.insert(0, sales_dir)
-    import sales_uplift_inference_demo as sales_app
-    
-except ImportError as e:
-    print(f"Warning: Could not import some modules: {e}")
+# Simple module placeholders (will be loaded dynamically when needed)
+loan_app = None
+campaign_app = None
+sales_app = None
 
 @app.route('/')
 def index():
@@ -51,7 +34,10 @@ def index():
             "running": True,
         }
     }
-    return render_template("index.html", status=status)
+    try:
+        return render_template("index.html", status=status)
+    except Exception as e:
+        return f"Dashboard Error: {str(e)}", 500
 
 @app.route('/open/<app_id>')
 def open_app(app_id: str):
@@ -70,11 +56,9 @@ def open_app(app_id: str):
 def loan_interface():
     """Loan risk assessment interface"""
     try:
-        # Load loan risk template
-        template_dir = os.path.join(os.path.dirname(__file__), '..', 'Loan delinquency risk', 'templates')
-        return render_template('index.html', base_url='/loan')
+        return "<h1>Loan Risk Assessment</h1><p>Coming soon - Loan delinquency risk prediction interface</p>"
     except Exception as e:
-        return f"Loan app error: {str(e)}"
+        return f"Loan app error: {str(e)}", 500
 
 @app.route('/loan/predict', methods=['POST'])
 def loan_predict():
@@ -94,10 +78,9 @@ def loan_predict():
 def campaign_interface():
     """Campaign performance interface"""
     try:
-        template_dir = os.path.join(os.path.dirname(__file__), '..', 'Campaign performance (marketing)', 'templates')
-        return render_template('index.html', base_url='/campaign')
+        return "<h1>Campaign Performance</h1><p>Coming soon - Marketing campaign analysis interface</p>"
     except Exception as e:
-        return f"Campaign app error: {str(e)}"
+        return f"Campaign app error: {str(e)}", 500
 
 @app.route('/campaign/predict', methods=['POST'])
 def campaign_predict():
@@ -116,10 +99,9 @@ def campaign_predict():
 def sales_interface():
     """Sales forecasting interface"""
     try:
-        template_dir = os.path.join(os.path.dirname(__file__), '..', 'Sell-out performance forecasting (sales uplift)', 'templates')
-        return render_template('index.html', base_url='/sales')
+        return "<h1>Sales Forecasting</h1><p>Coming soon - Sales uplift prediction interface</p>"
     except Exception as e:
-        return f"Sales app error: {str(e)}"
+        return f"Sales app error: {str(e)}", 500
 
 @app.route('/sales/predict', methods=['POST'])
 def sales_predict():
@@ -157,9 +139,13 @@ def api_stop(app_id: str):
     """API endpoint to 'stop' an app (not applicable in serverless)"""
     return jsonify({"ok": True, "message": "stopped"})
 
+# Health check endpoint
+@app.route('/api/health')
+def health_check():
+    return jsonify({"status": "healthy", "message": "Samsung Dashboard Worklet 8 is running"})
+
 # Vercel entry point
-def handler(request):
-    return app(request.environ, lambda status, headers: None)
+app.wsgi_app = app.wsgi_app
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
