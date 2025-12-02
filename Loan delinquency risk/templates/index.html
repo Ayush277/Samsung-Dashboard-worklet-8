@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,148 +21,153 @@
             --shadow-hover: 0 20px 40px rgba(20, 40, 160, 0.25);
         }
 
-        body { 
-            background: var(--gradient-primary); 
-            min-height: 100vh; 
+        body {
+            background: var(--gradient-primary);
+            min-height: 100vh;
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             background-attachment: fixed;
         }
-        
-        .main-container { 
-            margin: 40px auto; 
+
+        .main-container {
+            margin: 40px auto;
             max-width: 1400px;
             padding: 0 20px;
         }
-        
-        .card { 
-            border: none; 
-            border-radius: 20px; 
+
+        .card {
+            border: none;
+            border-radius: 20px;
             box-shadow: var(--shadow-elegant);
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
         }
-        
+
         .card:hover {
             box-shadow: var(--shadow-hover);
         }
-        
-        .card-header { 
+
+        .card-header {
             background: var(--gradient-primary);
-            color: white; 
-            border-radius: 20px 20px 0 0 !important; 
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
             padding: 30px;
             border: none;
         }
-        
-        .form-control, .form-select { 
-            border-radius: 12px; 
+
+        .form-control,
+        .form-select {
+            border-radius: 12px;
             padding: 14px 16px;
             border: 2px solid #e9ecef;
             font-size: 0.95rem;
             transition: all 0.3s ease;
             background: rgba(255, 255, 255, 0.9);
         }
-        
-        .form-control:focus, .form-select:focus {
+
+        .form-control:focus,
+        .form-select:focus {
             border-color: var(--samsung-blue);
             box-shadow: 0 0 0 0.2rem rgba(20, 40, 160, 0.25);
             background: white;
         }
-        
-        .btn-primary { 
+
+        .btn-primary {
             background: var(--gradient-primary);
-            border: none; 
-            border-radius: 12px; 
-            padding: 14px 28px; 
+            border: none;
+            border-radius: 12px;
+            padding: 14px 28px;
             font-weight: 600;
             font-size: 0.95rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(20, 40, 160, 0.3);
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(20, 40, 160, 0.4);
         }
-        
-        .results-card { 
-            margin-top: 25px; 
+
+        .results-card {
+            margin-top: 25px;
             border-left: 5px solid var(--loan-accent);
             border-radius: 16px;
             background: rgba(255, 255, 255, 0.95);
         }
-        
-        .section-header { 
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); 
-            padding: 15px 20px; 
-            margin: 25px -20px 20px -20px; 
-            border-radius: 12px; 
-            font-weight: 600; 
+
+        .section-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px 20px;
+            margin: 25px -20px 20px -20px;
+            border-radius: 12px;
+            font-weight: 600;
             color: var(--samsung-blue);
             border-left: 4px solid var(--samsung-blue);
         }
-        
-        .risk-high { 
+
+        .risk-high {
             border-left: 5px solid #dc3545 !important;
             background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%);
         }
-        
-        .risk-moderate { 
+
+        .risk-moderate {
             border-left: 5px solid #ffc107 !important;
             background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%);
         }
-        
-        .risk-low { 
+
+        .risk-low {
             border-left: 5px solid #28a745 !important;
             background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%);
         }
-        
-        .risk-critical { 
+
+        .risk-critical {
             border-left: 5px solid #6f42c1 !important;
             background: linear-gradient(135deg, rgba(111, 66, 193, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%);
         }
-        
-        .navbar-gradient { 
+
+        .navbar-gradient {
             background: var(--gradient-primary);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(20, 40, 160, 0.3);
         }
-        
-        .navbar-brand { 
-            color: #fff !important; 
+
+        .navbar-brand {
+            color: #fff !important;
             font-weight: 700;
             font-size: 1.4rem;
         }
-        
+
         .form-label {
             font-weight: 600;
             color: var(--samsung-blue);
             margin-bottom: 8px;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .professional-form-section {
             background: rgba(248, 249, 250, 0.8);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
         }
-        .output-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 15px; 
-            margin-top: 20px; 
+
+        .output-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
-        .output-item { 
-            background: #f8f9fa; 
-            padding: 15px; 
-            border-radius: 10px; 
-            border-left: 4px solid #667eea; 
+
+        .output-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
         }
+
         .driver-item {
             background: #fff;
             border: 1px solid #dee2e6;
@@ -169,8 +175,15 @@
             padding: 10px;
             margin: 5px 0;
         }
-        .driver-positive { border-left: 4px solid #dc3545; }
-        .driver-negative { border-left: 4px solid #28a745; }
+
+        .driver-positive {
+            border-left: 4px solid #dc3545;
+        }
+
+        .driver-negative {
+            border-left: 4px solid #28a745;
+        }
+
         .tooltip-text {
             font-size: 0.8em;
             color: #6c757d;
@@ -178,13 +191,18 @@
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-gradient">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><i class="fas fa-gauge-high me-2"></i>Worklet 8 - Loan Delinquency Risk</a>
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.png" alt="Samsung"
+                    style="height: 30px; filter: brightness(0) invert(1);" class="me-3">
+                <span>Worklet 8 - Loan Delinquency Risk</span>
+            </a>
         </div>
     </nav>
-    
+
     <div class="container-fluid main-container">
         <div class="row">
             <!-- Input Form -->
@@ -198,12 +216,14 @@
                         <!-- Navigation Tabs -->
                         <ul class="nav nav-pills nav-fill mb-4" id="predictionTabs">
                             <li class="nav-item">
-                                <button class="nav-link active" id="individual-tab" data-bs-toggle="tab" data-bs-target="#individual-prediction" type="button" role="tab">
+                                <button class="nav-link active" id="individual-tab" data-bs-toggle="tab"
+                                    data-bs-target="#individual-prediction" type="button" role="tab">
                                     <i class="fas fa-user me-2"></i>Individual Assessment
                                 </button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" id="batch-tab" data-bs-toggle="tab" data-bs-target="#batch-prediction" type="button" role="tab">
+                                <button class="nav-link" id="batch-tab" data-bs-toggle="tab"
+                                    data-bs-target="#batch-prediction" type="button" role="tab">
                                     <i class="fas fa-file-csv me-2"></i>Batch Processing
                                 </button>
                             </li>
@@ -213,179 +233,208 @@
                             <!-- Individual Prediction Tab -->
                             <div class="tab-pane fade show active" id="individual-prediction" role="tabpanel">
                                 <form id="predictionForm">
-                            <!-- Loan Information Section -->
-                            <div class="section-header">
-                                <i class="fas fa-money-bill me-2"></i>Loan Information
-                            </div>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="interest_rate">Interest Rate (%)*</label>
-                                    <input id="interest_rate" type="number" step="0.001" min="2.2" max="6.8" name="interest_rate" class="form-control" required />
-                                    <div class="tooltip-text">Annual interest rate (2.2% - 6.8%)</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="unpaid_principal_bal">Unpaid Principal Balance ($)*</label>
-                                    <input id="unpaid_principal_bal" name="unpaid_principal_bal" type="number" step="1" min="11000" max="1200000" class="form-control" required />
-                                    <div class="tooltip-text">Outstanding loan amount ($11K - $1.2M)</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="Loan_term">Loan Term (months)*</label>
-                                    <input id="Loan_term" name="Loan_term" type="number" step="1" min="6" max="36" class="form-control" required />
-                                    <div class="tooltip-text">Loan duration: 6, 12, 18, 30, or 36 months</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="loan_to_value">Loan to Value Ratio (%)*</label>
-                                    <input id="loan_to_value" name="loan_to_value" type="number" step="0.1" min="6" max="97" class="form-control" required />
-                                    <div class="tooltip-text">Loan amount as % of asset value (6% - 97%)</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="source">Loan Source*</label>
-                                    <select id="source" name="source" class="form-select" required>
-                                        <option value="">Select Source</option>
-                                        <option value="X">X - Primary Channel</option>
-                                        <option value="Y">Y - Secondary Channel</option>
-                                        <option value="Z">Z - Third Party</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="loan_purpose">Loan Purpose*</label>
-                                    <select id="loan_purpose" name="loan_purpose" class="form-select" required>
-                                        <option value="">Select Purpose</option>
-                                        <option value="A23">A23 - Personal/Consumer</option>
-                                        <option value="B12">B12 - Business</option>
-                                        <option value="C86">C86 - Real Estate</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="number_of_borrowers">Number of Borrowers*</label>
-                                    <select id="number_of_borrowers" name="number_of_borrowers" class="form-select" required>
-                                        <option value="">Select</option>
-                                        <option value="1">1 Borrower</option>
-                                        <option value="2">2 Borrowers</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="insurance_percent">Insurance Coverage (%)</label>
-                                    <input id="insurance_percent" name="insurance_percent" type="number" step="1" min="0" max="100" class="form-control" />
-                                    <div class="tooltip-text">Percentage of loan covered by insurance</div>
-                                </div>
-                            </div>
+                                    <!-- Loan Information Section -->
+                                    <div class="section-header">
+                                        <i class="fas fa-money-bill me-2"></i>Loan Information
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="interest_rate">Interest Rate (%)*</label>
+                                            <input id="interest_rate" type="number" step="0.001" min="2.2" max="6.8"
+                                                name="interest_rate" class="form-control" required />
+                                            <div class="tooltip-text">Annual interest rate (2.2% - 6.8%)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="unpaid_principal_bal">Unpaid Principal
+                                                Balance ($)*</label>
+                                            <input id="unpaid_principal_bal" name="unpaid_principal_bal" type="number"
+                                                step="1" min="11000" max="1200000" class="form-control" required />
+                                            <div class="tooltip-text">Outstanding loan amount ($11K - $1.2M)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="Loan_term">Loan Term (months)*</label>
+                                            <input id="Loan_term" name="Loan_term" type="number" step="1" min="6"
+                                                max="36" class="form-control" required />
+                                            <div class="tooltip-text">Loan duration: 6, 12, 18, 30, or 36 months</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="loan_to_value">Loan to Value Ratio
+                                                (%)*</label>
+                                            <input id="loan_to_value" name="loan_to_value" type="number" step="0.1"
+                                                min="6" max="97" class="form-control" required />
+                                            <div class="tooltip-text">Loan amount as % of asset value (6% - 97%)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="source">Loan Source*</label>
+                                            <select id="source" name="source" class="form-select" required>
+                                                <option value="">Select Source</option>
+                                                <option value="X">X - Primary Channel</option>
+                                                <option value="Y">Y - Secondary Channel</option>
+                                                <option value="Z">Z - Third Party</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="loan_purpose">Loan Purpose*</label>
+                                            <select id="loan_purpose" name="loan_purpose" class="form-select" required>
+                                                <option value="">Select Purpose</option>
+                                                <option value="A23">A23 - Personal/Consumer</option>
+                                                <option value="B12">B12 - Business</option>
+                                                <option value="C86">C86 - Real Estate</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="number_of_borrowers">Number of
+                                                Borrowers*</label>
+                                            <select id="number_of_borrowers" name="number_of_borrowers"
+                                                class="form-select" required>
+                                                <option value="">Select</option>
+                                                <option value="1">1 Borrower</option>
+                                                <option value="2">2 Borrowers</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="insurance_percent">Insurance Coverage
+                                                (%)</label>
+                                            <input id="insurance_percent" name="insurance_percent" type="number"
+                                                step="1" min="0" max="100" class="form-control" />
+                                            <div class="tooltip-text">Percentage of loan covered by insurance</div>
+                                        </div>
+                                    </div>
 
-                            <!-- Borrower Information Section -->
-                            <div class="section-header">
-                                <i class="fas fa-user me-2"></i>Primary Borrower Information
-                            </div>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="debt_to_income_ratio">Debt to Income Ratio*</label>
-                                    <input id="debt_to_income_ratio" name="debt_to_income_ratio" type="number" step="0.1" class="form-control" required />
-                                    <div class="tooltip-text">Total monthly debt payments / monthly income</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="borrower_credit_score">Credit Score*</label>
-                                    <input id="borrower_credit_score" name="borrower_credit_score" type="number" step="1" min="480" max="840" class="form-control" required />
-                                    <div class="tooltip-text">FICO score (480-840 range in data)</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="co-borrower_credit_score">Co-Borrower Credit Score</label>
-                                    <input id="co-borrower_credit_score" name="co-borrower_credit_score" type="number" step="1" min="480" max="840" class="form-control" />
-                                    <div class="tooltip-text">Co-borrower FICO score (leave 0 if none)</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="Annual_Income">Annual Income ($)*</label>
-                                    <input id="Annual_Income" name="Annual Income" type="number" step="0.01" class="form-control" required />
-                                    <div class="tooltip-text">Gross annual income</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="Age">Age*</label>
-                                    <input id="Age" name="Age" type="number" step="1" min="18" max="80" class="form-control" required />
-                                    <div class="tooltip-text">Age range: 18-80 years</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="NumberOfDependents">Number of Dependents*</label>
-                                    <select id="NumberOfDependents" name="NumberOfDependents" class="form-select" required>
-                                        <option value="">Select</option>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="EducationLevel">Education Level*</label>
-                                    <select id="EducationLevel" name="EducationLevel" class="form-select" required>
-                                        <option value="">Select Education</option>
-                                        <option value="High School">High School</option>
-                                        <option value="Bachelor's">Bachelor's Degree</option>
-                                        <option value="Master's">Master's Degree</option>
-                                        <option value="PhD">PhD/Doctorate</option>
-                                        <option value="Doctorate">Professional Doctorate</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="MaritalStatus">Marital Status*</label>
-                                    <select id="MaritalStatus" name="MaritalStatus" class="form-select" required>
-                                        <option value="">Select Status</option>
-                                        <option value="Single">Single</option>
-                                        <option value="Married">Married</option>
-                                        <option value="Divorced">Divorced</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="Gender">Gender*</label>
-                                    <select id="Gender" name="Gender" class="form-select" required>
-                                        <option value="">Select Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="EmploymentStatus">Employment Status*</label>
-                                    <select id="EmploymentStatus" name="EmploymentStatus" class="form-select" required>
-                                        <option value="">Select Status</option>
-                                        <option value="Employed">Employed</option>
-                                        <option value="Self-Employed">Self-Employed</option>
-                                        <option value="Unemployed">Unemployed</option>
-                                    </select>
-                                </div>
-                            </div>
+                                    <!-- Borrower Information Section -->
+                                    <div class="section-header">
+                                        <i class="fas fa-user me-2"></i>Primary Borrower Information
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="debt_to_income_ratio">Debt to Income
+                                                Ratio*</label>
+                                            <input id="debt_to_income_ratio" name="debt_to_income_ratio" type="number"
+                                                step="0.1" class="form-control" required />
+                                            <div class="tooltip-text">Total monthly debt payments / monthly income</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="borrower_credit_score">Credit Score*</label>
+                                            <input id="borrower_credit_score" name="borrower_credit_score" type="number"
+                                                step="1" min="480" max="840" class="form-control" required />
+                                            <div class="tooltip-text">FICO score (480-840 range in data)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="co-borrower_credit_score">Co-Borrower Credit
+                                                Score</label>
+                                            <input id="co-borrower_credit_score" name="co-borrower_credit_score"
+                                                type="number" step="1" min="480" max="840" class="form-control" />
+                                            <div class="tooltip-text">Co-borrower FICO score (leave 0 if none)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="Annual_Income">Annual Income ($)*</label>
+                                            <input id="Annual_Income" name="Annual Income" type="number" step="0.01"
+                                                class="form-control" required />
+                                            <div class="tooltip-text">Gross annual income</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="Age">Age*</label>
+                                            <input id="Age" name="Age" type="number" step="1" min="18" max="80"
+                                                class="form-control" required />
+                                            <div class="tooltip-text">Age range: 18-80 years</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="NumberOfDependents">Number of
+                                                Dependents*</label>
+                                            <select id="NumberOfDependents" name="NumberOfDependents"
+                                                class="form-select" required>
+                                                <option value="">Select</option>
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="EducationLevel">Education Level*</label>
+                                            <select id="EducationLevel" name="EducationLevel" class="form-select"
+                                                required>
+                                                <option value="">Select Education</option>
+                                                <option value="High School">High School</option>
+                                                <option value="Bachelor's">Bachelor's Degree</option>
+                                                <option value="Master's">Master's Degree</option>
+                                                <option value="PhD">PhD/Doctorate</option>
+                                                <option value="Doctorate">Professional Doctorate</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="MaritalStatus">Marital Status*</label>
+                                            <select id="MaritalStatus" name="MaritalStatus" class="form-select"
+                                                required>
+                                                <option value="">Select Status</option>
+                                                <option value="Single">Single</option>
+                                                <option value="Married">Married</option>
+                                                <option value="Divorced">Divorced</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="Gender">Gender*</label>
+                                            <select id="Gender" name="Gender" class="form-select" required>
+                                                <option value="">Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="EmploymentStatus">Employment Status*</label>
+                                            <select id="EmploymentStatus" name="EmploymentStatus" class="form-select"
+                                                required>
+                                                <option value="">Select Status</option>
+                                                <option value="Employed">Employed</option>
+                                                <option value="Self-Employed">Self-Employed</option>
+                                                <option value="Unemployed">Unemployed</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            <!-- Payment History Section -->
-                            <div class="section-header">
-                                <i class="fas fa-history me-2"></i>Payment History & Current Status
-                            </div>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="total_on_time_payments">Total On-Time Payments</label>
-                                    <input id="total_on_time_payments" name="total_on_time_payments" type="number" step="1" min="0" max="24" class="form-control" />
-                                    <div class="tooltip-text">Number of payments made on time (0-24)</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="total_late_payments">Total Late Payments</label>
-                                    <input id="total_late_payments" name="total_late_payments" type="number" step="1" min="0" max="17" class="form-control" />
-                                    <div class="tooltip-text">Number of late payments (0-17)</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="avg_payment_delay">Average Payment Delay (days)</label>
-                                    <input id="avg_payment_delay" name="avg_payment_delay" type="number" step="0.1" min="0" class="form-control" />
-                                    <div class="tooltip-text">Average delay in days for late payments</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="current_dpd">Current Days Past Due</label>
-                                    <input id="current_dpd" name="current_dpd" type="number" step="1" min="0" class="form-control" />
-                                    <div class="tooltip-text">Current days past due (0 if current)</div>
-                                </div>
-                            </div>
+                                    <!-- Payment History Section -->
+                                    <div class="section-header">
+                                        <i class="fas fa-history me-2"></i>Payment History & Current Status
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="total_on_time_payments">Total On-Time
+                                                Payments</label>
+                                            <input id="total_on_time_payments" name="total_on_time_payments"
+                                                type="number" step="1" min="0" max="24" class="form-control" />
+                                            <div class="tooltip-text">Number of payments made on time (0-24)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="total_late_payments">Total Late
+                                                Payments</label>
+                                            <input id="total_late_payments" name="total_late_payments" type="number"
+                                                step="1" min="0" max="17" class="form-control" />
+                                            <div class="tooltip-text">Number of late payments (0-17)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="avg_payment_delay">Average Payment Delay
+                                                (days)</label>
+                                            <input id="avg_payment_delay" name="avg_payment_delay" type="number"
+                                                step="0.1" min="0" class="form-control" />
+                                            <div class="tooltip-text">Average delay in days for late payments</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="current_dpd">Current Days Past Due</label>
+                                            <input id="current_dpd" name="current_dpd" type="number" step="1" min="0"
+                                                class="form-control" />
+                                            <div class="tooltip-text">Current days past due (0 if current)</div>
+                                        </div>
+                                    </div>
 
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="fas fa-brain me-2"></i>Analyze Risk Profile
-                                </button>
-                            </div>
-                        </form>
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-brain me-2"></i>Analyze Risk Profile
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
 
                             <!-- Batch Prediction Tab -->
@@ -393,47 +442,56 @@
                                 <div class="batch-container">
                                     <div class="text-center mb-4">
                                         <h4><i class="fas fa-file-csv me-2"></i>Batch Loan Risk Assessment</h4>
-                                        <p class="text-muted">Upload a CSV file containing multiple loan applications for batch risk analysis</p>
+                                        <p class="text-muted">Upload a CSV file containing multiple loan applications
+                                            for batch risk analysis</p>
                                     </div>
-                                    
+
                                     <form id="batchForm" enctype="multipart/form-data">
-                                        <div class="upload-area mb-4" onclick="document.getElementById('batchFileInput').click();" style="border: 2px dashed #007bff; padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer; background: rgba(0,123,255,0.05);">
+                                        <div class="upload-area mb-4"
+                                            onclick="document.getElementById('batchFileInput').click();"
+                                            style="border: 2px dashed #007bff; padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer; background: rgba(0,123,255,0.05);">
                                             <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
                                             <h4>Upload Loan Applications CSV</h4>
-                                            <p class="text-muted" id="batchFileName">Click to select file or drag and drop</p>
-                                            <input type="file" id="batchFileInput" name="file" class="d-none" accept=".csv">
+                                            <p class="text-muted" id="batchFileName">Click to select file or drag and
+                                                drop</p>
+                                            <input type="file" id="batchFileInput" name="file" class="d-none"
+                                                accept=".csv">
                                             <div class="mt-3">
                                                 <small class="text-info">
                                                     <i class="fas fa-info-circle me-1"></i>
-                                                    CSV should include columns: interest_rate, unpaid_principal_bal, Loan_term, etc.
+                                                    CSV should include columns: interest_rate, unpaid_principal_bal,
+                                                    Loan_term, etc.
                                                 </small>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-success btn-lg" id="batchProcessBtn" disabled>
+                                            <button type="submit" class="btn btn-success btn-lg" id="batchProcessBtn"
+                                                disabled>
                                                 <i class="fas fa-cogs me-2"></i>Process Batch Risk Analysis
                                             </button>
                                         </div>
                                     </form>
-                                    
+
                                     <!-- Batch Results Section -->
                                     <div id="batchResults" class="mt-4" style="display: none;">
                                         <div class="card">
                                             <div class="card-header bg-success text-white">
-                                                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Batch Processing Results</h5>
+                                                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Batch Processing
+                                                    Results</h5>
                                             </div>
                                             <div class="card-body" id="batchResultContent">
                                                 <!-- Results will be populated here -->
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Sample CSV Format -->
                                     <div class="mt-4">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h6 class="mb-0"><i class="fas fa-table me-2"></i>Expected CSV Format</h6>
+                                                <h6 class="mb-0"><i class="fas fa-table me-2"></i>Expected CSV Format
+                                                </h6>
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
@@ -464,7 +522,8 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <small class="text-muted">Include all required fields as shown in the individual assessment form</small>
+                                                <small class="text-muted">Include all required fields as shown in the
+                                                    individual assessment form</small>
                                                 <div class="text-center mt-3">
                                                     <a href="/sample_csv" class="btn btn-outline-primary btn-sm">
                                                         <i class="fas fa-download me-2"></i>Download Sample CSV
@@ -494,21 +553,22 @@
                                 <div class="output-item" id="riskLevelCard">
                                     <h5><i class="fas fa-exclamation-triangle me-2"></i>Risk Level</h5>
                                     <h3 id="riskLevel" class="mb-1">-</h3>
-                                    <small id="riskDescription" class="text-muted">Risk assessment based on model prediction</small>
+                                    <small id="riskDescription" class="text-muted">Risk assessment based on model
+                                        prediction</small>
                                 </div>
-                                
+
                                 <div class="output-item">
                                     <h5><i class="fas fa-percentage me-2"></i>Default Probability</h5>
                                     <h3 id="probability" class="mb-1">-</h3>
                                     <small class="text-muted">Likelihood of loan default</small>
                                 </div>
-                                
+
                                 <div class="output-item">
                                     <h5><i class="fas fa-flag me-2"></i>Binary Classification</h5>
                                     <h3 id="binaryResult" class="mb-1">-</h3>
                                     <small id="binaryDescription" class="text-muted">Direct model prediction</small>
                                 </div>
-                                
+
                                 <div class="output-item">
                                     <h5><i class="fas fa-shield-alt me-2"></i>Model Confidence</h5>
                                     <h3 id="confidence" class="mb-1">-</h3>
@@ -559,13 +619,14 @@
                         <div id="instructions" class="text-center text-muted">
                             <i class="fas fa-arrow-left fa-2x mb-3"></i>
                             <h5>Fill out the loan application form</h5>
-                            <p>Complete the required fields marked with (*) and click "Analyze Risk Profile" to get comprehensive risk assessment results.</p>
+                            <p>Complete the required fields marked with (*) and click "Analyze Risk Profile" to get
+                                comprehensive risk assessment results.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Tutorial Section with Real Example -->
         <div class="row mt-5">
             <div class="col-12">
@@ -578,16 +639,20 @@
                         <!-- Tutorial Navigation -->
                         <div class="d-flex justify-content-center mb-4">
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary active" id="stepInput" onclick="showTutorialStep('input')">
+                                <button type="button" class="btn btn-outline-primary active" id="stepInput"
+                                    onclick="showTutorialStep('input')">
                                     📝 Sample Input
                                 </button>
-                                <button type="button" class="btn btn-outline-primary" id="stepProcess" onclick="showTutorialStep('process')">
+                                <button type="button" class="btn btn-outline-primary" id="stepProcess"
+                                    onclick="showTutorialStep('process')">
                                     ⚙️ Processing
                                 </button>
-                                <button type="button" class="btn btn-outline-primary" id="stepOutput" onclick="showTutorialStep('output')">
+                                <button type="button" class="btn btn-outline-primary" id="stepOutput"
+                                    onclick="showTutorialStep('output')">
                                     📊 Expected Output
                                 </button>
-                                <button type="button" class="btn btn-outline-success" id="stepTry" onclick="showTutorialStep('try')">
+                                <button type="button" class="btn btn-outline-success" id="stepTry"
+                                    onclick="showTutorialStep('try')">
                                     🚀 Try It Live
                                 </button>
                             </div>
@@ -598,32 +663,37 @@
                             <div class="row">
                                 <div class="col-12">
                                     <h4><i class="fas fa-database me-2"></i>Real Training Data Example</h4>
-                                    <p class="text-muted mb-4">This is an actual loan record from our 116,000+ training dataset (Loan ID: 780000000000.0):</p>
-                                    
+                                    <p class="text-muted mb-4">This is an actual loan record from our 116,000+ training
+                                        dataset (Loan ID: 780000000000.0):</p>
+
                                     <!-- Tabbed Interface for Data Categories -->
                                     <ul class="nav nav-tabs" id="dataTab" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="loan-tab" data-bs-toggle="tab" data-bs-target="#loan-data" type="button" role="tab">
+                                            <button class="nav-link active" id="loan-tab" data-bs-toggle="tab"
+                                                data-bs-target="#loan-data" type="button" role="tab">
                                                 🏠 Loan Information
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="borrower-tab" data-bs-toggle="tab" data-bs-target="#borrower-data" type="button" role="tab">
+                                            <button class="nav-link" id="borrower-tab" data-bs-toggle="tab"
+                                                data-bs-target="#borrower-data" type="button" role="tab">
                                                 👤 Borrower Profile
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment-data" type="button" role="tab">
+                                            <button class="nav-link" id="payment-tab" data-bs-toggle="tab"
+                                                data-bs-target="#payment-data" type="button" role="tab">
                                                 💳 Payment History
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="outcome-tab" data-bs-toggle="tab" data-bs-target="#outcome-data" type="button" role="tab">
+                                            <button class="nav-link" id="outcome-tab" data-bs-toggle="tab"
+                                                data-bs-target="#outcome-data" type="button" role="tab">
                                                 📊 Historical Outcome
                                             </button>
                                         </li>
                                     </ul>
-                                    
+
                                     <div class="tab-content" id="dataTabContent">
                                         <!-- Loan Information Tab -->
                                         <div class="tab-pane fade show active" id="loan-data" role="tabpanel">
@@ -681,7 +751,7 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        
+
                                         <!-- Borrower Profile Tab -->
                                         <div class="tab-pane fade" id="borrower-data" role="tabpanel">
                                             <div class="table-responsive mt-3">
@@ -697,53 +767,62 @@
                                                         <tr>
                                                             <td><strong>Credit Score</strong></td>
                                                             <td><span class="badge bg-warning">690</span></td>
-                                                            <td><i class="fas fa-exclamation-triangle text-warning"></i> Below average (695 median)</td>
+                                                            <td><i class="fas fa-exclamation-triangle text-warning"></i>
+                                                                Below average (695 median)</td>
                                                         </tr>
                                                         <tr class="table-danger">
                                                             <td><strong>Annual Income</strong></td>
                                                             <td><span class="badge bg-danger">$1,951</span></td>
-                                                            <td><i class="fas fa-times-circle text-danger"></i> Extremely low income</td>
+                                                            <td><i class="fas fa-times-circle text-danger"></i>
+                                                                Extremely low income</td>
                                                         </tr>
                                                         <tr class="table-warning">
                                                             <td><strong>Age</strong></td>
                                                             <td><span class="badge bg-warning">18 years</span></td>
-                                                            <td><i class="fas fa-exclamation-triangle text-warning"></i> Very young borrower</td>
+                                                            <td><i class="fas fa-exclamation-triangle text-warning"></i>
+                                                                Very young borrower</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Education Level</strong></td>
                                                             <td><span class="badge bg-info">High School</span></td>
-                                                            <td><i class="fas fa-info-circle text-info"></i> Basic education level</td>
+                                                            <td><i class="fas fa-info-circle text-info"></i> Basic
+                                                                education level</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Marital Status</strong></td>
                                                             <td><span class="badge bg-success">Married</span></td>
-                                                            <td><i class="fas fa-check-circle text-success"></i> Stability indicator</td>
+                                                            <td><i class="fas fa-check-circle text-success"></i>
+                                                                Stability indicator</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Gender</strong></td>
                                                             <td><span class="badge bg-secondary">Male</span></td>
-                                                            <td><i class="fas fa-minus-circle text-muted"></i> Neutral factor</td>
+                                                            <td><i class="fas fa-minus-circle text-muted"></i> Neutral
+                                                                factor</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Employment Status</strong></td>
                                                             <td><span class="badge bg-success">Employed</span></td>
-                                                            <td><i class="fas fa-check-circle text-success"></i> Operations Manager</td>
+                                                            <td><i class="fas fa-check-circle text-success"></i>
+                                                                Operations Manager</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Dependents</strong></td>
                                                             <td><span class="badge bg-warning">2</span></td>
-                                                            <td><i class="fas fa-users text-warning"></i> Additional financial burden</td>
+                                                            <td><i class="fas fa-users text-warning"></i> Additional
+                                                                financial burden</td>
                                                         </tr>
                                                         <tr class="table-danger">
                                                             <td><strong>Debt-to-Income Ratio</strong></td>
                                                             <td><span class="badge bg-danger">41%</span></td>
-                                                            <td><i class="fas fa-times-circle text-danger"></i> High debt burden</td>
+                                                            <td><i class="fas fa-times-circle text-danger"></i> High
+                                                                debt burden</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                        
+
                                         <!-- Payment History Tab -->
                                         <div class="tab-pane fade" id="payment-data" role="tabpanel">
                                             <div class="table-responsive mt-3">
@@ -759,33 +838,39 @@
                                                         <tr class="table-success">
                                                             <td><strong>On-Time Payments</strong></td>
                                                             <td><span class="badge bg-success">10</span></td>
-                                                            <td><i class="fas fa-check-circle text-success"></i> Positive payment history</td>
+                                                            <td><i class="fas fa-check-circle text-success"></i>
+                                                                Positive payment history</td>
                                                         </tr>
                                                         <tr class="table-danger">
                                                             <td><strong>Late Payments</strong></td>
                                                             <td><span class="badge bg-danger">15</span></td>
-                                                            <td><i class="fas fa-times-circle text-danger"></i> More late than on-time!</td>
+                                                            <td><i class="fas fa-times-circle text-danger"></i> More
+                                                                late than on-time!</td>
                                                         </tr>
                                                         <tr class="table-warning">
                                                             <td><strong>Average Payment Delay</strong></td>
                                                             <td><span class="badge bg-warning">12.8 days</span></td>
-                                                            <td><i class="fas fa-clock text-warning"></i> Significant delays when late</td>
+                                                            <td><i class="fas fa-clock text-warning"></i> Significant
+                                                                delays when late</td>
                                                         </tr>
                                                         <tr class="table-danger">
                                                             <td><strong>Current Days Past Due</strong></td>
                                                             <td><span class="badge bg-danger">16 days</span></td>
-                                                            <td><i class="fas fa-exclamation-triangle text-danger"></i> Currently delinquent</td>
+                                                            <td><i class="fas fa-exclamation-triangle text-danger"></i>
+                                                                Currently delinquent</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Current Loan Month</strong></td>
                                                             <td><span class="badge bg-info">24</span></td>
-                                                            <td><i class="fas fa-calendar text-info"></i> Long payment history available</td>
+                                                            <td><i class="fas fa-calendar text-info"></i> Long payment
+                                                                history available</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                
+
                                                 <div class="alert alert-warning mt-3">
-                                                    <h6><i class="fas fa-calculator me-2"></i>Payment Performance Analysis</h6>
+                                                    <h6><i class="fas fa-calculator me-2"></i>Payment Performance
+                                                        Analysis</h6>
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <strong>Payment Ratio:</strong><br>
@@ -794,21 +879,26 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <strong>Risk Indicators:</strong><br>
-                                                            <span class="badge bg-danger me-1">Current Delinquency</span><br>
+                                                            <span class="badge bg-danger me-1">Current
+                                                                Delinquency</span><br>
                                                             <span class="badge bg-warning me-1">Poor History</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <!-- Historical Outcome Tab -->
                                         <div class="tab-pane fade" id="outcome-data" role="tabpanel">
                                             <div class="mt-3">
                                                 <div class="alert alert-info">
-                                                    <h5><i class="fas fa-info-circle me-2"></i>Historical Classification</h5>
-                                                    <p class="mb-2">This loan was marked as <strong>mx = 0</strong> in our training data, meaning it was ultimately classified as <strong>"On-Time"</strong> despite the payment delays and risk indicators.</p>
-                                                    
+                                                    <h5><i class="fas fa-info-circle me-2"></i>Historical Classification
+                                                    </h5>
+                                                    <p class="mb-2">This loan was marked as <strong>mx = 0</strong> in
+                                                        our training data, meaning it was ultimately classified as
+                                                        <strong>"On-Time"</strong> despite the payment delays and risk
+                                                        indicators.</p>
+
                                                     <div class="table-responsive">
                                                         <table class="table table-sm table-bordered mt-3">
                                                             <thead class="table-dark">
@@ -821,7 +911,8 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr class="table-success">
-                                                                    <td><span class="badge bg-success">mx = 0</span></td>
+                                                                    <td><span class="badge bg-success">mx = 0</span>
+                                                                    </td>
                                                                     <td>On-Time Classification</td>
                                                                     <td>Loan did not default</td>
                                                                     <td>Complex case with mixed signals</td>
@@ -830,11 +921,12 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="alert alert-danger">
-                                                            <h6><i class="fas fa-exclamation-triangle me-2"></i>Risk Indicators Present</h6>
+                                                            <h6><i class="fas fa-exclamation-triangle me-2"></i>Risk
+                                                                Indicators Present</h6>
                                                             <ul class="mb-0 small">
                                                                 <li>High debt-to-income ratio (41%)</li>
                                                                 <li>More late payments (15) than on-time (10)</li>
@@ -845,10 +937,11 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class="col-md-6">
                                                         <div class="alert alert-success">
-                                                            <h6><i class="fas fa-check-circle me-2"></i>Positive Factors</h6>
+                                                            <h6><i class="fas fa-check-circle me-2"></i>Positive Factors
+                                                            </h6>
                                                             <ul class="mb-0 small">
                                                                 <li>Employed with steady job (Operations Mgr)</li>
                                                                 <li>Married status (stability)</li>
@@ -860,10 +953,17 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="alert alert-primary">
-                                                    <h6><i class="fas fa-graduation-cap me-2"></i>What This Teaches Us</h6>
-                                                    <p class="mb-0">This example demonstrates that loan performance prediction is complex and that borrowers with risk indicators can still perform well. It highlights the importance of comprehensive analysis rather than single-factor decisions, and shows why machine learning models that consider multiple variables simultaneously can be more effective than simple rule-based systems.</p>
+                                                    <h6><i class="fas fa-graduation-cap me-2"></i>What This Teaches Us
+                                                    </h6>
+                                                    <p class="mb-0">This example demonstrates that loan performance
+                                                        prediction is complex and that borrowers with risk indicators
+                                                        can still perform well. It highlights the importance of
+                                                        comprehensive analysis rather than single-factor decisions, and
+                                                        shows why machine learning models that consider multiple
+                                                        variables simultaneously can be more effective than simple
+                                                        rule-based systems.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -875,18 +975,20 @@
                         <!-- Step 2: Processing -->
                         <div id="tutorialProcess" class="tutorial-step" style="display: none;">
                             <h4><i class="fas fa-cogs me-2"></i>How Our Model Processes This Data</h4>
-                            
+
                             <!-- Processing Steps with Accordion -->
                             <div class="accordion" id="processAccordion">
                                 <!-- Step 1: Data Validation -->
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne">
                                             <i class="fas fa-check-circle text-success me-2"></i>
                                             <strong>Step 1: Data Validation & Cleaning</strong>
                                         </button>
                                     </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#processAccordion">
+                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                        data-bs-parent="#processAccordion">
                                         <div class="accordion-body">
                                             <div class="table-responsive">
                                                 <table class="table table-sm table-striped">
@@ -903,25 +1005,30 @@
                                                             <td>Credit Score</td>
                                                             <td><code>690</code></td>
                                                             <td>Range: 300-850</td>
-                                                            <td><span class="badge bg-success"><i class="fas fa-check"></i> Valid</span></td>
+                                                            <td><span class="badge bg-success"><i
+                                                                        class="fas fa-check"></i> Valid</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Age</td>
                                                             <td><code>18</code></td>
                                                             <td>Min: 18 years</td>
-                                                            <td><span class="badge bg-success"><i class="fas fa-check"></i> Valid</span></td>
+                                                            <td><span class="badge bg-success"><i
+                                                                        class="fas fa-check"></i> Valid</span></td>
                                                         </tr>
                                                         <tr class="table-warning">
                                                             <td>Annual Income</td>
                                                             <td><code>$1,951</code></td>
                                                             <td>Min: > $0</td>
-                                                            <td><span class="badge bg-warning"><i class="fas fa-exclamation-triangle"></i> Very Low</span></td>
+                                                            <td><span class="badge bg-warning"><i
+                                                                        class="fas fa-exclamation-triangle"></i> Very
+                                                                    Low</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Categorical Fields</td>
                                                             <td><code>Y, C86, Male...</code></td>
                                                             <td>Expected values</td>
-                                                            <td><span class="badge bg-success"><i class="fas fa-check"></i> All Valid</span></td>
+                                                            <td><span class="badge bg-success"><i
+                                                                        class="fas fa-check"></i> All Valid</span></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -929,20 +1036,23 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Step 2: Feature Engineering -->
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingTwo">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo">
                                             <i class="fas fa-cogs text-primary me-2"></i>
                                             <strong>Step 2: Feature Engineering</strong>
                                         </button>
                                     </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#processAccordion">
+                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                        data-bs-parent="#processAccordion">
                                         <div class="accordion-body">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <h6 class="text-primary"><i class="fas fa-list me-2"></i>Categorical Encoding</h6>
+                                                    <h6 class="text-primary"><i class="fas fa-list me-2"></i>Categorical
+                                                        Encoding</h6>
                                                     <div class="table-responsive">
                                                         <table class="table table-sm">
                                                             <thead class="table-info">
@@ -952,15 +1062,27 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr><td>source = 'Y'</td><td>source_Y = 1, source_Z = 0</td></tr>
-                                                                <tr><td>Gender = 'Male'</td><td>Gender_Male = 1, Gender_Other = 0</td></tr>
-                                                                <tr><td>MaritalStatus = 'Married'</td><td>MaritalStatus_Married = 1, MaritalStatus_Single = 0</td></tr>
+                                                                <tr>
+                                                                    <td>source = 'Y'</td>
+                                                                    <td>source_Y = 1, source_Z = 0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Gender = 'Male'</td>
+                                                                    <td>Gender_Male = 1, Gender_Other = 0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>MaritalStatus = 'Married'</td>
+                                                                    <td>MaritalStatus_Married = 1, MaritalStatus_Single
+                                                                        = 0</td>
+                                                                </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <h6 class="text-primary"><i class="fas fa-calculator me-2"></i>Numeric Standardization</h6>
+                                                    <h6 class="text-primary"><i
+                                                            class="fas fa-calculator me-2"></i>Numeric Standardization
+                                                    </h6>
                                                     <div class="table-responsive">
                                                         <table class="table table-sm">
                                                             <thead class="table-warning">
@@ -970,30 +1092,42 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr><td>Interest Rate</td><td>(4.5 - μ) / σ</td></tr>
-                                                                <tr><td>Credit Score</td><td>(690 - μ) / σ</td></tr>
-                                                                <tr><td>Annual Income</td><td>(1951 - μ) / σ</td></tr>
+                                                                <tr>
+                                                                    <td>Interest Rate</td>
+                                                                    <td>(4.5 - μ) / σ</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Credit Score</td>
+                                                                    <td>(690 - μ) / σ</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Annual Income</td>
+                                                                    <td>(1951 - μ) / σ</td>
+                                                                </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="alert alert-info mt-3">
-                                                <strong>Result:</strong> Original 31 CSV columns → 22 engineered features for model input
+                                                <strong>Result:</strong> Original 31 CSV columns → 22 engineered
+                                                features for model input
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Step 3: Model Prediction -->
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree">
                                             <i class="fas fa-brain text-success me-2"></i>
                                             <strong>Step 3: RandomForest Model Prediction</strong>
                                         </button>
                                     </h2>
-                                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#processAccordion">
+                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                        data-bs-parent="#processAccordion">
                                         <div class="accordion-body">
                                             <div class="row">
                                                 <div class="col-md-8">
@@ -1007,11 +1141,33 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr><td>Estimators</td><td><span class="badge bg-primary">160</span></td><td>Number of decision trees</td></tr>
-                                                                <tr><td>Max Depth</td><td><span class="badge bg-info">12</span></td><td>Maximum tree depth</td></tr>
-                                                                <tr><td>Min Samples Leaf</td><td><span class="badge bg-secondary">25</span></td><td>Minimum samples per leaf</td></tr>
-                                                                <tr><td>Class Weight</td><td><span class="badge bg-warning">Balanced</span></td><td>Handle imbalanced classes</td></tr>
-                                                                <tr><td>Training Size</td><td><span class="badge bg-success">116,058</span></td><td>Historical loan records</td></tr>
+                                                                <tr>
+                                                                    <td>Estimators</td>
+                                                                    <td><span class="badge bg-primary">160</span></td>
+                                                                    <td>Number of decision trees</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Max Depth</td>
+                                                                    <td><span class="badge bg-info">12</span></td>
+                                                                    <td>Maximum tree depth</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Min Samples Leaf</td>
+                                                                    <td><span class="badge bg-secondary">25</span></td>
+                                                                    <td>Minimum samples per leaf</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Class Weight</td>
+                                                                    <td><span class="badge bg-warning">Balanced</span>
+                                                                    </td>
+                                                                    <td>Handle imbalanced classes</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Training Size</td>
+                                                                    <td><span class="badge bg-success">116,058</span>
+                                                                    </td>
+                                                                    <td>Historical loan records</td>
+                                                                </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -1031,16 +1187,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Step 4: Risk Analysis -->
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingFour">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFour">
                                             <i class="fas fa-chart-line text-warning me-2"></i>
                                             <strong>Step 4: Risk Driver Analysis</strong>
                                         </button>
                                     </h2>
-                                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#processAccordion">
+                                    <div id="collapseFour" class="accordion-collapse collapse"
+                                        data-bs-parent="#processAccordion">
                                         <div class="accordion-body">
                                             <div class="table-responsive">
                                                 <table class="table table-hover">
@@ -1084,7 +1242,7 @@
                         <!-- Step 3: Expected Output -->
                         <div id="tutorialOutput" class="tutorial-step" style="display: none;">
                             <h4><i class="fas fa-chart-bar me-2"></i>Expected Model Output</h4>
-                            
+
                             <div class="row">
                                 <div class="col-md-8">
                                     <!-- Mock Results Display -->
@@ -1092,21 +1250,22 @@
                                         <div class="output-item risk-high">
                                             <h5><i class="fas fa-times-circle me-2"></i>Risk Level</h5>
                                             <h3 class="mb-1">High Risk</h3>
-                                            <small class="text-muted">Based on payment history and financial profile</small>
+                                            <small class="text-muted">Based on payment history and financial
+                                                profile</small>
                                         </div>
-                                        
+
                                         <div class="output-item">
                                             <h5><i class="fas fa-percentage me-2"></i>Default Probability</h5>
                                             <h3 class="mb-1">67.8%</h3>
                                             <small class="text-muted">Likelihood of loan default</small>
                                         </div>
-                                        
+
                                         <div class="output-item">
                                             <h5><i class="fas fa-flag me-2"></i>Binary Classification</h5>
                                             <h3 class="mb-1" style="color: #dc3545;">High Risk</h3>
                                             <small class="text-muted">Model predicts: Default Likely</small>
                                         </div>
-                                        
+
                                         <div class="output-item">
                                             <h5><i class="fas fa-shield-alt me-2"></i>Model Confidence</h5>
                                             <h3 class="mb-1">36%</h3>
@@ -1116,7 +1275,8 @@
 
                                     <div class="card mt-3">
                                         <div class="card-header">
-                                            <h6 class="mb-0"><i class="fas fa-list-ol me-2"></i>Top Risk Drivers Analysis</h6>
+                                            <h6 class="mb-0"><i class="fas fa-list-ol me-2"></i>Top Risk Drivers
+                                                Analysis</h6>
                                         </div>
                                         <div class="card-body">
                                             <div class="table-responsive">
@@ -1140,7 +1300,8 @@
                                                             <td><span class="badge bg-success">0 days</span></td>
                                                             <td><span class="badge bg-danger">+3.2</span></td>
                                                             <td><span class="badge bg-danger">Very High</span></td>
-                                                            <td><i class="fas fa-arrow-up text-danger"></i> Higher Risk</td>
+                                                            <td><i class="fas fa-arrow-up text-danger"></i> Higher Risk
+                                                            </td>
                                                         </tr>
                                                         <tr class="table-warning">
                                                             <td><span class="badge bg-warning">2</span></td>
@@ -1149,7 +1310,8 @@
                                                             <td><span class="badge bg-success">3</span></td>
                                                             <td><span class="badge bg-warning">+2.8</span></td>
                                                             <td><span class="badge bg-warning">High</span></td>
-                                                            <td><i class="fas fa-arrow-up text-danger"></i> Higher Risk</td>
+                                                            <td><i class="fas fa-arrow-up text-danger"></i> Higher Risk
+                                                            </td>
                                                         </tr>
                                                         <tr class="table-warning">
                                                             <td><span class="badge bg-warning">3</span></td>
@@ -1158,7 +1320,8 @@
                                                             <td><span class="badge bg-success">28%</span></td>
                                                             <td><span class="badge bg-warning">+1.9</span></td>
                                                             <td><span class="badge bg-warning">High</span></td>
-                                                            <td><i class="fas fa-arrow-up text-danger"></i> Higher Risk</td>
+                                                            <td><i class="fas fa-arrow-up text-danger"></i> Higher Risk
+                                                            </td>
                                                         </tr>
                                                         <tr class="table-info">
                                                             <td><span class="badge bg-info">4</span></td>
@@ -1167,7 +1330,8 @@
                                                             <td><span class="badge bg-success">$65,000</span></td>
                                                             <td><span class="badge bg-info">-2.1</span></td>
                                                             <td><span class="badge bg-info">Moderate</span></td>
-                                                            <td><i class="fas fa-arrow-up text-danger"></i> Higher Risk</td>
+                                                            <td><i class="fas fa-arrow-up text-danger"></i> Higher Risk
+                                                            </td>
                                                         </tr>
                                                         <tr class="table-success">
                                                             <td><span class="badge bg-success">5</span></td>
@@ -1176,33 +1340,40 @@
                                                             <td><span class="badge bg-success">695</span></td>
                                                             <td><span class="badge bg-success">-0.1</span></td>
                                                             <td><span class="badge bg-success">Low</span></td>
-                                                            <td><i class="fas fa-arrow-down text-success"></i> Lower Risk</td>
+                                                            <td><i class="fas fa-arrow-down text-success"></i> Lower
+                                                                Risk</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            
+
                                             <div class="alert alert-info mt-3">
-                                                <h6><i class="fas fa-info-circle me-2"></i>Driver Analysis Explanation</h6>
+                                                <h6><i class="fas fa-info-circle me-2"></i>Driver Analysis Explanation
+                                                </h6>
                                                 <ul class="mb-0 small">
-                                                    <li><strong>Z-Score:</strong> Standard deviations from portfolio median (positive = worse than average)</li>
-                                                    <li><strong>Impact:</strong> Contribution to overall risk score based on feature importance</li>
-                                                    <li><strong>Risk Direction:</strong> Whether the value increases or decreases default probability</li>
+                                                    <li><strong>Z-Score:</strong> Standard deviations from portfolio
+                                                        median (positive = worse than average)</li>
+                                                    <li><strong>Impact:</strong> Contribution to overall risk score
+                                                        based on feature importance</li>
+                                                    <li><strong>Risk Direction:</strong> Whether the value increases or
+                                                        decreases default probability</li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-4">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Business Recommendation</h6>
+                                            <h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Business
+                                                Recommendation</h6>
                                         </div>
                                         <div class="card-body">
                                             <div class="alert alert-danger">
                                                 <strong>DECLINE LOAN</strong>
-                                                <p class="small mb-2">High default probability (67.8%) with multiple risk factors:</p>
+                                                <p class="small mb-2">High default probability (67.8%) with multiple
+                                                    risk factors:</p>
                                                 <ul class="small mb-0">
                                                     <li>Currently delinquent (16 days past due)</li>
                                                     <li>Poor payment history pattern</li>
@@ -1210,7 +1381,7 @@
                                                     <li>High debt-to-income ratio</li>
                                                 </ul>
                                             </div>
-                                            
+
                                             <div class="alert alert-info">
                                                 <h6 class="small fw-bold">Alternative Options:</h6>
                                                 <ul class="small mb-0">
@@ -1222,10 +1393,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="alert alert-warning mt-3">
                                         <h6><i class="fas fa-info-circle me-2"></i>Interesting Note</h6>
-                                        <p class="small mb-0">Despite the model's high-risk prediction, this loan was actually classified as "On-Time" (mx=0) in historical data. This highlights the complexity of loan performance prediction!</p>
+                                        <p class="small mb-0">Despite the model's high-risk prediction, this loan was
+                                            actually classified as "On-Time" (mx=0) in historical data. This highlights
+                                            the complexity of loan performance prediction!</p>
                                     </div>
                                 </div>
                             </div>
@@ -1235,18 +1408,21 @@
                         <div id="tutorialTry" class="tutorial-step" style="display: none;">
                             <div class="text-center">
                                 <h4><i class="fas fa-rocket me-2"></i>Ready to Try It Yourself?</h4>
-                                <p class="text-muted mb-4">Use the auto-fill buttons below to instantly populate the form with different risk scenarios and see live predictions!</p>
-                                
+                                <p class="text-muted mb-4">Use the auto-fill buttons below to instantly populate the
+                                    form with different risk scenarios and see live predictions!</p>
+
                                 <!-- Primary Action -->
                                 <div class="mb-4">
-                                    <button type="button" class="btn btn-success btn-lg me-3" onclick="fillExampleData()">
+                                    <button type="button" class="btn btn-success btn-lg me-3"
+                                        onclick="fillExampleData()">
                                         <i class="fas fa-database me-2"></i>Use Real CSV Example
                                     </button>
-                                    <button type="button" class="btn btn-outline-primary btn-lg" onclick="scrollToForm()">
+                                    <button type="button" class="btn btn-outline-primary btn-lg"
+                                        onclick="scrollToForm()">
                                         <i class="fas fa-arrow-up me-2"></i>Go to Form
                                     </button>
                                 </div>
-                                
+
                                 <!-- Risk Profile Examples -->
                                 <div class="row justify-content-center">
                                     <div class="col-lg-8">
@@ -1270,7 +1446,7 @@
                                                         </td>
                                                         <td>
                                                             <small>
-                                                                High credit score (780), stable income ($95k), 
+                                                                High credit score (780), stable income ($95k),
                                                                 excellent payment history, low DTI (25%)
                                                             </small>
                                                         </td>
@@ -1279,7 +1455,8 @@
                                                             <small class="text-muted">~15% risk</small>
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-sm btn-outline-success" onclick="fillLowRiskExample()">
+                                                            <button type="button" class="btn btn-sm btn-outline-success"
+                                                                onclick="fillLowRiskExample()">
                                                                 <i class="fas fa-play"></i>
                                                             </button>
                                                         </td>
@@ -1287,12 +1464,13 @@
                                                     <tr class="table-warning">
                                                         <td>
                                                             <span class="badge bg-warning text-dark fs-6">
-                                                                <i class="fas fa-exclamation-triangle me-1"></i>Moderate Risk
+                                                                <i class="fas fa-exclamation-triangle me-1"></i>Moderate
+                                                                Risk
                                                             </span>
                                                         </td>
                                                         <td>
                                                             <small>
-                                                                Average credit (680), good income ($68k), 
+                                                                Average credit (680), good income ($68k),
                                                                 some late payments, moderate DTI (38%)
                                                             </small>
                                                         </td>
@@ -1301,7 +1479,8 @@
                                                             <small class="text-muted">~45% risk</small>
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-sm btn-outline-warning" onclick="fillModerateRiskExample()">
+                                                            <button type="button" class="btn btn-sm btn-outline-warning"
+                                                                onclick="fillModerateRiskExample()">
                                                                 <i class="fas fa-play"></i>
                                                             </button>
                                                         </td>
@@ -1314,7 +1493,7 @@
                                                         </td>
                                                         <td>
                                                             <small>
-                                                                Low credit (690), very low income ($1,951), 
+                                                                Low credit (690), very low income ($1,951),
                                                                 poor payment history, high DTI (41%)
                                                             </small>
                                                         </td>
@@ -1323,7 +1502,8 @@
                                                             <small class="text-muted">~65% risk</small>
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="fillHighRiskExample()">
+                                                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                                                onclick="fillHighRiskExample()">
                                                                 <i class="fas fa-play"></i>
                                                             </button>
                                                         </td>
@@ -1333,7 +1513,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Instructions -->
                                 <div class="alert alert-info mt-4">
                                     <h6><i class="fas fa-lightbulb me-2"></i>How to Use</h6>
@@ -1357,15 +1537,18 @@
         .tutorial-step {
             min-height: 400px;
         }
+
         .example-data {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 20px;
             border-left: 4px solid #667eea;
         }
+
         .data-section {
             margin-bottom: 20px;
         }
+
         .process-step {
             background: #fff;
             border: 1px solid #dee2e6;
@@ -1373,55 +1556,56 @@
             padding: 15px;
             margin-bottom: 15px;
         }
+
         .btn-group .btn.active {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             border-color: #667eea;
         }
-        
+
         /* Tutorial specific styling */
         .nav-tabs .nav-link {
             border-radius: 10px 10px 0 0;
             margin-right: 5px;
         }
-        
+
         .nav-tabs .nav-link.active {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             border-color: #667eea;
         }
-        
+
         .tab-content {
             border: 1px solid #dee2e6;
             border-top: none;
             border-radius: 0 0 10px 10px;
             padding: 0;
         }
-        
+
         .table th {
             font-size: 0.9em;
             font-weight: 600;
         }
-        
+
         .table td {
             font-size: 0.85em;
             vertical-align: middle;
         }
-        
+
         .accordion-button:not(.collapsed) {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
         }
-        
+
         .accordion-button:focus {
             box-shadow: none;
             border-color: #667eea;
         }
-        
+
         .badge {
             font-size: 0.75em;
         }
-        
+
         code {
             background: #f8f9fa;
             color: #e83e8c;
@@ -1433,7 +1617,7 @@
 
     <script>
         const form = document.getElementById('predictionForm');
-        
+
         // Risk level configurations
         const riskConfigs = {
             'Low': { color: '#28a745', icon: 'fas fa-check-circle', class: 'risk-low' },
@@ -1444,17 +1628,17 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             // Validate all required fields are filled
             const requiredFields = form.querySelectorAll('[required]');
             const missingFields = [];
-            
+
             requiredFields.forEach(field => {
                 if (!field.value || field.value.trim() === '') {
                     missingFields.push(field.getAttribute('name') || field.id);
                 }
             });
-            
+
             if (missingFields.length > 0) {
                 // Highlight missing fields
                 requiredFields.forEach(field => {
@@ -1466,9 +1650,9 @@
                         field.style.borderColor = '';
                     }
                 });
-                
+
                 alert(`Please fill in the following required fields:\n• ${missingFields.join('\n• ')}`);
-                
+
                 // Scroll to first missing field
                 const firstMissing = form.querySelector('[required]:invalid, [required][value=""]');
                 if (firstMissing) {
@@ -1477,68 +1661,68 @@
                 }
                 return;
             }
-            
+
             // Hide instructions and show loading
             document.getElementById('instructions').style.display = 'none';
-            
+
             const formData = new FormData(form);
-            
+
             // Debug: Log all form data being sent
             console.log('Form data being sent:');
             for (let [key, value] of formData.entries()) {
                 console.log(key + ':', value);
             }
-            
+
             try {
                 // Show loading indicator
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalBtnText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
                 submitBtn.disabled = true;
-                
+
                 const response = await fetch('/predict', {
                     method: 'POST',
                     body: new URLSearchParams(formData)
                 });
-                
+
                 if (!response.ok) {
                     const errorText = await response.text();
                     throw new Error(`Server error (${response.status}): ${errorText}`);
                 }
-                
+
                 const result = await response.json();
                 console.log('Prediction result received:', result);
-                
+
                 // Restore button
                 submitBtn.innerHTML = originalBtnText;
                 submitBtn.disabled = false;
-                
+
                 // SHOW RESULTS FIRST (before updating content)
                 console.log('Making results visible...');
                 document.getElementById('results').style.display = 'block';
                 document.getElementById('errorSection').style.display = 'none';
                 document.getElementById('instructions').style.display = 'none';
-                
+
                 // Update risk level with styling
                 const riskConfig = riskConfigs[result.risk_level] || riskConfigs['Moderate'];
                 const riskLevelCard = document.getElementById('riskLevelCard');
                 if (riskLevelCard) {
                     riskLevelCard.className = `output-item ${riskConfig.class}`;
                 }
-                
+
                 const riskLevelEl = document.getElementById('riskLevel');
                 if (riskLevelEl) {
                     riskLevelEl.innerHTML = `<i class="${riskConfig.icon} me-2"></i>${result.risk_level}`;
                 }
-                
+
                 // Update probability
-                const probText = result.delinquency_probability !== null ? 
+                const probText = result.delinquency_probability !== null ?
                     `${(result.delinquency_probability * 100).toFixed(1)}%` : 'N/A';
                 const probabilityEl = document.getElementById('probability');
                 if (probabilityEl) {
                     probabilityEl.textContent = probText;
                 }
-                
+
                 // Update binary classification
                 const binaryText = result.delinquency_flag ? 'High Risk' : 'Low Risk';
                 const binaryColor = result.delinquency_flag ? '#dc3545' : '#28a745';
@@ -1551,32 +1735,32 @@
                 if (binaryDescEl) {
                     binaryDescEl.textContent = `Model predicts: ${result.delinquency_flag ? 'Default Likely' : 'Payment Expected'}`;
                 }
-                
+
                 // Calculate and show confidence
-                const confidence = result.delinquency_probability !== null ? 
+                const confidence = result.delinquency_probability !== null ?
                     Math.abs(result.delinquency_probability - 0.5) * 200 : 0;
                 const confidenceEl = document.getElementById('confidence');
                 if (confidenceEl) {
                     confidenceEl.textContent = `${confidence.toFixed(0)}%`;
                 }
-                
+
                 // Update risk summary
                 const riskSummaryEl = document.getElementById('riskSummary');
                 if (riskSummaryEl) {
-                    riskSummaryEl.textContent = result.risk_summary || 
+                    riskSummaryEl.textContent = result.risk_summary ||
                         'Risk assessment completed based on provided borrower and loan information.';
                 }
-                
+
                 // Update drivers
                 const drivers = result.top_drivers || [];
                 const driversList = document.getElementById('driversList');
                 driversList.innerHTML = '';
-                
+
                 if (drivers.length > 0) {
                     drivers.forEach((driver, index) => {
                         const driverDiv = document.createElement('div');
                         driverDiv.className = `driver-item ${driver.direction === 'Higher Risk' ? 'driver-positive' : 'driver-negative'}`;
-                        
+
                         driverDiv.innerHTML = `
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
@@ -1597,7 +1781,7 @@
                 } else {
                     document.getElementById('driversCard').style.display = 'none';
                 }
-                
+
                 // Generate recommendation
                 let recommendation = '';
                 if (result.risk_level === 'Low') {
@@ -1613,16 +1797,16 @@
                 if (recommendationEl) {
                     recommendationEl.textContent = recommendation;
                 }
-                
+
                 // Final confirmation that results are visible
                 console.log('✅ Results section should now be visible!');
-                
+
             } catch (err) {
                 // Restore button state
                 const submitBtn = form.querySelector('button[type="submit"]');
                 submitBtn.innerHTML = '<i class="fas fa-calculator me-2"></i>Calculate Risk';
                 submitBtn.disabled = false;
-                
+
                 // Show error details
                 console.error('Prediction error:', err);
                 document.getElementById('errorContent').innerHTML = `
@@ -1649,12 +1833,12 @@
         function showTutorialStep(step) {
             // Hide all steps
             document.querySelectorAll('.tutorial-step').forEach(el => el.style.display = 'none');
-            
+
             // Remove active class from all buttons
             document.querySelectorAll('#stepInput, #stepProcess, #stepOutput, #stepTry').forEach(btn => {
                 btn.classList.remove('active');
             });
-            
+
             // Show selected step and activate button
             document.getElementById('tutorial' + step.charAt(0).toUpperCase() + step.slice(1)).style.display = 'block';
             document.getElementById('step' + step.charAt(0).toUpperCase() + step.slice(1)).classList.add('active');
@@ -1670,7 +1854,7 @@
             document.getElementById('loan_purpose').value = 'C86';
             document.getElementById('number_of_borrowers').value = '1';
             document.getElementById('insurance_percent').value = '0';
-            
+
             document.getElementById('debt_to_income_ratio').value = '41';
             document.getElementById('borrower_credit_score').value = '690';
             document.getElementById('co-borrower_credit_score').value = '0';
@@ -1681,14 +1865,14 @@
             document.getElementById('MaritalStatus').value = 'Married';
             document.getElementById('Gender').value = 'Male';
             document.getElementById('EmploymentStatus').value = 'Employed';
-            
+
             document.getElementById('total_on_time_payments').value = '10';
             document.getElementById('total_late_payments').value = '15';
             document.getElementById('avg_payment_delay').value = '12.8';
             document.getElementById('current_dpd').value = '16';
-            
+
             scrollToForm();
-            
+
             // Show success message
             alert('✅ Form filled with real training data example! Click "Analyze Risk Profile" to see the prediction.');
         }
@@ -1703,7 +1887,7 @@
             document.getElementById('loan_purpose').value = 'A23';
             document.getElementById('number_of_borrowers').value = '1';
             document.getElementById('insurance_percent').value = '20';
-            
+
             document.getElementById('debt_to_income_ratio').value = '25';
             document.getElementById('borrower_credit_score').value = '780';
             document.getElementById('co-borrower_credit_score').value = '';
@@ -1714,12 +1898,12 @@
             document.getElementById('MaritalStatus').value = 'Married';
             document.getElementById('Gender').value = 'Female';
             document.getElementById('EmploymentStatus').value = 'Employed';
-            
+
             document.getElementById('total_on_time_payments').value = '24';
             document.getElementById('total_late_payments').value = '0';
             document.getElementById('avg_payment_delay').value = '0';
             document.getElementById('current_dpd').value = '0';
-            
+
             scrollToForm();
             alert('✅ Form filled with LOW RISK profile example!');
         }
@@ -1734,7 +1918,7 @@
             document.getElementById('loan_purpose').value = 'C86';
             document.getElementById('number_of_borrowers').value = '2';
             document.getElementById('insurance_percent').value = '25';
-            
+
             document.getElementById('debt_to_income_ratio').value = '38';
             document.getElementById('borrower_credit_score').value = '680';
             document.getElementById('co-borrower_credit_score').value = '720';
@@ -1745,12 +1929,12 @@
             document.getElementById('MaritalStatus').value = 'Married';
             document.getElementById('Gender').value = 'Male';
             document.getElementById('EmploymentStatus').value = 'Employed';
-            
+
             document.getElementById('total_on_time_payments').value = '15';
             document.getElementById('total_late_payments').value = '3';
             document.getElementById('avg_payment_delay').value = '8.2';
             document.getElementById('current_dpd').value = '0';
-            
+
             scrollToForm();
             alert('✅ Form filled with MODERATE RISK profile example!');
         }
@@ -1761,14 +1945,14 @@
         }
 
         function scrollToForm() {
-            document.querySelector('.container-fluid').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+            document.querySelector('.container-fluid').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
 
         // Batch prediction functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const batchFileInput = document.getElementById('batchFileInput');
             const batchFileName = document.getElementById('batchFileName');
             const batchProcessBtn = document.getElementById('batchProcessBtn');
@@ -1777,7 +1961,7 @@
             const batchResultContent = document.getElementById('batchResultContent');
 
             // Handle file selection
-            batchFileInput.addEventListener('change', function(e) {
+            batchFileInput.addEventListener('change', function (e) {
                 const file = e.target.files[0];
                 if (file) {
                     batchFileName.textContent = file.name;
@@ -1789,32 +1973,32 @@
             });
 
             // Handle batch form submission
-            batchForm.addEventListener('submit', async function(e) {
+            batchForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
-                
+
                 const formData = new FormData();
                 const file = batchFileInput.files[0];
-                
+
                 if (!file) {
                     alert('Please select a CSV file');
                     return;
                 }
-                
+
                 formData.append('file', file);
-                
+
                 // Show loading state
                 batchProcessBtn.disabled = true;
                 batchProcessBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
                 batchResults.style.display = 'none';
-                
+
                 try {
                     const response = await fetch('/batch_predict', {
                         method: 'POST',
                         body: formData
                     });
-                    
+
                     const result = await response.json();
-                    
+
                     if (result.success) {
                         // Display success results
                         batchResultContent.innerHTML = `
@@ -1874,28 +2058,29 @@
         });
     </script>
 
-<!-- Professional Footer -->
-<footer class="mt-5 py-4" style="background: rgba(20, 40, 160, 0.1); backdrop-filter: blur(10px);">
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-calculator text-danger fa-2x me-3"></i>
-                    <div>
-                        <h6 class="mb-0 fw-bold text-dark">Loan Delinquency Risk Assessment</h6>
-                        <small class="text-muted">Advanced ML-powered Risk Analysis & Prediction</small>
+    <!-- Professional Footer -->
+    <footer class="mt-5 py-4" style="background: rgba(20, 40, 160, 0.1); backdrop-filter: blur(10px);">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-calculator text-danger fa-2x me-3"></i>
+                        <div>
+                            <h6 class="mb-0 fw-bold text-dark">Loan Delinquency Risk Assessment</h6>
+                            <small class="text-muted">Advanced ML-powered Risk Analysis & Prediction</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <small class="text-muted">
-                    <i class="fas fa-code me-1"></i>
-                    Worklet 8 • PRISM
-                </small>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <small class="text-muted">
+                        <i class="fas fa-code me-1"></i>
+                        Worklet 8 • PRISM
+                    </small>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
 </body>
+
 </html>

@@ -8,20 +8,24 @@ from sklearn.cluster import KMeans
 import warnings
 warnings.filterwarnings('ignore')
 
+# Define BASE_DIR early
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Load the sales dataset for store performance analysis
+SALES_DATA = None
 try:
-    SALES_DATA = pd.read_csv(os.path.join(BASE_DIR, 'train2.csv'))
-    SALES_DATA['date'] = pd.to_datetime(SALES_DATA['date'])
-    print(f"✓ Loaded sales data: {len(SALES_DATA)} records")
+    sales_path = os.path.join(BASE_DIR, 'train2.csv')
+    if os.path.exists(sales_path):
+        SALES_DATA = pd.read_csv(sales_path)
+        SALES_DATA['date'] = pd.to_datetime(SALES_DATA['date'])
+        print(f"✓ Loaded sales data: {len(SALES_DATA)} records")
 except Exception as e:
     print(f"⚠ Could not load train2.csv: {e}")
-    SALES_DATA = None
 
 # Initialize the Flask app
 app = Flask(__name__)
 
-# --- Configuration ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# --- Configuration (BASE_DIR already defined above) ---
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 TEMPLATE_MAIN = 'index.html'
 if not os.path.exists(UPLOAD_FOLDER):

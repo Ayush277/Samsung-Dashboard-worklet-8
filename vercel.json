@@ -3,64 +3,13 @@
     "builds": [
         {
             "src": "dashboard/app.py",
-            "use": "@vercel/python",
-            "config": {
-                "maxLambdaSize": "50mb"
-            }
-        },
-        {
-            "src": "Loan delinquency risk/app.py",
-            "use": "@vercel/python",
-            "config": {
-                "maxLambdaSize": "50mb"
-            }
-        },
-        {
-            "src": "Campaign performance (marketing)/app.py",
-            "use": "@vercel/python",
-            "config": {
-                "maxLambdaSize": "50mb"
-            }
-        },
-        {
-            "src": "Sell-out performance forecasting (sales uplift)/pipeline/app.py",
-            "use": "@vercel/python",
-            "config": {
-                "maxLambdaSize": "50mb"
-            }
+            "use": "@vercel/python"
         }
     ],
     "routes": [
         {
-            "src": "/loan/(.*)",
-            "dest": "Loan delinquency risk/app.py"
-        },
-        {
-            "src": "/loan",
-            "dest": "Loan delinquency risk/app.py"
-        },
-        {
-            "src": "/campaign/(.*)",
-            "dest": "Campaign performance (marketing)/app.py"
-        },
-        {
-            "src": "/campaign",
-            "dest": "Campaign performance (marketing)/app.py"
-        },
-        {
-            "src": "/sales/(.*)",
-            "dest": "Sell-out performance forecasting (sales uplift)/pipeline/app.py"
-        },
-        {
-            "src": "/sales",
-            "dest": "Sell-out performance forecasting (sales uplift)/pipeline/app.py"
-        },
-        {
             "src": "/(.*)",
             "dest": "dashboard/app.py"
         }
-    ],
-    "env": {
-        "PYTHONUNBUFFERED": "1"
-    }
+    ]
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Campaign Performance (Marketing) - Store Analysis & Campaign Intelligence</title>
@@ -18,287 +19,360 @@
             --shadow-hover: 0 20px 40px rgba(20, 40, 160, 0.25);
         }
 
-        body { 
-            background: var(--gradient-primary); 
-            min-height: 100vh; 
+        body {
+            background: var(--gradient-primary);
+            min-height: 100vh;
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             background-attachment: fixed;
         }
-        
-        .main-container { 
-            margin: 40px auto; 
+
+        .main-container {
+            margin: 40px auto;
             max-width: 1200px;
             padding: 0 20px;
         }
-        
-        .card { 
-            border: none; 
-            border-radius: 20px; 
+
+        .card {
+            border: none;
+            border-radius: 20px;
             box-shadow: var(--shadow-elegant);
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
         }
-        
-        .card-header { 
+
+        .card-header {
             background: var(--gradient-primary);
-            color: white; 
-            border-radius: 20px 20px 0 0 !important; 
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
             padding: 30px;
             border: none;
         }
-        
-        .nav-pills .nav-link { 
-            color: var(--samsung-blue); 
+
+        .nav-pills .nav-link {
+            color: var(--samsung-blue);
             border-radius: 12px;
             padding: 12px 20px;
             font-weight: 500;
             margin: 0 5px;
             transition: all 0.3s ease;
         }
-        
-        .nav-pills .nav-link.active { 
+
+        .nav-pills .nav-link.active {
             background: var(--gradient-primary);
             color: white;
             box-shadow: 0 4px 15px rgba(20, 40, 160, 0.3);
         }
-        
+
         .nav-pills .nav-link:hover:not(.active) {
             background: rgba(20, 40, 160, 0.1);
             transform: translateY(-2px);
         }
-        
-        .form-control, .form-select { 
-            border-radius: 12px; 
+
+        .form-control,
+        .form-select {
+            border-radius: 12px;
             padding: 14px 16px;
             border: 2px solid #e9ecef;
             font-size: 0.95rem;
             transition: all 0.3s ease;
         }
-        
-        .form-control:focus, .form-select:focus {
+
+        .form-control:focus,
+        .form-select:focus {
             border-color: var(--samsung-blue);
             box-shadow: 0 0 0 0.2rem rgba(20, 40, 160, 0.25);
         }
-        
-        .btn-primary { 
+
+        .btn-primary {
             background: var(--gradient-primary);
-            border: none; 
-            border-radius: 12px; 
-            padding: 14px 28px; 
+            border: none;
+            border-radius: 12px;
+            padding: 14px 28px;
             font-weight: 600;
             font-size: 0.95rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(20, 40, 160, 0.3);
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(20, 40, 160, 0.4);
         }
-        
-        .btn-secondary { 
-            border-radius: 12px; 
-            padding: 14px 28px; 
+
+        .btn-secondary {
+            border-radius: 12px;
+            padding: 14px 28px;
             font-weight: 600;
             background: #6c757d;
             border: none;
             transition: all 0.3s ease;
         }
-        
-        .upload-area { 
-            border: 3px dashed var(--samsung-blue); 
-            border-radius: 16px; 
-            padding: 50px 30px; 
-            text-align: center; 
+
+        .upload-area {
+            border: 3px dashed var(--samsung-blue);
+            border-radius: 16px;
+            padding: 50px 30px;
+            text-align: center;
             background: rgba(20, 40, 160, 0.05);
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .upload-area:hover {
             background: rgba(20, 40, 160, 0.1);
             border-color: var(--prism-primary);
             transform: translateY(-2px);
         }
-        
-        .results-card { 
-            margin-top: 25px; 
+
+        .results-card {
+            margin-top: 25px;
             border-left: 5px solid var(--campaign-accent);
             border-radius: 16px;
         }
-        
-        .navbar-gradient { 
+
+        .navbar-gradient {
             background: var(--gradient-primary);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(20, 40, 160, 0.3);
         }
-        
-        .navbar-brand { 
-            color: #fff !important; 
+
+        .navbar-brand {
+            color: #fff !important;
             font-weight: 700;
             font-size: 1.4rem;
         }
-        
+
         /* Professional Prediction Results Styling */
-        .prediction-results { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .campaign-focused { border: 2px solid #ff5722; border-radius: 10px; padding: 20px; }
-        .campaign-section { 
-            background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%); 
-            color: white; 
-            border-radius: 8px; 
-            padding: 15px; 
-            margin-bottom: 15px; 
+        .prediction-results {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .campaign-section h6 { color: white; border-bottom-color: rgba(255,255,255,0.3); }
-        .campaign-score-high { color: #4caf50; font-weight: 700; font-size: 1.2em; }
-        .campaign-score-medium { color: #ff9800; font-weight: 700; font-size: 1.2em; }
-        .campaign-score-low { color: #f44336; font-weight: 700; font-size: 1.2em; }
-        .data-transparency { 
-            background: #e8f5e8; 
-            border-radius: 8px; 
-            padding: 15px; 
-            margin-top: 20px; 
-            border-left: 3px solid #4caf50; 
+
+        .campaign-focused {
+            border: 2px solid #ff5722;
+            border-radius: 10px;
+            padding: 20px;
         }
-        .transparency-list { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            font-size: 0.9em; 
-            background: white; 
-            padding: 10px; 
-            border-radius: 5px; 
-            border: 1px solid #c8e6c9; 
+
+        .campaign-section {
+            background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
         }
-        .result-header h5 { color: #2c3e50; margin-bottom: 20px; font-weight: 600; }
-        .result-section { 
-            background: #f8f9fa; 
-            border-radius: 8px; 
-            padding: 15px; 
-            margin-bottom: 15px; 
-            border-left: 3px solid #667eea; 
+
+        .campaign-section h6 {
+            color: white;
+            border-bottom-color: rgba(255, 255, 255, 0.3);
         }
-        .formula-transparency { 
-            background: #e3f2fd; 
-            border-radius: 8px; 
-            padding: 15px; 
-            margin-top: 20px; 
-            border-left: 3px solid #2196f3; 
+
+        .campaign-score-high {
+            color: #4caf50;
+            font-weight: 700;
+            font-size: 1.2em;
         }
-        .formula-list { 
-            font-family: 'Courier New', monospace; 
-            font-size: 0.9em; 
-            background: white; 
-            padding: 10px; 
-            border-radius: 5px; 
-            border: 1px solid #ccc; 
+
+        .campaign-score-medium {
+            color: #ff9800;
+            font-weight: 700;
+            font-size: 1.2em;
         }
-        .result-section h6 { 
-            color: #495057; 
-            font-weight: 600; 
-            margin-bottom: 10px; 
-            border-bottom: 1px solid #dee2e6; 
-            padding-bottom: 5px; 
+
+        .campaign-score-low {
+            color: #f44336;
+            font-weight: 700;
+            font-size: 1.2em;
         }
-        .result-list { list-style: none; padding-left: 0; margin-bottom: 0; }
-        .result-list li { 
-            padding: 5px 0; 
-            border-bottom: 1px solid #e9ecef; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+
+        .data-transparency {
+            background: #e8f5e8;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 3px solid #4caf50;
         }
-        .result-list li:last-child { border-bottom: none; }
-        .highlight-value { 
-            font-weight: 700; 
-            font-size: 1.1em; 
-            color: #2c3e50; 
+
+        .transparency-list {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.9em;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #c8e6c9;
         }
-        .channel-badge { 
-            background: linear-gradient(45deg, #667eea, #764ba2); 
-            color: white; 
-            padding: 4px 12px; 
-            border-radius: 20px; 
-            font-weight: 600; 
-            font-size: 0.9em; 
+
+        .result-header h5 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
-        .recommendation-section { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-            color: white; 
-            border-left: 3px solid #ffc107; 
+
+        .result-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #667eea;
         }
-        .recommendation-section h6 { 
-            color: white; 
-            border-bottom-color: rgba(255,255,255,0.3); 
+
+        .formula-transparency {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 3px solid #2196f3;
         }
-        .recommendation-box { 
-            background: rgba(255,255,255,0.1); 
-            border-radius: 8px; 
-            padding: 15px; 
-            text-align: center; 
+
+        .formula-list {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
-        .recommendation-text { 
-            font-size: 1.2em; 
-            font-weight: 600; 
-            margin-bottom: 8px; 
+
+        .result-section h6 {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 5px;
         }
-        .recommendation-details { 
-            font-style: italic; 
-            opacity: 0.8; 
+
+        .result-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
         }
-        
+
+        .result-list li {
+            padding: 5px 0;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-list li:last-child {
+            border-bottom: none;
+        }
+
+        .highlight-value {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+
+        .channel-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .recommendation-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-left: 3px solid #ffc107;
+        }
+
+        .recommendation-section h6 {
+            color: white;
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .recommendation-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .recommendation-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-details {
+            font-style: italic;
+            opacity: 0.8;
+        }
+
         /* Example Demo Styling */
-        .example-section { padding: 15px; }
-        .example-card { 
-            background: #f8f9fa; 
-            border-radius: 10px; 
-            padding: 15px; 
-            margin-bottom: 20px; 
-            border: 1px solid #e9ecef; 
+        .example-section {
+            padding: 15px;
         }
-        .example-card h6 { 
-            color: #495057; 
-            margin-bottom: 10px; 
-            font-weight: 600; 
+
+        .example-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
         }
-        .example-list { 
-            list-style: none; 
-            padding-left: 0; 
+
+        .example-card h6 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
-        .example-list li { 
-            padding: 3px 0; 
-            font-size: 0.9em; 
+
+        .example-list {
+            list-style: none;
+            padding-left: 0;
         }
-        .feature-showcase { 
-            background: #f8f9fa; 
-            border-radius: 10px; 
-            padding: 20px; 
+
+        .example-list li {
+            padding: 3px 0;
+            font-size: 0.9em;
         }
-        .feature-item { 
-            text-align: center; 
-            padding: 15px; 
+
+        .feature-showcase {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
         }
-        .feature-icon { 
-            font-size: 2em; 
-            color: #667eea; 
-            margin-bottom: 10px; 
+
+        .feature-item {
+            text-align: center;
+            padding: 15px;
         }
-        .usage-guide { 
-            background: #e8f4fd; 
-            border-radius: 10px; 
-            padding: 20px; 
+
+        .feature-icon {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 10px;
         }
-        .usage-steps { 
-            margin-bottom: 0; 
+
+        .usage-guide {
+            background: #e8f4fd;
+            border-radius: 10px;
+            padding: 20px;
         }
-        .usage-steps li { 
-            margin-bottom: 10px; 
+
+        .usage-steps {
+            margin-bottom: 0;
+        }
+
+        .usage-steps li {
+            margin-bottom: 10px;
         }
     </style>
 </head>
+
 <body data-has-models="{{ 1 if available_models|length > 0 else 0 }}">
     <nav class="navbar navbar-expand-lg navbar-gradient">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><i class="fas fa-gauge-high me-2"></i>Worklet 8 - Campaign Performance</a>
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.png" alt="Samsung"
+                    style="height: 30px; filter: brightness(0) invert(1);" class="me-3">
+                <span>Worklet 8 - Campaign Performance</span>
+            </a>
         </div>
     </nav>
     <div class="container main-container">
@@ -311,21 +385,24 @@
                     </div>
                     <div class="card-body p-4">
                         {% if warning %}
-                            <div class="alert alert-warning">{{ warning }}</div>
+                        <div class="alert alert-warning">{{ warning }}</div>
                         {% endif %}
                         <ul class="nav nav-pills nav-fill mb-4" id="predictionTabs">
                             <li class="nav-item">
-                                <button class="nav-link active" id="single-tab" data-bs-toggle="tab" data-bs-target="#single-prediction" type="button" role="tab">
+                                <button class="nav-link active" id="single-tab" data-bs-toggle="tab"
+                                    data-bs-target="#single-prediction" type="button" role="tab">
                                     <i class="fas fa-user me-2"></i>Single Prediction
                                 </button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" id="batch-tab" data-bs-toggle="tab" data-bs-target="#batch-prediction" type="button" role="tab">
+                                <button class="nav-link" id="batch-tab" data-bs-toggle="tab"
+                                    data-bs-target="#batch-prediction" type="button" role="tab">
                                     <i class="fas fa-file-csv me-2"></i>Batch Prediction
                                 </button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" id="example-tab" data-bs-toggle="tab" data-bs-target="#example-demo" type="button" role="tab">
+                                <button class="nav-link" id="example-tab" data-bs-toggle="tab"
+                                    data-bs-target="#example-demo" type="button" role="tab">
                                     <i class="fas fa-play-circle me-2"></i>Live Example
                                 </button>
                             </li>
@@ -337,22 +414,26 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="store" class="form-label">Store Number</label>
-                                            <input type="number" class="form-control" id="store" name="store" placeholder="e.g., 1" required>
+                                            <input type="number" class="form-control" id="store" name="store"
+                                                placeholder="e.g., 1" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="item" class="form-label">Item Number</label>
-                                            <input type="number" class="form-control" id="item" name="item" placeholder="e.g., 1" required>
+                                            <input type="number" class="form-control" id="item" name="item"
+                                                placeholder="e.g., 1" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="month" class="form-label">Month</label>
                                             <select class="form-select" id="month" name="month" required>
-                                                {% for i in range(1, 13) %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
+                                                {% for i in range(1, 13) %}<option value="{{ i }}">{{ i }}</option>{%
+                                                endfor %}
                                             </select>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="day" class="form-label">Day</label>
                                             <select class="form-select" id="day" name="day" required>
-                                                {% for i in range(1, 32) %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
+                                                {% for i in range(1, 32) %}<option value="{{ i }}">{{ i }}</option>{%
+                                                endfor %}
                                             </select>
                                         </div>
                                         <div class="col-md-12 mb-3">
@@ -378,11 +459,12 @@
                             <div class="tab-pane fade" id="batch-prediction" role="tabpanel">
                                 <form id="batchForm" enctype="multipart/form-data">
                                     <div class="upload-area" tabindex="0" role="button" aria-label="Upload CSV file"
-                                         onclick="document.getElementById('fileInput').click();"
-                                         onkeydown="if(event.key==='Enter'||event.key===' '){document.getElementById('fileInput').click();}">
+                                        onclick="document.getElementById('fileInput').click();"
+                                        onkeydown="if(event.key==='Enter'||event.key===' '){document.getElementById('fileInput').click();}">
                                         <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
                                         <h4>Upload Store Performance CSV</h4>
-                                        <p class="text-muted" id="fileName">Upload CSV with columns: date, store, item</p>
+                                        <p class="text-muted" id="fileName">Upload CSV with columns: date, store, item
+                                        </p>
                                         <input type="file" id="fileInput" name="file" class="d-none" accept=".csv">
                                         <div class="mt-3">
                                             <small class="text-info">
@@ -400,12 +482,14 @@
                                     <div class="text-center mt-3">
                                         <div class="row g-2 justify-content-center">
                                             <div class="col-md-6">
-                                                <button type="submit" class="btn btn-primary btn-lg w-100" id="batchProcessBtn" disabled>
+                                                <button type="submit" class="btn btn-primary btn-lg w-100"
+                                                    id="batchProcessBtn" disabled>
                                                     <i class="fas fa-chart-bar me-2"></i>Analyze Batch Performance
                                                 </button>
                                             </div>
                                             <div class="col-md-4">
-                                                <a href="/sample_csv" class="btn btn-outline-secondary btn-lg w-100" download>
+                                                <a href="/sample_csv" class="btn btn-outline-secondary btn-lg w-100"
+                                                    download>
                                                     <i class="fas fa-download me-2"></i>Sample CSV
                                                 </a>
                                             </div>
@@ -415,12 +499,17 @@
                             </div>
 
                             <div class="tab-pane fade" id="example-demo" role="tabpanel">
-                                <div class="example-section">                    <div class="alert alert-info">
-                        <h5><i class="fas fa-bullhorn me-2"></i>Campaign Performance System - Clean & Focused</h5>
-                        <p><strong>Only Campaign Performance:</strong> This system provides ONLY the essential campaign metrics you need.</p>
-                        <p><strong>3 Key Metrics:</strong> Performance Score (0-100), Expected Uplift (%), Campaign Readiness (High/Medium/Low)</p>
-                        <p><strong>Clean Output:</strong> No excessive columns, no complex analysis - just campaign performance insights.</p>
-                    </div>
+                                <div class="example-section">
+                                    <div class="alert alert-info">
+                                        <h5><i class="fas fa-bullhorn me-2"></i>Campaign Performance System - Clean &
+                                            Focused</h5>
+                                        <p><strong>Only Campaign Performance:</strong> This system provides ONLY the
+                                            essential campaign metrics you need.</p>
+                                        <p><strong>3 Key Metrics:</strong> Performance Score (0-100), Expected Uplift
+                                            (%), Campaign Readiness (High/Medium/Low)</p>
+                                        <p><strong>Clean Output:</strong> No excessive columns, no complex analysis -
+                                            just campaign performance insights.</p>
+                                    </div>
 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -429,10 +518,18 @@
                                                 <div class="example-data">
                                                     <table class="table table-sm">
                                                         <thead>
-                                                            <tr><th>Store</th><th>Item</th><th>Date</th></tr>
+                                                            <tr>
+                                                                <th>Store</th>
+                                                                <th>Item</th>
+                                                                <th>Date</th>
+                                                            </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr><td>Store 3</td><td>Item 12</td><td>June 15, 2013</td></tr>
+                                                            <tr>
+                                                                <td>Store 3</td>
+                                                                <td>Item 12</td>
+                                                                <td>June 15, 2013</td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -443,57 +540,69 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="example-card">
-                                                <h6><i class="fas fa-chart-bar me-2"></i>AI-Enhanced Output</h6>                                <div class="example-output">
-                                    <ul class="example-list">
-                                        <li><strong>Current Sales:</strong> <span class="text-success">20 units</span></li>
-                                        <li><strong>Baseline Sales:</strong> <span class="text-muted">31 units</span></li>
-                                        <li><strong>Top Performer:</strong> <span class="text-danger">NO</span></li>
-                                        <li><strong>Underperformer:</strong> <span class="text-danger">YES by $11.00</span></li>
-                                        <li><strong>Performance:</strong> <span class="text-danger">-35.5% below baseline</span></li>
-                                    </ul>
-                                    <div class="formula-preview">
-                                        <small class="text-muted">
-                                            <strong>Simple & Clean:</strong> Only essential campaign performance metrics
-                                        </small>
-                                    </div>
-                                </div>
+                                                <h6><i class="fas fa-chart-bar me-2"></i>AI-Enhanced Output</h6>
+                                                <div class="example-output">
+                                                    <ul class="example-list">
+                                                        <li><strong>Current Sales:</strong> <span
+                                                                class="text-success">20 units</span></li>
+                                                        <li><strong>Baseline Sales:</strong> <span class="text-muted">31
+                                                                units</span></li>
+                                                        <li><strong>Top Performer:</strong> <span
+                                                                class="text-danger">NO</span></li>
+                                                        <li><strong>Underperformer:</strong> <span
+                                                                class="text-danger">YES by $11.00</span></li>
+                                                        <li><strong>Performance:</strong> <span
+                                                                class="text-danger">-35.5% below baseline</span></li>
+                                                    </ul>
+                                                    <div class="formula-preview">
+                                                        <small class="text-muted">
+                                                            <strong>Simple & Clean:</strong> Only essential campaign
+                                                            performance metrics
+                                                        </small>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="feature-showcase mt-4">
                                         <h6><i class="fas fa-star me-2"></i>Key Features</h6>
-                                        <div class="row">                            <div class="col-md-4">
-                                <div class="feature-item">
-                                    <i class="fas fa-trophy feature-icon"></i>
-                                    <h7>Top Performers</h7>
-                                    <p class="text-muted small">YES/NO for stores with 25%+ uplift</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="feature-item">
-                                    <i class="fas fa-exclamation-triangle feature-icon"></i>
-                                    <h7>Underperformers</h7>
-                                    <p class="text-muted small">Dollar amounts for -10% or worse</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="feature-item">
-                                    <i class="fas fa-chart-line feature-icon"></i>
-                                    <h7>Performance Details</h7>
-                                    <p class="text-muted small">Actual vs baseline sales analysis</p>
-                                </div>
-                            </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="feature-item">
+                                                    <i class="fas fa-trophy feature-icon"></i>
+                                                    <h7>Top Performers</h7>
+                                                    <p class="text-muted small">YES/NO for stores with 25%+ uplift</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="feature-item">
+                                                    <i class="fas fa-exclamation-triangle feature-icon"></i>
+                                                    <h7>Underperformers</h7>
+                                                    <p class="text-muted small">Dollar amounts for -10% or worse</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="feature-item">
+                                                    <i class="fas fa-chart-line feature-icon"></i>
+                                                    <h7>Performance Details</h7>
+                                                    <p class="text-muted small">Actual vs baseline sales analysis</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="usage-guide mt-4">
                                         <h6><i class="fas fa-question-circle me-2"></i>How to Use</h6>
                                         <ol class="usage-steps">
-                                            <li><strong>Single Prediction:</strong> Select store, item, and date from dropdowns for instant analysis</li>
-                                            <li><strong>Batch Processing:</strong> Upload CSV with 'date', 'store', 'item' columns for bulk analysis</li>
-                                            <li><strong>Download Results:</strong> Get enriched CSV with 6 new strategic columns</li>
-                                            <li><strong>Implement Insights:</strong> Use AI recommendations for campaign optimization</li>
+                                            <li><strong>Single Prediction:</strong> Select store, item, and date from
+                                                dropdowns for instant analysis</li>
+                                            <li><strong>Batch Processing:</strong> Upload CSV with 'date', 'store',
+                                                'item' columns for bulk analysis</li>
+                                            <li><strong>Download Results:</strong> Get enriched CSV with 6 new strategic
+                                                columns</li>
+                                            <li><strong>Implement Insights:</strong> Use AI recommendations for campaign
+                                                optimization</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -512,7 +621,7 @@
                                     <p class="text-muted">Comprehensive store performance insights and metrics</p>
                                 </div>
                             </div>
-                            
+
                             <!-- Performance Summary -->
                             <div class="card results-card mb-4 shadow-lg">
                                 <div class="card-header text-white" style="background: var(--gradient-primary);">
@@ -530,12 +639,13 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Store Performance Categories -->
                             <div class="row g-4">
                                 <!-- Top Performers -->
                                 <div class="col-lg-4 col-md-6">
-                                    <div class="card h-100 shadow-sm border-0" style="border-left: 5px solid #28a745 !important;">
+                                    <div class="card h-100 shadow-sm border-0"
+                                        style="border-left: 5px solid #28a745 !important;">
                                         <div class="card-header bg-success text-white">
                                             <div class="d-flex align-items-center">
                                                 <i class="fas fa-trophy fa-lg me-2"></i>
@@ -547,24 +657,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Underperformers -->
                                 <div class="col-md-4 mb-3">
                                     <div class="card border-danger">
                                         <div class="card-header bg-danger text-white">
-                                            <h6 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Underperforming Stores</h6>
+                                            <h6 class="mb-0"><i
+                                                    class="fas fa-exclamation-triangle me-2"></i>Underperforming Stores
+                                            </h6>
                                         </div>
                                         <div class="card-body" id="underperformersCard">
                                             <!-- Underperformers will be populated here -->
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Performance Details -->
                                 <div class="col-md-4 mb-3">
                                     <div class="card border-info">
                                         <div class="card-header bg-info text-white">
-                                            <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Performance Details</h6>
+                                            <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Performance Details
+                                            </h6>
                                         </div>
                                         <div class="card-body" id="performanceDetailsCard">
                                             <!-- Performance details will be populated here -->
@@ -575,7 +688,7 @@
                         </div>
 
                         <div id="results-area" class="mt-4">
-                             {% if prediction_text %}
+                            {% if prediction_text %}
                             <div class="card results-card">
                                 <div class="card-body text-center">
                                     <h4 class="card-title">{{ prediction_text|safe }}</h4>
@@ -589,143 +702,143 @@
         </div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Show selected filename for batch upload
-    const fileInput = document.getElementById('fileInput');
-    const fileInfo = document.getElementById('fileInfo');
-    const selectedFileName = document.getElementById('selectedFileName');
-    const batchProcessBtn = document.getElementById('batchProcessBtn');
-    
-    if (fileInput) {
-        fileInput.onchange = () => {
-            if (fileInput.files.length > 0) {
-                selectedFileName.textContent = fileInput.files[0].name;
-                fileInfo.style.display = 'block';
-                batchProcessBtn.disabled = false;
-            } else {
-                fileInfo.style.display = 'none';
-                batchProcessBtn.disabled = true;
-            }
-        };
-    }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show selected filename for batch upload
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const selectedFileName = document.getElementById('selectedFileName');
+        const batchProcessBtn = document.getElementById('batchProcessBtn');
 
-    // Handle single prediction form
-    const singleForm = document.getElementById('singlePredictionForm');
-    if (singleForm) {
-        singleForm.onsubmit = async (e) => {
-            e.preventDefault();
-            
-            const formData = new FormData(singleForm);
-            const store = formData.get('store');
-            const item = formData.get('item');
-            const month = formData.get('month');
-            const day = formData.get('day');
-            const year = formData.get('year');
-            const date = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-            
-            // Show loading
-            showLoading('Analyzing store performance...');
-            
-            try {
-                const response = await fetch('/analyze_store_performance', {
-                    method: 'POST',
-                    body: new URLSearchParams({
-                        date: date,
-                        item_number: item,
-                        store_ids: store
-                    }),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+        if (fileInput) {
+            fileInput.onchange = () => {
+                if (fileInput.files.length > 0) {
+                    selectedFileName.textContent = fileInput.files[0].name;
+                    fileInfo.style.display = 'block';
+                    batchProcessBtn.disabled = false;
+                } else {
+                    fileInfo.style.display = 'none';
+                    batchProcessBtn.disabled = true;
+                }
+            };
+        }
+
+        // Handle single prediction form
+        const singleForm = document.getElementById('singlePredictionForm');
+        if (singleForm) {
+            singleForm.onsubmit = async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(singleForm);
+                const store = formData.get('store');
+                const item = formData.get('item');
+                const month = formData.get('month');
+                const day = formData.get('day');
+                const year = formData.get('year');
+                const date = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+                // Show loading
+                showLoading('Analyzing store performance...');
+
+                try {
+                    const response = await fetch('/analyze_store_performance', {
+                        method: 'POST',
+                        body: new URLSearchParams({
+                            date: date,
+                            item_number: item,
+                            store_ids: store
+                        }),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        displayStorePerformanceResults(data);
+                    } else {
+                        showError(data.error);
                     }
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    displayStorePerformanceResults(data);
-                } else {
-                    showError(data.error);
+                } catch (error) {
+                    showError('Failed to analyze store performance: ' + error.message);
                 }
-            } catch (error) {
-                showError('Failed to analyze store performance: ' + error.message);
-            }
-        };
-    }
+            };
+        }
 
-    // Handle batch form submission
-    const batchForm = document.getElementById('batchForm');
-    if (batchForm) {
-        batchForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const formData = new FormData(batchForm);
-            
-            if (!fileInput || !fileInput.files[0]) {
-                showError('Please select a CSV file to upload.');
-                return;
-            }
+        // Handle batch form submission
+        const batchForm = document.getElementById('batchForm');
+        if (batchForm) {
+            batchForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const formData = new FormData(batchForm);
 
-            showLoading('Processing batch analysis...');
-
-            try {
-                const response = await fetch('/batch_predict', {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
-
-                if (data.success) {
-                    displayBatchPredictionResults(data);
-                } else {
-                    showError(data.error);
+                if (!fileInput || !fileInput.files[0]) {
+                    showError('Please select a CSV file to upload.');
+                    return;
                 }
-            } catch (err) {
-                showError('Failed to process batch analysis: ' + err.message);
-            }
-        };
-    }
 
-    // Utility functions
-    function showLoading(message) {
-        const resultsArea = document.getElementById('results-area');
-        const performanceResults = document.getElementById('performanceResults');
-        
-        resultsArea.innerHTML = `<div class="text-center p-3"><h4><i class="fas fa-spinner fa-spin me-2"></i>${message}</h4></div>`;
-        performanceResults.style.display = 'none';
-    }
+                showLoading('Processing batch analysis...');
 
-    function showError(message) {
-        const resultsArea = document.getElementById('results-area');
-        const performanceResults = document.getElementById('performanceResults');
-        
-        resultsArea.innerHTML = `<div class="alert alert-danger"><strong>Error:</strong> ${message}</div>`;
-        performanceResults.style.display = 'none';
-    }
+                try {
+                    const response = await fetch('/batch_predict', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
 
-    function displayStorePerformanceResults(data) {
-        // Hide loading and show results
-        document.getElementById('results-area').innerHTML = '';
-        document.getElementById('performanceResults').style.display = 'block';
+                    if (data.success) {
+                        displayBatchPredictionResults(data);
+                    } else {
+                        showError(data.error);
+                    }
+                } catch (err) {
+                    showError('Failed to process batch analysis: ' + err.message);
+                }
+            };
+        }
 
-        // Display performance summary
-        displayPerformanceSummary(data.summary_stats, data.analysis_info);
+        // Utility functions
+        function showLoading(message) {
+            const resultsArea = document.getElementById('results-area');
+            const performanceResults = document.getElementById('performanceResults');
 
-        // Display top performers
-        displayTopPerformers(data.top_performers_detailed || []);
+            resultsArea.innerHTML = `<div class="text-center p-3"><h4><i class="fas fa-spinner fa-spin me-2"></i>${message}</h4></div>`;
+            performanceResults.style.display = 'none';
+        }
 
-        // Display underperformers
-        displayUnderperformers(data.underperformers_detailed || []);
+        function showError(message) {
+            const resultsArea = document.getElementById('results-area');
+            const performanceResults = document.getElementById('performanceResults');
 
-        // Display performance details
-        displayPerformanceDetails(data.campaign_performance || {});
+            resultsArea.innerHTML = `<div class="alert alert-danger"><strong>Error:</strong> ${message}</div>`;
+            performanceResults.style.display = 'none';
+        }
 
-        // Scroll to results
-        document.getElementById('performanceResults').scrollIntoView({ behavior: 'smooth' });
-    }
+        function displayStorePerformanceResults(data) {
+            // Hide loading and show results
+            document.getElementById('results-area').innerHTML = '';
+            document.getElementById('performanceResults').style.display = 'block';
 
-    function displayPerformanceSummary(stats, info) {
-        const summary = document.getElementById('performanceSummary');
-        summary.innerHTML = `
+            // Display performance summary
+            displayPerformanceSummary(data.summary_stats, data.analysis_info);
+
+            // Display top performers
+            displayTopPerformers(data.top_performers_detailed || []);
+
+            // Display underperformers
+            displayUnderperformers(data.underperformers_detailed || []);
+
+            // Display performance details
+            displayPerformanceDetails(data.campaign_performance || {});
+
+            // Scroll to results
+            document.getElementById('performanceResults').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function displayPerformanceSummary(stats, info) {
+            const summary = document.getElementById('performanceSummary');
+            summary.innerHTML = `
             <div class="col-md-3">
                 <div class="text-center">
                     <h3 class="text-primary">${stats.total_stores}</h3>
@@ -751,67 +864,67 @@
                 </div>
             </div>
         `;
-    }
+        }
 
-    function displayTopPerformers(topPerformers) {
-        const card = document.getElementById('topPerformersCard');
-        
-        if (topPerformers.length > 0) {
-            let content = `<div class="mb-3"><strong>Top Performing Stores:</strong> <span class="badge bg-success">YES</span></div>`;
-            topPerformers.forEach(store => {
-                content += `
+        function displayTopPerformers(topPerformers) {
+            const card = document.getElementById('topPerformersCard');
+
+            if (topPerformers.length > 0) {
+                let content = `<div class="mb-3"><strong>Top Performing Stores:</strong> <span class="badge bg-success">YES</span></div>`;
+                topPerformers.forEach(store => {
+                    content += `
                     <div class="mb-2 p-2 bg-light border-start border-success border-3">
                         <strong>Store ${store.store_id}</strong> - Item ${store.item_number}<br>
                         <small class="text-success">Performance: ${store.performance_by_amount}</small>
                     </div>
                 `;
-            });
-            card.innerHTML = content;
-        } else {
-            card.innerHTML = `
+                });
+                card.innerHTML = content;
+            } else {
+                card.innerHTML = `
                 <div class="mb-3"><strong>Top Performing Stores:</strong> <span class="badge bg-secondary">NO</span></div>
                 <p class="text-muted">No stores met the top performer criteria (25%+ uplift)</p>
             `;
+            }
         }
-    }
 
-    function displayUnderperformers(underperformers) {
-        const card = document.getElementById('underperformersCard');
-        
-        if (underperformers.length > 0) {
-            let content = `<div class="mb-3"><strong>Underperforming Stores:</strong> <span class="badge bg-danger">YES</span></div>`;
-            underperformers.forEach(store => {
-                content += `
+        function displayUnderperformers(underperformers) {
+            const card = document.getElementById('underperformersCard');
+
+            if (underperformers.length > 0) {
+                let content = `<div class="mb-3"><strong>Underperforming Stores:</strong> <span class="badge bg-danger">YES</span></div>`;
+                underperformers.forEach(store => {
+                    content += `
                     <div class="mb-2 p-2 bg-light border-start border-danger border-3">
                         <strong>Store ${store.store_id}</strong> - Item ${store.item_number}<br>
                         <small class="text-danger">Underperforming by: ${store.underperforming_by}</small><br>
                         <small>Performance: ${store.performance_by_amount}</small>
                     </div>
                 `;
-            });
-            card.innerHTML = content;
-        } else {
-            card.innerHTML = `
+                });
+                card.innerHTML = content;
+            } else {
+                card.innerHTML = `
                 <div class="mb-3"><strong>Underperforming Stores:</strong> <span class="badge bg-success">NO</span></div>
                 <p class="text-muted">No stores are significantly underperforming</p>
             `;
+            }
         }
-    }
 
-    function displayPerformanceDetails(campaignData) {
-        const card = document.getElementById('performanceDetailsCard');
-        
-        let content = `
+        function displayPerformanceDetails(campaignData) {
+            const card = document.getElementById('performanceDetailsCard');
+
+            let content = `
             <div class="mb-3">
                 <strong>Campaign Performance</strong>
             </div>
         `;
-        
-        if (campaignData.success_rate !== undefined) {
-            const effectivenessClass = campaignData.campaign_effectiveness === 'high' ? 'success' : 
-                                     campaignData.campaign_effectiveness === 'medium' ? 'warning' : 'danger';
-            
-            content += `
+
+            if (campaignData.success_rate !== undefined) {
+                const effectivenessClass = campaignData.campaign_effectiveness === 'high' ? 'success' :
+                    campaignData.campaign_effectiveness === 'medium' ? 'warning' : 'danger';
+
+                content += `
                 <div class="d-flex justify-content-between mb-2">
                     <span>Success Rate:</span>
                     <strong>${campaignData.success_rate}%</strong>
@@ -826,29 +939,29 @@
                 </div>
                 <span class="badge bg-${effectivenessClass}">${campaignData.campaign_effectiveness.toUpperCase()} Effectiveness</span>
             `;
-        } else {
-            content += '<p class="text-muted">Campaign performance data not available</p>';
+            } else {
+                content += '<p class="text-muted">Campaign performance data not available</p>';
+            }
+
+            card.innerHTML = content;
         }
-        
-        card.innerHTML = content;
-    }
 
-    // Disable submit buttons if no models are available using data attribute
-    const hasModels = document.body.dataset.hasModels === '1';
-    if (!hasModels) {
-        const singleBtn = document.querySelector('#single-prediction button[type="submit"]');
-        const batchBtn = document.querySelector('#batch-prediction button[type="submit"]');
-        singleBtn?.setAttribute('disabled', 'disabled');
-        batchBtn?.setAttribute('disabled', 'disabled');
-    }
+        // Disable submit buttons if no models are available using data attribute
+        const hasModels = document.body.dataset.hasModels === '1';
+        if (!hasModels) {
+            const singleBtn = document.querySelector('#single-prediction button[type="submit"]');
+            const batchBtn = document.querySelector('#batch-prediction button[type="submit"]');
+            singleBtn?.setAttribute('disabled', 'disabled');
+            batchBtn?.setAttribute('disabled', 'disabled');
+        }
 
-    function displayBatchPredictionResults(data) {
-        // Hide loading and show results
-        document.getElementById('results-area').innerHTML = '';
-        document.getElementById('performanceResults').style.display = 'block';
+        function displayBatchPredictionResults(data) {
+            // Hide loading and show results
+            document.getElementById('results-area').innerHTML = '';
+            document.getElementById('performanceResults').style.display = 'block';
 
-        // Create download section with enhanced CSV info
-        const downloadSection = `
+            // Create download section with enhanced CSV info
+            const downloadSection = `
             <div class="mb-4">
                 <div class="card border-success">
                     <div class="card-header bg-success text-white">
@@ -890,8 +1003,8 @@
             </div>
         `;
 
-        // Display batch summary statistics
-        const summarySection = `
+            // Display batch summary statistics
+            const summarySection = `
             <div class="mb-4">
                 <div class="card">
                     <div class="card-header">
@@ -933,12 +1046,12 @@
             </div>
         `;
 
-        // Inject the content into performance results
-        const performanceResults = document.getElementById('performanceResults');
-        const resultsContent = document.querySelector('#performanceResults .mt-5');
-        
-        if (resultsContent) {
-            resultsContent.innerHTML = `
+            // Inject the content into performance results
+            const performanceResults = document.getElementById('performanceResults');
+            const resultsContent = document.querySelector('#performanceResults .mt-5');
+
+            if (resultsContent) {
+                resultsContent.innerHTML = `
                 <div class="text-center mb-4">
                     <h3 class="fw-bold text-dark">
                         <i class="fas fa-chart-bar me-2 text-primary"></i>
@@ -948,9 +1061,9 @@
                 ${downloadSection}
                 ${summarySection}
             `;
-        } else {
-            // If structure doesn't exist, create it
-            performanceResults.innerHTML = `
+            } else {
+                // If structure doesn't exist, create it
+                performanceResults.innerHTML = `
                 <div class="mt-5">
                     <div class="text-center mb-4">
                         <h3 class="fw-bold text-dark">
@@ -962,79 +1075,80 @@
                     ${summarySection}
                 </div>
             `;
+            }
+
+            // Scroll to results
+            performanceResults.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Scroll to results
-        performanceResults.scrollIntoView({ behavior: 'smooth' });
-    }
+        // Live Demo Function
+        function runExampleDemo() {
+            // Switch to single prediction tab
+            const singleTab = document.getElementById('single-tab');
+            const singleTabPane = document.getElementById('single-prediction');
 
-    // Live Demo Function
-    function runExampleDemo() {
-        // Switch to single prediction tab
-        const singleTab = document.getElementById('single-tab');
-        const singleTabPane = document.getElementById('single-prediction');
-        
-        // Activate single prediction tab
-        document.querySelectorAll('.nav-link').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
-        
-        singleTab.classList.add('active');
-        singleTabPane.classList.add('show', 'active');
-        
-        // Populate form with demo values
-        document.getElementById('store').value = '3';
-        document.getElementById('item').value = '12';
-        document.getElementById('month').value = '6';
-        document.getElementById('day').value = '15';
-        document.getElementById('year').value = '2013';
-        
-        // Scroll to form
-        singleTabPane.scrollIntoView({ behavior: 'smooth' });
-        
-        // Add visual indicator
-        const form = document.querySelector('#single-prediction form');
-        form.style.border = '2px solid #28a745';
-        form.style.borderRadius = '15px';
-        form.style.padding = '20px';
-        
-        // Show message
-        const demoMessage = document.createElement('div');
-        demoMessage.className = 'alert alert-success mt-2';
-        demoMessage.innerHTML = '<i class="fas fa-check me-2"></i><strong>Demo Ready!</strong> Form populated with sample data. Click "Analyze Store Performance" to see results.';
-        form.insertBefore(demoMessage, form.firstChild);
-        
-        // Remove demo styling after 5 seconds
-        setTimeout(() => {
-            form.style.border = '';
-            form.style.borderRadius = '';
-            form.style.padding = '';
-            demoMessage.remove();
-        }, 5000);
-    }
-</script>
+            // Activate single prediction tab
+            document.querySelectorAll('.nav-link').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
 
-<!-- Professional Footer -->
-<footer class="mt-5 py-4" style="background: rgba(20, 40, 160, 0.1); backdrop-filter: blur(10px);">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-chart-line text-primary fa-2x me-3"></i>
-                    <div>
-                        <h6 class="mb-0 fw-bold text-dark">Campaign Performance (Marketing)</h6>
-                        <small class="text-muted">Store Analysis & Marketing Campaign Intelligence</small>
+            singleTab.classList.add('active');
+            singleTabPane.classList.add('show', 'active');
+
+            // Populate form with demo values
+            document.getElementById('store').value = '3';
+            document.getElementById('item').value = '12';
+            document.getElementById('month').value = '6';
+            document.getElementById('day').value = '15';
+            document.getElementById('year').value = '2013';
+
+            // Scroll to form
+            singleTabPane.scrollIntoView({ behavior: 'smooth' });
+
+            // Add visual indicator
+            const form = document.querySelector('#single-prediction form');
+            form.style.border = '2px solid #28a745';
+            form.style.borderRadius = '15px';
+            form.style.padding = '20px';
+
+            // Show message
+            const demoMessage = document.createElement('div');
+            demoMessage.className = 'alert alert-success mt-2';
+            demoMessage.innerHTML = '<i class="fas fa-check me-2"></i><strong>Demo Ready!</strong> Form populated with sample data. Click "Analyze Store Performance" to see results.';
+            form.insertBefore(demoMessage, form.firstChild);
+
+            // Remove demo styling after 5 seconds
+            setTimeout(() => {
+                form.style.border = '';
+                form.style.borderRadius = '';
+                form.style.padding = '';
+                demoMessage.remove();
+            }, 5000);
+        }
+    </script>
+
+    <!-- Professional Footer -->
+    <footer class="mt-5 py-4" style="background: rgba(20, 40, 160, 0.1); backdrop-filter: blur(10px);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-chart-line text-primary fa-2x me-3"></i>
+                        <div>
+                            <h6 class="mb-0 fw-bold text-dark">Campaign Performance (Marketing)</h6>
+                            <small class="text-muted">Store Analysis & Marketing Campaign Intelligence</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <small class="text-muted">
-                    <i class="fas fa-code me-1"></i>
-                    Worklet 8 • PRISM
-                </small>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <small class="text-muted">
+                        <i class="fas fa-code me-1"></i>
+                        Worklet 8 • PRISM
+                    </small>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
 </body>
+
 </html>

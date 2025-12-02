@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Worklet 8 - Sell-out Performance Forecasting (Sales Uplift)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worklet 8 - Sell-out Performance Forecasting (Sales Uplift)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"><style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
         :root {
             --samsung-blue: #1428A0;
             --samsung-light-blue: #034EA2;
@@ -23,129 +26,131 @@
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             background-attachment: fixed;
         }
-        
-        .main-container { 
-            margin: 40px auto; 
+
+        .main-container {
+            margin: 40px auto;
             max-width: 1200px;
             padding: 0 20px;
         }
-        
+
         .card {
-            border: none; 
+            border: none;
             border-radius: 20px;
             box-shadow: var(--shadow-elegant);
             backdrop-filter: blur(20px);
             background: rgba(255, 255, 255, 0.98);
             transition: all 0.3s ease;
         }
-        
+
         .card:hover {
             box-shadow: var(--shadow-hover);
         }
-        
+
         .card-header {
             background: var(--gradient-primary);
-            color: white; 
-            border-radius: 20px 20px 0 0 !important; 
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
             padding: 30px;
             border: none;
         }
-        
+
         .upload-area {
-            border: 3px dashed var(--samsung-blue); 
-            border-radius: 16px; 
+            border: 3px dashed var(--samsung-blue);
+            border-radius: 16px;
             padding: 50px 30px;
-            text-align: center; 
+            text-align: center;
             background: rgba(20, 40, 160, 0.05);
             transition: all 0.3s ease;
             cursor: pointer;
         }
-        
-        .upload-area:hover { 
+
+        .upload-area:hover {
             background: rgba(20, 40, 160, 0.1);
             border-color: var(--prism-primary);
             transform: translateY(-2px);
         }
-        
+
         .file-info {
             background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%);
-            border: 2px solid var(--sales-accent); 
-            border-radius: 12px; 
-            padding: 20px; 
+            border: 2px solid var(--sales-accent);
+            border-radius: 12px;
+            padding: 20px;
             margin-top: 20px;
         }
-        
+
         .btn-primary {
             background: var(--gradient-primary);
-            border: none; 
-            border-radius: 12px; 
+            border: none;
+            border-radius: 12px;
             padding: 14px 28px;
             font-weight: 600;
             font-size: 0.95rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(20, 40, 160, 0.3);
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(20, 40, 160, 0.4);
         }
-        
+
         .btn-success {
             background: var(--gradient-sales);
-            border: none; 
-            border-radius: 12px; 
+            border: none;
+            border-radius: 12px;
             padding: 12px 24px;
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
         }
-        
+
         .btn-success:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
         }
-        
+
         .loading {
-            display: inline-block; 
-            width: 20px; 
+            display: inline-block;
+            width: 20px;
             height: 20px;
-            border: 3px solid #ffffff; 
+            border: 3px solid #ffffff;
             border-radius: 50%;
-            border-top-color: transparent; 
+            border-top-color: transparent;
             animation: spin 1s ease-in-out infinite;
         }
-        
-        @keyframes spin { 
-            to { transform: rotate(360deg); } 
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
-        
-        .results-card { 
-            margin-top: 25px; 
+
+        .results-card {
+            margin-top: 25px;
             border-left: 5px solid var(--sales-accent);
             border-radius: 16px;
             background: rgba(255, 255, 255, 0.95);
         }
-        
-        .error-card { 
-            margin-top: 25px; 
+
+        .error-card {
+            margin-top: 25px;
             border-left: 5px solid #dc3545;
             border-radius: 16px;
             background: rgba(255, 255, 255, 0.95);
         }
-        
-        .navbar-gradient { 
+
+        .navbar-gradient {
             background: var(--gradient-primary);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(20, 40, 160, 0.3);
         }
-        
-        .navbar-brand { 
-            color: #fff !important; 
+
+        .navbar-brand {
+            color: #fff !important;
             font-weight: 700;
             font-size: 1.4rem;
         }
-        
+
         .nav-tabs .nav-link {
             color: var(--samsung-blue);
             border-radius: 12px 12px 0 0;
@@ -154,40 +159,46 @@
             margin-right: 5px;
             transition: all 0.3s ease;
         }
-        
+
         .nav-tabs .nav-link:hover:not(.active) {
             background: rgba(20, 40, 160, 0.1);
             transform: translateY(-2px);
         }
-        
+
         .nav-tabs .nav-link.active {
             background: var(--gradient-primary);
             color: white;
             border-color: #667eea;
         }
+
         .nav-tabs .nav-link:hover {
             background: rgba(102, 126, 234, 0.1);
             border-color: #667eea;
         }
+
         .tab-content {
             border-radius: 0 15px 15px 15px;
             background: rgba(255, 255, 255, 0.98);
             min-height: 400px;
         }
+
         .accordion-button {
             background: rgba(102, 126, 234, 0.1);
             font-weight: 600;
         }
+
         .accordion-button:not(.collapsed) {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
         }
+
         .table code {
             background: #f8f9fa;
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 0.9em;
         }
+
         .list-group-numbered .list-group-item {
             border: none;
             padding: 10px 15px;
@@ -195,73 +206,93 @@
             border-radius: 8px;
             background: #f8f9fa;
         }
+
         .card.border-primary,
         .card.border-success,
         .card.border-warning {
             transition: transform 0.2s ease;
         }
+
         .card.border-primary:hover,
         .card.border-success:hover,
         .card.border-warning:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-gradient">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><i class="fas fa-gauge-high me-2"></i>Worklet 8 - Sales Uplift</a>
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.png" alt="Samsung"
+                    style="height: 30px; filter: brightness(0) invert(1);" class="me-3">
+                <span>Worklet 8 - Sales Uplift</span>
+            </a>
         </div>
-    </nav>    <div class="container-fluid main-container">
+    </nav>
+    <div class="container-fluid main-container">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header text-center">                        <h1><i class="fas fa-store me-2"></i>Sell-out Performance Forecasting</h1>
+                    <div class="card-header text-center">
+                        <h1><i class="fas fa-store me-2"></i>Sell-out Performance Forecasting</h1>
                         <p class="mb-0">Advanced AI system for sales uplift prediction and performance analysis</p>
                     </div>
                     <div class="card-body">
                         <!-- Navigation Tabs -->
                         <ul class="nav nav-tabs" id="mainTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="tutorial-tab" data-bs-toggle="tab" data-bs-target="#tutorial" type="button" role="tab">
+                                <button class="nav-link" id="tutorial-tab" data-bs-toggle="tab"
+                                    data-bs-target="#tutorial" type="button" role="tab">
                                     <i class="fas fa-graduation-cap me-2"></i>Tutorial & Examples
                                 </button>
-                            </li>                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="individual-tab" data-bs-toggle="tab" data-bs-target="#individual" type="button" role="tab">
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="individual-tab" data-bs-toggle="tab"
+                                    data-bs-target="#individual" type="button" role="tab">
                                     <i class="fas fa-user me-2"></i>Individual Prediction
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button" role="tab">
+                                <button class="nav-link active" id="upload-tab" data-bs-toggle="tab"
+                                    data-bs-target="#upload" type="button" role="tab">
                                     <i class="fas fa-cloud-upload-alt me-2"></i>Batch Processing
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="docs-tab" data-bs-toggle="tab" data-bs-target="#docs" type="button" role="tab">
+                                <button class="nav-link" id="docs-tab" data-bs-toggle="tab" data-bs-target="#docs"
+                                    type="button" role="tab">
                                     <i class="fas fa-book me-2"></i>Documentation
                                 </button>
                             </li>
-                        </ul>                        <div class="tab-content" id="mainTabContent">
+                        </ul>
+                        <div class="tab-content" id="mainTabContent">
                             <!-- Individual Prediction Tab -->
                             <div class="tab-pane fade" id="individual" role="tabpanel">
                                 <div class="row mt-4">
                                     <div class="col-lg-8 mx-auto">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Sales Uplift Prediction</h5>
+                                                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Sales Uplift
+                                                    Prediction</h5>
                                             </div>
                                             <div class="card-body">
                                                 <form id="individualPredictionForm">
                                                     <div class="row g-3">
                                                         <div class="col-md-6">
                                                             <label class="form-label" for="store_id">Store ID</label>
-                                                            <input type="number" class="form-control" id="store_id" name="store_id" min="1" max="1115" required>
-                                                            <small class="text-muted">Enter store number (1-1115)</small>
+                                                            <input type="number" class="form-control" id="store_id"
+                                                                name="store_id" min="1" max="1115" required>
+                                                            <small class="text-muted">Enter store number
+                                                                (1-1115)</small>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="form-label" for="dayofweek">Day of Week</label>
-                                                            <select class="form-select" id="dayofweek" name="dayofweek" required>
+                                                            <label class="form-label" for="dayofweek">Day of
+                                                                Week</label>
+                                                            <select class="form-select" id="dayofweek" name="dayofweek"
+                                                                required>
                                                                 <option value="">Select Day</option>
                                                                 <option value="1">Monday</option>
                                                                 <option value="2">Tuesday</option>
@@ -281,16 +312,20 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="form-label" for="promo">Promotion Active</label>
-                                                            <select class="form-select" id="promo" name="promo" required>
+                                                            <label class="form-label" for="promo">Promotion
+                                                                Active</label>
+                                                            <select class="form-select" id="promo" name="promo"
+                                                                required>
                                                                 <option value="">Select Promo Status</option>
                                                                 <option value="1">Yes - Promotion Active</option>
                                                                 <option value="0">No - No Promotion</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="form-label" for="stateholiday">State Holiday</label>
-                                                            <select class="form-select" id="stateholiday" name="stateholiday" required>
+                                                            <label class="form-label" for="stateholiday">State
+                                                                Holiday</label>
+                                                            <select class="form-select" id="stateholiday"
+                                                                name="stateholiday" required>
                                                                 <option value="">Select Holiday Status</option>
                                                                 <option value="0">No Holiday</option>
                                                                 <option value="a">Public Holiday</option>
@@ -299,8 +334,10 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="form-label" for="schoolholiday">School Holiday</label>
-                                                            <select class="form-select" id="schoolholiday" name="schoolholiday" required>
+                                                            <label class="form-label" for="schoolholiday">School
+                                                                Holiday</label>
+                                                            <select class="form-select" id="schoolholiday"
+                                                                name="schoolholiday" required>
                                                                 <option value="">Select School Holiday</option>
                                                                 <option value="1">Yes - School Holiday</option>
                                                                 <option value="0">No - School in Session</option>
@@ -315,12 +352,13 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        
+
                                         <!-- Individual Results -->
                                         <div id="individualResults" class="mt-4" style="display: none;">
                                             <div class="card">
                                                 <div class="card-header bg-success text-white">
-                                                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Prediction Results</h5>
+                                                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Prediction
+                                                        Results</h5>
                                                 </div>
                                                 <div class="card-body" id="individualResultContent">
                                                     <!-- Results will be populated here -->
@@ -336,8 +374,9 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <h3><i class="fas fa-lightbulb me-2"></i>How It Works</h3>
-                                        <p class="lead">Our system predicts retail sales using advanced machine learning trained on historical store data.</p>
-                                        
+                                        <p class="lead">Our system predicts retail sales using advanced machine learning
+                                            trained on historical store data.</p>
+
                                         <div class="row mt-4">
                                             <div class="col-md-4">
                                                 <div class="card border-primary">
@@ -372,31 +411,38 @@
                                         <div class="mt-5">
                                             <h4><i class="fas fa-table me-2"></i>Sample Input Data</h4>
                                             <p class="text-muted">Here's what your CSV file should look like:</p>
-                                            
+
                                             <ul class="nav nav-tabs" id="exampleTabs" role="tablist">
                                                 <li class="nav-item" role="presentation">
-                                                    <button class="nav-link active" id="required-tab" data-bs-toggle="tab" data-bs-target="#required-fields" type="button" role="tab">
+                                                    <button class="nav-link active" id="required-tab"
+                                                        data-bs-toggle="tab" data-bs-target="#required-fields"
+                                                        type="button" role="tab">
                                                         <i class="fas fa-star me-1"></i>Required Fields
                                                     </button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="sample-tab" data-bs-toggle="tab" data-bs-target="#sample-data" type="button" role="tab">
+                                                    <button class="nav-link" id="sample-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#sample-data" type="button" role="tab">
                                                         <i class="fas fa-eye me-1"></i>Sample Data
                                                     </button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="tips-tab" data-bs-toggle="tab" data-bs-target="#tips" type="button" role="tab">
+                                                    <button class="nav-link" id="tips-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#tips" type="button" role="tab">
                                                         <i class="fas fa-tips me-1"></i>Pro Tips
                                                     </button>
                                                 </li>
                                             </ul>
 
-                                            <div class="tab-content mt-3" id="exampleTabContent">                                                <div class="tab-pane fade show active" id="required-fields" role="tabpanel">
+                                            <div class="tab-content mt-3" id="exampleTabContent">
+                                                <div class="tab-pane fade show active" id="required-fields"
+                                                    role="tabpanel">
                                                     <div class="alert alert-success mb-3">
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <div>
                                                                 <i class="fas fa-download me-2"></i>
-                                                                <strong>Download Sample CSV</strong> - Use this template to format your data
+                                                                <strong>Download Sample CSV</strong> - Use this template
+                                                                to format your data
                                                             </div>
                                                             <a href="/sample" class="btn btn-sm btn-success" download>
                                                                 <i class="fas fa-file-csv me-1"></i>Download
@@ -460,7 +506,7 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="tab-pane fade" id="sample-data" role="tabpanel">
                                                     <div class="alert alert-info">
                                                         <i class="fas fa-info-circle me-2"></i>
@@ -529,7 +575,7 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="tab-pane fade" id="tips" role="tabpanel">
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -539,10 +585,18 @@
                                                                 </div>
                                                                 <div class="card-body">
                                                                     <ul class="list-unstyled">
-                                                                        <li><i class="fas fa-arrow-right text-success me-2"></i>Use consistent date format (YYYY-MM-DD)</li>
-                                                                        <li><i class="fas fa-arrow-right text-success me-2"></i>Ensure no missing values in required fields</li>
-                                                                        <li><i class="fas fa-arrow-right text-success me-2"></i>Keep file size under 32MB</li>
-                                                                        <li><i class="fas fa-arrow-right text-success me-2"></i>Include store metadata if available</li>
+                                                                        <li><i
+                                                                                class="fas fa-arrow-right text-success me-2"></i>Use
+                                                                            consistent date format (YYYY-MM-DD)</li>
+                                                                        <li><i
+                                                                                class="fas fa-arrow-right text-success me-2"></i>Ensure
+                                                                            no missing values in required fields</li>
+                                                                        <li><i
+                                                                                class="fas fa-arrow-right text-success me-2"></i>Keep
+                                                                            file size under 32MB</li>
+                                                                        <li><i
+                                                                                class="fas fa-arrow-right text-success me-2"></i>Include
+                                                                            store metadata if available</li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -550,14 +604,24 @@
                                                         <div class="col-md-6">
                                                             <div class="card border-warning mb-3">
                                                                 <div class="card-header bg-warning text-dark">
-                                                                    <i class="fas fa-exclamation-triangle me-2"></i>Common Issues
+                                                                    <i
+                                                                        class="fas fa-exclamation-triangle me-2"></i>Common
+                                                                    Issues
                                                                 </div>
                                                                 <div class="card-body">
                                                                     <ul class="list-unstyled">
-                                                                        <li><i class="fas fa-times text-danger me-2"></i>Missing required columns</li>
-                                                                        <li><i class="fas fa-times text-danger me-2"></i>Incorrect date formats</li>
-                                                                        <li><i class="fas fa-times text-danger me-2"></i>Non-numeric values in numeric fields</li>
-                                                                        <li><i class="fas fa-times text-danger me-2"></i>Including target 'Sales' column</li>
+                                                                        <li><i
+                                                                                class="fas fa-times text-danger me-2"></i>Missing
+                                                                            required columns</li>
+                                                                        <li><i
+                                                                                class="fas fa-times text-danger me-2"></i>Incorrect
+                                                                            date formats</li>
+                                                                        <li><i
+                                                                                class="fas fa-times text-danger me-2"></i>Non-numeric
+                                                                            values in numeric fields</li>
+                                                                        <li><i
+                                                                                class="fas fa-times text-danger me-2"></i>Including
+                                                                            target 'Sales' column</li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -574,202 +638,266 @@
                             <div class="tab-pane fade show active" id="upload" role="tabpanel">
                                 <div class="row mt-4">
                                     <div class="col-lg-8 mx-auto">
-                        <div class="upload-area" id="uploadArea">
-                            <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
-                            <h4>Upload Test Data CSV</h4>
-                            <p class="text-muted">Upload your test data (features only, NO Sales column needed)</p>
-                            <div class="mb-3">
-                                <small class="text-info">
-                                    <i class="fas fa-info-circle me-1"></i>
-                                    Required: Date, Store, DayOfWeek, Open, Promo, StateHoliday, SchoolHoliday, StoreType, Assortment, CompetitionDistance, etc.
-                                    <br><strong>Note:</strong> Sales column NOT required - we'll predict it for you!
-                                </small>
-                            </div>
-                            <form id="uploadForm" enctype="multipart/form-data">
-                                <input type="file" id="file" name="file" accept=".csv" class="d-none" required>
-                                <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('file').click()">
-                                    <i class="fas fa-file-csv me-2"></i>Choose Test CSV File
-                                </button>
-                            </form>
-                        </div>
-                        
-                        <div id="fileInfo" class="file-info" style="display: none;">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-file-csv text-success me-2"></i>
-                                    <span id="fileName"></span>
-                                </div>
-                                <button type="submit" form="uploadForm" class="btn btn-success" id="predictBtn" disabled>
-                                    <i class="fas fa-brain me-2"></i>Generate Predictions
-                                </button>
-                            </div>
-                        </div>
+                                        <div class="upload-area" id="uploadArea">
+                                            <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                            <h4>Upload Test Data CSV</h4>
+                                            <p class="text-muted">Upload your test data (features only, NO Sales column
+                                                needed)</p>
+                                            <div class="mb-3">
+                                                <small class="text-info">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Required: Date, Store, DayOfWeek, Open, Promo, StateHoliday,
+                                                    SchoolHoliday, StoreType, Assortment, CompetitionDistance, etc.
+                                                    <br><strong>Note:</strong> Sales column NOT required - we'll predict
+                                                    it for you!
+                                                </small>
+                                            </div>
+                                            <form id="uploadForm" enctype="multipart/form-data">
+                                                <input type="file" id="file" name="file" accept=".csv" class="d-none"
+                                                    required>
+                                                <button type="button" class="btn btn-outline-primary"
+                                                    onclick="document.getElementById('file').click()">
+                                                    <i class="fas fa-file-csv me-2"></i>Choose Test CSV File
+                                                </button>
+                                            </form>
+                                        </div>
 
-                        <!-- Results Section -->
-                        <div id="results" style="display: none;">
-                            <div class="card results-card">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Prediction Results</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div id="resultContent"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Error Section -->
-                        <div id="errorSection" style="display: none;">
-                            <div class="card error-card">
-                                <div class="card-header bg-danger text-white">
-                                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Error</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div id="errorContent"></div>
-                                </div>
-                            </div>                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Documentation Tab -->
-                            <div class="tab-pane fade" id="docs" role="tabpanel">
-                                <div class="mt-4">
-                                    <div class="row">
-                                        <div class="col-lg-8 mx-auto">
-                                            <h3><i class="fas fa-cogs me-2"></i>System Overview</h3>
-                                            <p class="lead">Advanced machine learning system for retail sales forecasting and business intelligence.</p>
-                                            
-                                            <div class="accordion" id="docsAccordion">
-                                                <!-- Model Information -->
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="modelHeading">
-                                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#modelCollapse">
-                                                            <i class="fas fa-robot me-2"></i>Machine Learning Model
-                                                        </button>
-                                                    </h2>
-                                                    <div id="modelCollapse" class="accordion-collapse collapse show" data-bs-parent="#docsAccordion">
-                                                        <div class="accordion-body">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <h5>Model Architecture</h5>
-                                                                    <ul>
-                                                                        <li><strong>Algorithm:</strong> Ensemble Learning</li>
-                                                                        <li><strong>Training Data:</strong> 900K+ historical records</li>
-                                                                        <li><strong>Features:</strong> 15+ store and temporal variables</li>
-                                                                        <li><strong>Accuracy:</strong> 95%+ on validation data</li>
-                                                                    </ul>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <h5>Key Features</h5>
-                                                                    <ul>
-                                                                        <li>Real-time prediction processing</li>
-                                                                        <li>Automatic data preprocessing</li>
-                                                                        <li>Scalable batch processing</li>
-                                                                        <li>Robust error handling</li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                        <div id="fileInfo" class="file-info" style="display: none;">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i class="fas fa-file-csv text-success me-2"></i>
+                                                    <span id="fileName"></span>
                                                 </div>
+                                                <button type="submit" form="uploadForm" class="btn btn-success"
+                                                    id="predictBtn" disabled>
+                                                    <i class="fas fa-brain me-2"></i>Generate Predictions
+                                                </button>
+                                            </div>
+                                        </div>
 
-                                                <!-- Data Processing -->
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="dataHeading">
-                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dataCollapse">
-                                                            <i class="fas fa-database me-2"></i>Data Processing Pipeline
-                                                        </button>
-                                                    </h2>
-                                                    <div id="dataCollapse" class="accordion-collapse collapse" data-bs-parent="#docsAccordion">
-                                                        <div class="accordion-body">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <h5>Processing Steps</h5>
-                                                                    <ol class="list-group list-group-numbered">
-                                                                        <li class="list-group-item">
-                                                                            <strong>Data Validation:</strong> Check required fields and data types
-                                                                        </li>
-                                                                        <li class="list-group-item">
-                                                                            <strong>Feature Engineering:</strong> Create derived features from date and store info
-                                                                        </li>
-                                                                        <li class="list-group-item">
-                                                                            <strong>Normalization:</strong> Scale numeric features using trained scalers
-                                                                        </li>
-                                                                        <li class="list-group-item">
-                                                                            <strong>Encoding:</strong> Convert categorical variables to numeric format
-                                                                        </li>
-                                                                        <li class="list-group-item">
-                                                                            <strong>Prediction:</strong> Generate sales forecasts using ML model
-                                                                        </li>
-                                                                        <li class="list-group-item">
-                                                                            <strong>Output Generation:</strong> Create downloadable results file
-                                                                        </li>
-                                                                    </ol>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                        <!-- Results Section -->
+                                        <div id="results" style="display: none;">
+                                            <div class="card results-card">
+                                                <div class="card-header bg-success text-white">
+                                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Prediction
+                                                        Results</h5>
                                                 </div>
+                                                <div class="card-body">
+                                                    <div id="resultContent"></div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                                <!-- API Reference -->
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="apiHeading">
-                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#apiCollapse">
-                                                            <i class="fas fa-code me-2"></i>Technical Specifications
-                                                        </button>
-                                                    </h2>
-                                                    <div id="apiCollapse" class="accordion-collapse collapse" data-bs-parent="#docsAccordion">
-                                                        <div class="accordion-body">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <h5>Input Requirements</h5>
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-sm">
-                                                                            <tr><td>File Format</td><td>CSV</td></tr>
-                                                                            <tr><td>Max File Size</td><td>32 MB</td></tr>
-                                                                            <tr><td>Encoding</td><td>UTF-8</td></tr>
-                                                                            <tr><td>Required Columns</td><td>7 minimum</td></tr>
-                                                                        </table>
+                                        <!-- Error Section -->
+                                        <div id="errorSection" style="display: none;">
+                                            <div class="card error-card">
+                                                <div class="card-header bg-danger text-white">
+                                                    <h5 class="mb-0"><i
+                                                            class="fas fa-exclamation-triangle me-2"></i>Error</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div id="errorContent"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Documentation Tab -->
+                                <div class="tab-pane fade" id="docs" role="tabpanel">
+                                    <div class="mt-4">
+                                        <div class="row">
+                                            <div class="col-lg-8 mx-auto">
+                                                <h3><i class="fas fa-cogs me-2"></i>System Overview</h3>
+                                                <p class="lead">Advanced machine learning system for retail sales
+                                                    forecasting and business intelligence.</p>
+
+                                                <div class="accordion" id="docsAccordion">
+                                                    <!-- Model Information -->
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="modelHeading">
+                                                            <button class="accordion-button" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#modelCollapse">
+                                                                <i class="fas fa-robot me-2"></i>Machine Learning Model
+                                                            </button>
+                                                        </h2>
+                                                        <div id="modelCollapse" class="accordion-collapse collapse show"
+                                                            data-bs-parent="#docsAccordion">
+                                                            <div class="accordion-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <h5>Model Architecture</h5>
+                                                                        <ul>
+                                                                            <li><strong>Algorithm:</strong> Ensemble
+                                                                                Learning</li>
+                                                                            <li><strong>Training Data:</strong> 900K+
+                                                                                historical records</li>
+                                                                            <li><strong>Features:</strong> 15+ store and
+                                                                                temporal variables</li>
+                                                                            <li><strong>Accuracy:</strong> 95%+ on
+                                                                                validation data</li>
+                                                                        </ul>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <h5>Output Format</h5>
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-sm">
-                                                                            <tr><td>Format</td><td>CSV with predictions</td></tr>
-                                                                            <tr><td>New Column</td><td>Predicted_Sales</td></tr>
-                                                                            <tr><td>Processing Time</td><td>&lt; 30 seconds</td></tr>
-                                                                            <tr><td>Download</td><td>Automatic</td></tr>
-                                                                        </table>
+                                                                    <div class="col-md-6">
+                                                                        <h5>Key Features</h5>
+                                                                        <ul>
+                                                                            <li>Real-time prediction processing</li>
+                                                                            <li>Automatic data preprocessing</li>
+                                                                            <li>Scalable batch processing</li>
+                                                                            <li>Robust error handling</li>
+                                                                        </ul>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <!-- Troubleshooting -->
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="troubleHeading">
-                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#troubleCollapse">
-                                                            <i class="fas fa-wrench me-2"></i>Troubleshooting
-                                                        </button>
-                                                    </h2>
-                                                    <div id="troubleCollapse" class="accordion-collapse collapse" data-bs-parent="#docsAccordion">
-                                                        <div class="accordion-body">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <h5>Common Error Messages</h5>
-                                                                    <div class="alert alert-info">
-                                                                        <strong>"Missing required columns"</strong><br>
-                                                                        Solution: Ensure your CSV has all required fields: Date, Store, DayOfWeek, Open, Promo, StateHoliday, SchoolHoliday
+                                                    <!-- Data Processing -->
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="dataHeading">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#dataCollapse">
+                                                                <i class="fas fa-database me-2"></i>Data Processing
+                                                                Pipeline
+                                                            </button>
+                                                        </h2>
+                                                        <div id="dataCollapse" class="accordion-collapse collapse"
+                                                            data-bs-parent="#docsAccordion">
+                                                            <div class="accordion-body">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <h5>Processing Steps</h5>
+                                                                        <ol class="list-group list-group-numbered">
+                                                                            <li class="list-group-item">
+                                                                                <strong>Data Validation:</strong> Check
+                                                                                required fields and data types
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <strong>Feature Engineering:</strong>
+                                                                                Create derived features from date and
+                                                                                store info
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <strong>Normalization:</strong> Scale
+                                                                                numeric features using trained scalers
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <strong>Encoding:</strong> Convert
+                                                                                categorical variables to numeric format
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <strong>Prediction:</strong> Generate
+                                                                                sales forecasts using ML model
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <strong>Output Generation:</strong>
+                                                                                Create downloadable results file
+                                                                            </li>
+                                                                        </ol>
                                                                     </div>
-                                                                    <div class="alert alert-warning">
-                                                                        <strong>"File too large"</strong><br>
-                                                                        Solution: Split large files into smaller chunks or remove unnecessary columns
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- API Reference -->
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="apiHeading">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#apiCollapse">
+                                                                <i class="fas fa-code me-2"></i>Technical Specifications
+                                                            </button>
+                                                        </h2>
+                                                        <div id="apiCollapse" class="accordion-collapse collapse"
+                                                            data-bs-parent="#docsAccordion">
+                                                            <div class="accordion-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <h5>Input Requirements</h5>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-sm">
+                                                                                <tr>
+                                                                                    <td>File Format</td>
+                                                                                    <td>CSV</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Max File Size</td>
+                                                                                    <td>32 MB</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Encoding</td>
+                                                                                    <td>UTF-8</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Required Columns</td>
+                                                                                    <td>7 minimum</td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="alert alert-danger">
-                                                                        <strong>"Invalid data format"</strong><br>
-                                                                        Solution: Check date formats (YYYY-MM-DD) and ensure numeric fields contain only numbers
+                                                                    <div class="col-md-6">
+                                                                        <h5>Output Format</h5>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-sm">
+                                                                                <tr>
+                                                                                    <td>Format</td>
+                                                                                    <td>CSV with predictions</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>New Column</td>
+                                                                                    <td>Predicted_Sales</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Processing Time</td>
+                                                                                    <td>&lt; 30 seconds</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Download</td>
+                                                                                    <td>Automatic</td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Troubleshooting -->
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="troubleHeading">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#troubleCollapse">
+                                                                <i class="fas fa-wrench me-2"></i>Troubleshooting
+                                                            </button>
+                                                        </h2>
+                                                        <div id="troubleCollapse" class="accordion-collapse collapse"
+                                                            data-bs-parent="#docsAccordion">
+                                                            <div class="accordion-body">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <h5>Common Error Messages</h5>
+                                                                        <div class="alert alert-info">
+                                                                            <strong>"Missing required
+                                                                                columns"</strong><br>
+                                                                            Solution: Ensure your CSV has all required
+                                                                            fields: Date, Store, DayOfWeek, Open, Promo,
+                                                                            StateHoliday, SchoolHoliday
+                                                                        </div>
+                                                                        <div class="alert alert-warning">
+                                                                            <strong>"File too large"</strong><br>
+                                                                            Solution: Split large files into smaller
+                                                                            chunks or remove unnecessary columns
+                                                                        </div>
+                                                                        <div class="alert alert-danger">
+                                                                            <strong>"Invalid data format"</strong><br>
+                                                                            Solution: Check date formats (YYYY-MM-DD)
+                                                                            and ensure numeric fields contain only
+                                                                            numbers
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -787,7 +915,6 @@
             </div>
         </div>
     </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -799,7 +926,7 @@
         const predictBtn = document.getElementById('predictBtn');
 
         // File selection handler
-        fileInput.onchange = function(e) {
+        fileInput.onchange = function (e) {
             const file = e.target.files[0];
             if (file) {
                 if (file.size > MAX_BYTES) {
@@ -808,7 +935,7 @@
                     fileInfo.style.display = 'none';
                     return;
                 }
-                fileNameEl.textContent = `${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+                fileNameEl.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
                 fileInfo.style.display = 'block';
                 uploadArea.style.border = '2px solid #28a745';
                 predictBtn.disabled = false;
@@ -816,34 +943,34 @@
         };
 
         // Form submission handler
-        document.getElementById('uploadForm').onsubmit = function(e) {
+        document.getElementById('uploadForm').onsubmit = function (e) {
             e.preventDefault();
             const formData = new FormData(this);
             const btn = document.getElementById('predictBtn');
             const originalText = btn.innerHTML;
-            
+
             btn.innerHTML = '<span class="loading"></span> Processing...';
             btn.disabled = true;
             document.getElementById('results').style.display = 'none';
             document.getElementById('errorSection').style.display = 'none';
-            
+
             fetch('/predict', {
                 method: 'POST',
                 body: formData
             })
-            .then(async response => {
-                if (!response.ok) {
-                    const text = await response.text();
-                    throw new Error(text || `HTTP ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                btn.innerHTML = originalText;
-                btn.disabled = !fileInput.files || fileInput.files.length === 0;
-                
-                if (data.success) {
-                    document.getElementById('resultContent').innerHTML = `
+                .then(async response => {
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error(text || `HTTP ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = !fileInput.files || fileInput.files.length === 0;
+
+                    if (data.success) {
+                        document.getElementById('resultContent').innerHTML = `
                         <div class="row justify-content-center">
                             <div class="col-md-6">
                                 <div class="text-center p-4 border rounded bg-light">
@@ -864,37 +991,37 @@
                             </small>
                         </div>
                     `;
-                    document.getElementById('results').style.display = 'block';
-                } else {
-                    document.getElementById('errorContent').innerHTML = `
+                        document.getElementById('results').style.display = 'block';
+                    } else {
+                        document.getElementById('errorContent').innerHTML = `
                         <div class="alert alert-danger">
                             <strong>Error:</strong> ${data.error}
                         </div>
                     `;
-                    document.getElementById('errorSection').style.display = 'block';
-                }
-            })
-            .catch(error => {
-                btn.innerHTML = originalText;
-                btn.disabled = !fileInput.files || fileInput.files.length === 0;
-                
-                document.getElementById('errorContent').innerHTML = `
+                        document.getElementById('errorSection').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = !fileInput.files || fileInput.files.length === 0;
+
+                    document.getElementById('errorContent').innerHTML = `
                     <div class="alert alert-danger">
                         <strong>Error:</strong> ${error.message}
                     </div>
                 `;
-                document.getElementById('errorSection').style.display = 'block';
-            });
+                    document.getElementById('errorSection').style.display = 'block';
+                });
         };
 
         // Drag and drop functionality
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             uploadArea.addEventListener(eventName, preventDefaults, false);
         });
-        
-        function preventDefaults(e) { 
-            e.preventDefault(); 
-            e.stopPropagation(); 
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
         }
 
         ['dragenter', 'dragover'].forEach(eventName => {
@@ -910,7 +1037,7 @@
         });
 
         uploadArea.addEventListener('drop', handleDrop, false);
-        
+
         function handleDrop(e) {
             const dt = e.dataTransfer;
             const files = dt.files;
@@ -921,70 +1048,71 @@
                     return;
                 }
                 fileInput.files = files;
-                fileNameEl.textContent = `${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+                fileNameEl.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
                 fileInfo.style.display = 'block';
                 uploadArea.style.border = '2px solid #28a745';
-                predictBtn.disabled = false;            }
-    }
+                predictBtn.disabled = false;
+            }
+        }
 
-    // Individual prediction form handling
-    document.getElementById('individualPredictionForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        
-        // Show loading state
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
-        
-        // Hide previous results
-        document.getElementById('individualResults').style.display = 'none';
-        
-        try {
-            // For individual predictions, we need to create a minimal CSV with the form data
-            const csvData = {
-                Store: formData.get('store_id'),
-                DayOfWeek: formData.get('dayofweek'),
-                Open: formData.get('open'),
-                Promo: formData.get('promo'),
-                StateHoliday: formData.get('stateholiday'),
-                SchoolHoliday: formData.get('schoolholiday'),
-                // Add minimal required fields with defaults
-                Date: '2013-01-01',
-                StoreType: 'a',
-                Assortment: 'a',
-                CompetitionDistance: 1270,
-                CompetitionOpenSinceMonth: 1,
-                CompetitionOpenSinceYear: 2008,
-                Promo2: 0,
-                Promo2SinceWeek: 1,
-                Promo2SinceYear: 2013,
-                PromoInterval: '0'
-            };
-            
-            // Create CSV content
-            const csvContent = Object.keys(csvData).join(',') + '\n' + Object.values(csvData).join(',');
-            
-            // Create a blob and file from CSV content
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const file = new File([blob], 'individual_prediction.csv', { type: 'text/csv' });
-            
-            // Create form data for the request
-            const requestFormData = new FormData();
-            requestFormData.append('file', file);
-            
-            const response = await fetch('/predict', {
-                method: 'POST',
-                body: requestFormData
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                // Display success results
-                document.getElementById('individualResultContent').innerHTML = `
+        // Individual prediction form handling
+        document.getElementById('individualPredictionForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+
+            // Hide previous results
+            document.getElementById('individualResults').style.display = 'none';
+
+            try {
+                // For individual predictions, we need to create a minimal CSV with the form data
+                const csvData = {
+                    Store: formData.get('store_id'),
+                    DayOfWeek: formData.get('dayofweek'),
+                    Open: formData.get('open'),
+                    Promo: formData.get('promo'),
+                    StateHoliday: formData.get('stateholiday'),
+                    SchoolHoliday: formData.get('schoolholiday'),
+                    // Add minimal required fields with defaults
+                    Date: '2013-01-01',
+                    StoreType: 'a',
+                    Assortment: 'a',
+                    CompetitionDistance: 1270,
+                    CompetitionOpenSinceMonth: 1,
+                    CompetitionOpenSinceYear: 2008,
+                    Promo2: 0,
+                    Promo2SinceWeek: 1,
+                    Promo2SinceYear: 2013,
+                    PromoInterval: '0'
+                };
+
+                // Create CSV content
+                const csvContent = Object.keys(csvData).join(',') + '\n' + Object.values(csvData).join(',');
+
+                // Create a blob and file from CSV content
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const file = new File([blob], 'individual_prediction.csv', { type: 'text/csv' });
+
+                // Create form data for the request
+                const requestFormData = new FormData();
+                requestFormData.append('file', file);
+
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: requestFormData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Display success results
+                    document.getElementById('individualResultContent').innerHTML = `
                     <div class="row">
                         <div class="col-md-8 mx-auto">
                             <div class="text-center">
@@ -1043,56 +1171,57 @@
                         </div>
                     </div>
                 `;
-                document.getElementById('individualResults').style.display = 'block';
-            } else {
-                // Display error
-                document.getElementById('individualResultContent').innerHTML = `
+                    document.getElementById('individualResults').style.display = 'block';
+                } else {
+                    // Display error
+                    document.getElementById('individualResultContent').innerHTML = `
                     <div class="alert alert-danger">
                         <h6><i class="fas fa-exclamation-triangle me-2"></i>Prediction Failed</h6>
                         <p>${result.error}</p>
                     </div>
                 `;
-                document.getElementById('individualResults').style.display = 'block';
-            }
-        } catch (error) {
-            // Display network error
-            document.getElementById('individualResultContent').innerHTML = `
+                    document.getElementById('individualResults').style.display = 'block';
+                }
+            } catch (error) {
+                // Display network error
+                document.getElementById('individualResultContent').innerHTML = `
                 <div class="alert alert-danger">
                     <h6><i class="fas fa-exclamation-triangle me-2"></i>Network Error</h6>
                     <p>Failed to process prediction: ${error.message}</p>
                 </div>
             `;
-            document.getElementById('individualResults').style.display = 'block';
-        } finally {
-            // Reset button state
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-        }
-    });
+                document.getElementById('individualResults').style.display = 'block';
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
     </script>
 
-<!-- Professional Footer -->
-<footer class="mt-5 py-4" style="background: rgba(20, 40, 160, 0.1); backdrop-filter: blur(10px);">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-trending-up text-success fa-2x me-3"></i>
-                    <div>
-                        <h6 class="mb-0 fw-bold text-dark">Sell-out Performance Forecasting</h6>
-                        <small class="text-muted">AI-driven Sales Uplift Prediction & Analysis</small>
+    <!-- Professional Footer -->
+    <footer class="mt-5 py-4" style="background: rgba(20, 40, 160, 0.1); backdrop-filter: blur(10px);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-trending-up text-success fa-2x me-3"></i>
+                        <div>
+                            <h6 class="mb-0 fw-bold text-dark">Sell-out Performance Forecasting</h6>
+                            <small class="text-muted">AI-driven Sales Uplift Prediction & Analysis</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <small class="text-muted">
-                    <i class="fas fa-code me-1"></i>
-                    Worklet 8 • PRISM
-                </small>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <small class="text-muted">
+                        <i class="fas fa-code me-1"></i>
+                        Worklet 8 • PRISM
+                    </small>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
 </body>
+
 </html>
