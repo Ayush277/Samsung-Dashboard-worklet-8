@@ -287,3 +287,23 @@ https://scikit-learn.org/stable/model_persistence.html#security-maintainability-
 127.0.0.1 - - [14/Nov/2025 14:40:08] "POST /batch_predict HTTP/1.1" 200 -
 127.0.0.1 - - [14/Nov/2025 14:40:12] "GET /download/loan_risk_predictions_20251114_144008_sample_loan_applications.csv HTTP/1.1" 200 -
 127.0.0.1 - - [14/Nov/2025 14:40:46] "GET /download/loan_risk_predictions_20251114_144008_sample_loan_applications.csv HTTP/1.1" 304 -
+
+================================================================================
+Starting loan at Tue Dec  2 09:12:25 2025 on port 7001
+================================================================================
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:7001
+Press CTRL+C to quit
+/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py:442: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.7.0 when using version 1.7.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py:442: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.7.0 when using version 1.7.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py:442: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.7.0 when using version 1.7.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+127.0.0.1 - - [02/Dec/2025 09:12:28] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [02/Dec/2025 09:12:28] "GET / HTTP/1.1" 200 -

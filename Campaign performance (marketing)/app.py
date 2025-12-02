@@ -10,7 +10,7 @@ warnings.filterwarnings('ignore')
 
 # Load the sales dataset for store performance analysis
 try:
-    SALES_DATA = pd.read_csv('train2.csv')
+    SALES_DATA = pd.read_csv(os.path.join(BASE_DIR, 'train2.csv'))
     SALES_DATA['date'] = pd.to_datetime(SALES_DATA['date'])
     print(f"✓ Loaded sales data: {len(SALES_DATA)} records")
 except Exception as e:
@@ -21,7 +21,8 @@ except Exception as e:
 app = Flask(__name__)
 
 # --- Configuration ---
-UPLOAD_FOLDER = 'uploads'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 TEMPLATE_MAIN = 'index.html'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -298,10 +299,10 @@ def enrich_predictions_with_campaign_data(df, predictions):
 
 # --- Load Models and Scaler (dynamic) ---
 MODEL_FILES = {
-    'random_forest': 'rf_model.pkl',
-    'lightgbm': 'lgbm_model.pkl',
-    'catboost': 'catboost_model.pkl',
-    'ridge': 'ridge_model.pkl'
+    'random_forest': os.path.join(BASE_DIR, 'rf_model.pkl'),
+    'lightgbm': os.path.join(BASE_DIR, 'lgbm_model.pkl'),
+    'catboost': os.path.join(BASE_DIR, 'catboost_model.pkl'),
+    'ridge': os.path.join(BASE_DIR, 'ridge_model.pkl')
 }
 
 models = {}
@@ -317,8 +318,9 @@ try:
             except Exception as e:
                 print(f"WARNING: Failed to load {fname}: {e}")
     # Load scaler if present
-    if os.path.exists('scaler.pkl'):
-        with open('scaler.pkl', 'rb') as f:
+    scaler_path = os.path.join(BASE_DIR, 'scaler.pkl')
+    if os.path.exists(scaler_path):
+        with open(scaler_path, 'rb') as f:
             scaler = pickle.load(f)
 except Exception as e:
     print(f"ERROR while loading artifacts: {e}")
@@ -327,7 +329,7 @@ except Exception as e:
 
 # --- Load Data for Dropdowns ---
 try:
-    df = pd.read_csv('train2.csv')
+    df = pd.read_csv(os.path.join(BASE_DIR, 'train2.csv'))
     dropdown_options = {
         'store_list': sorted(df['store'].unique()),
         'item_list': sorted(df['item'].unique())
@@ -580,7 +582,7 @@ def download(filename):
 @app.route('/sample_csv')
 def download_sample_csv():
     """Provides a sample CSV file for download."""
-    return send_from_directory('.', 'sample_campaign_data.csv', as_attachment=True)
+    return send_from_directory(BASE_DIR, 'sample_campaign_data.csv', as_attachment=True)
 
 
 @app.route('/analyze_store_performance', methods=['POST'])
