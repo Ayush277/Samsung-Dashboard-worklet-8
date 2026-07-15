@@ -274,33 +274,42 @@ def _patch_onnxmltools_base_score() -> None:
 
     Preferable to pinning an older XGBoost: 3.2.0 is the version these pickles
     were verified to load under, and downgrading risks not loading them at all.
+
+    Implementation note: an earlier attempt reimplemented onnxmltools'
+    get_xgb_params outright and lost the other keys it derives from the config
+    (n_targets, num_class), trading one error for `KeyError: 'n_targets'`. So
+    this leaves that function completely alone and shims the json module it
+    parses the config with — the only thing rewritten is the one unparseable
+    string, and every other key keeps whatever upstream decides it should be.
     """
-    import json as _json
+    import json as _real_json
 
     from onnxmltools.convert.xgboost import common as _common
-    from onnxmltools.convert.xgboost.operator_converters import XGBoost as _ops
 
-    def get_xgb_params(xgb_node):
-        params = (xgb_node.get_xgb_params() if hasattr(xgb_node, "kwargs")
-                  else xgb_node.__dict__)
-        booster = xgb_node.get_booster() if hasattr(xgb_node, "get_booster") else xgb_node
-        config = _json.loads(booster.save_config())
-        raw = config["learner"]["learner_model_param"]["base_score"]
-        if isinstance(raw, str) and raw.strip().startswith("["):
-            values = _json.loads(raw)
-            if len(values) != 1:
-                raise ValueError(f"multi-output base_score {values!r} cannot be "
-                                 f"flattened to a scalar")
-            raw = values[0]
-        params = {k: v for k, v in params.items() if v is not None}
-        params["base_score"] = float(raw)
-        return params
+    class _JsonShim:
+        """Delegates to json, normalising base_score on the way past."""
 
-    # XGBoost.py does `from ..common import get_xgb_params`, so it holds its own
-    # reference — patching the source module alone would not take effect.
-    _common.get_xgb_params = get_xgb_params
-    _ops.get_xgb_params = get_xgb_params
-    print("  patched onnxmltools to read array-encoded base_score")
+        def __getattr__(self, name):
+            return getattr(_real_json, name)
+
+        @staticmethod
+        def loads(payload, **kwargs):
+            parsed = _real_json.loads(payload, **kwargs)
+            try:
+                model_param = parsed["learner"]["learner_model_param"]
+            except (TypeError, KeyError):
+                return parsed  # not a booster config; nothing to do
+            raw = model_param.get("base_score")
+            if isinstance(raw, str) and raw.strip().startswith("["):
+                values = _real_json.loads(raw)
+                if len(values) != 1:
+                    raise ValueError(f"multi-output base_score {values!r} cannot "
+                                     f"be flattened to a scalar")
+                model_param["base_score"] = repr(float(values[0]))
+            return parsed
+
+    _common.json = _JsonShim()
+    print("  shimmed onnxmltools config parsing for array-encoded base_score")
 
 
 # --------------------------------------------------------------------------
