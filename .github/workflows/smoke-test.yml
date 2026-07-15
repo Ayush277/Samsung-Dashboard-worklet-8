@@ -1,0 +1,146 @@
+name: Smoke test
+
+# Boots the real app against the committed ONNX graphs and exercises every
+# endpoint. Runs on GitHub's runners, so verification costs no local compute.
+#
+# This is what stops a green "deployed" badge from sitting on top of a broken
+# service — the failure mode this project already shipped once, when the live
+# page reported running:true for models that were never deployed.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Exactly what Vercel installs — no training libraries. If inference needs
+      # something that isn't here, this job fails and production would have too.
+      - name: Install runtime deps only
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Bundle size vs Vercel's 250 MB limit
+        run: |
+          SIZE=$(du -sm $(python -c "import site;print(site.getsitepackages()[0])") | cut -f1)
+          MODELS=$(du -sm prism/models | cut -f1)
+          echo "site-packages: ${SIZE} MB + models: ${MODELS} MB"
+          echo "| component | MB |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| site-packages | ${SIZE} |" >> $GITHUB_STEP_SUMMARY
+          echo "| onnx models | ${MODELS} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **limit** | **250** |" >> $GITHUB_STEP_SUMMARY
+          if [ $((SIZE + MODELS)) -gt 250 ]; then
+            echo "::error::bundle $((SIZE + MODELS)) MB exceeds Vercel's 250 MB limit"
+            exit 1
+          fi
+
+      - name: Boot app and exercise every endpoint
+        run: |
+          python -m flask --app api.index run --port 5050 &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:5050/api/health >/dev/null 2>&1 && break
+            sleep 1
+          done
+          python - <<'PY'
+          import json, sys, urllib.parse, urllib.request
+
+          BASE = "http://127.0.0.1:5050"
+          failures = []
+
+          def get(path):
+              with urllib.request.urlopen(BASE + path, timeout=30) as r:
+                  return r.status, r.read()
+
+          def post(path, data):
+              body = urllib.parse.urlencode(data).encode()
+              with urllib.request.urlopen(BASE + path, body, timeout=30) as r:
+                  return r.status, json.loads(r.read())
+
+          def check(name, cond, detail=""):
+              print(f"  {'ok  ' if cond else 'FAIL'} {name}{'' if cond else '  ' + detail}")
+              if not cond:
+                  failures.append(f"{name}: {detail}")
+
+          print("health")
+          status, raw = get("/api/health")
+          health = json.loads(raw)
+          check("all models load and infer", health["ok"], json.dumps(health["checks"]))
+          check("baselines loaded", health["campaign_baselines"]["loaded"])
+          check("500 store/item pairs", health["campaign_baselines"]["pairs"] == 500,
+                str(health["campaign_baselines"]["pairs"]))
+
+          print("pages render")
+          for path in ("/", "/loan", "/campaign", "/sellout", "/docs", "/architecture"):
+              status, body = get(path)
+              check(f"GET {path}", status == 200 and len(body) > 1000, f"status={status}")
+
+          print("loan: risk must respond to payment history")
+          _, good = post("/api/loan/predict", {
+              "total_on_time_payments": 24, "total_late_payments": 0, "current_dpd": 0})
+          _, bad = post("/api/loan/predict", {
+              "total_on_time_payments": 0, "total_late_payments": 20, "current_dpd": 90})
+          print(f"    clean={good['probability_of_default']:.4f} "
+                f"distressed={bad['probability_of_default']:.4f}")
+          check("distressed history scores riskier than clean",
+                bad["probability_of_default"] > good["probability_of_default"],
+                f"{bad['probability_of_default']} !> {good['probability_of_default']}")
+          check("probability in [0,1]", 0 <= good["probability_of_default"] <= 1)
+          check("drivers returned", len(bad["drivers"]) > 0)
+
+          print("loan: categoricals must actually reach the model")
+          # The old app's single-row get_dummies(drop_first=True) collapsed every
+          # categorical to its reference level, so these two were identical.
+          _, emp = post("/api/loan/predict", {"EmploymentStatus": "Employed"})
+          _, unemp = post("/api/loan/predict", {"EmploymentStatus": "Unemployed"})
+          check("EmploymentStatus changes the prediction",
+                emp["probability_of_default"] != unemp["probability_of_default"],
+                f"both {emp['probability_of_default']} — encoding is dropping input")
+
+          print("campaign")
+          _, camp = post("/api/campaign/predict",
+                         {"store": 1, "item": 1, "month": 7, "day": 15, "compare": "1"})
+          check("sales predicted", camp["predicted_sales"] > 0, str(camp.get("predicted_sales")))
+          check("uplift measured against real history", camp["campaign"]["available"])
+          check("baseline is from history",
+                "historical" in camp["campaign"]["baseline"]["basis"])
+          check("all three models scored",
+                len([m for m in camp["all_models"].values() if "predicted_sales" in m]) == 3,
+                json.dumps(camp["all_models"]))
+
+          print("sellout: a closed store must not sell")
+          _, closed = post("/api/sellout/predict", {"Open": 0, "Promo": 0})
+          _, open_promo = post("/api/sellout/predict", {"Open": 1, "Promo": 1})
+          print(f"    closed={closed['predicted_sales']:.1f} "
+                f"open+promo={open_promo['predicted_sales']:.1f}")
+          check("closed store predicts less than open store",
+                closed["predicted_sales"] < open_promo["predicted_sales"],
+                f"{closed['predicted_sales']} !< {open_promo['predicted_sales']}")
+
+          print("manifest")
+          status, raw = get("/api/models")
+          manifest = json.loads(raw)
+          check("8 graphs published", len(manifest) == 8, str(len(manifest)))
+          worst = max(m["max_drift_vs_original"] for m in manifest.values())
+          check(f"every graph within 1e-3 of its original (worst {worst:.2e})",
+                worst < 1e-3)
+
+          print("batch csv")
+          status, raw = get("/api/loan/sample.csv")
+          check("sample csv served", status == 200 and b"borrower_credit_score" in raw)
+
+          if failures:
+              print(f"\n{len(failures)} FAILURE(S):")
+              for f in failures:
+                  print(f"  - {f}")
+              sys.exit(1)
+          print("\nall smoke checks passed")
+          PY
