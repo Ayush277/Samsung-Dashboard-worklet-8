@@ -3,14 +3,38 @@
 **PRISM Worklet 8 - Samsung Project**  
 *Preparing and Inspiring Student Minds*
 
+> **⚠️ Corrections — read before quoting this document**
+>
+> Earlier versions of this README described a TabPFN ensemble. That was not
+> accurate, and the claims are corrected below rather than deleted:
+>
+> - **There is one model: a RandomForestClassifier** (160 trees, `max_depth=12`,
+>   `class_weight='balanced'`). It is stored as `models/tabpfn.pkl` for historical
+>   reasons — `app.py` trains a RandomForest and saves it under that filename. The
+>   `tabpfn` package is not imported by any code that runs. There is no TabPFN,
+>   Gradient Boosting or SVM in this project.
+> - **Measured performance: AUC 0.7209**, on a stratified 25% held-out split of
+>   116,058 rows, against a majority-class baseline of 0.500. Accuracy is 0.664 —
+>   *below* the 0.690 majority baseline, which is the expected trade for
+>   `class_weight='balanced'`.
+> - **Payment history carries 87% of the signal.** `borrower_credit_score`
+>   contributes 0.015 importance and correlates +0.0018 with the target, i.e.
+>   effectively zero. The demographic columns of this dataset appear synthetic.
+> - **The target is inverted:** `mx=1` means a GOOD loan.
+>
+> The deployed service and its model card: https://samsung-dashboard-worklet-8.vercel.app/docs
+
 ## 🎯 Overview
 
-The Loan Delinquency Risk Assessment application provides advanced AI-powered risk analysis for loan applications using comprehensive borrower analysis. Built with ensemble machine learning models including TabPFN foundation models, Random Forest, Gradient Boosting, and SVM, it delivers accurate risk assessments for financial decision-making.
+The Loan Delinquency Risk Assessment application scores loan applications for
+probability of delinquency using a RandomForest classifier trained on 116,058
+loans. It is a working demonstration of an ML pipeline — not a validated credit
+policy. See the corrections above.
 
 ## ⭐ Key Features
 
-- **🎯 Advanced Risk Assessment**: ML-powered analysis using comprehensive borrower profiles
-- **🤖 Ensemble ML Models**: TabPFN, Random Forest, Gradient Boosting, SVM integration
+- **🎯 Risk Assessment**: RandomForest scoring over 30 encoded borrower features
+- **🤖 Model**: RandomForestClassifier — 160 trees, depth 12, class-balanced (AUC 0.72)
 - **📊 Real-time Risk Scoring**: Individual risk assessment with detailed scoring (0.0-1.0)
 - **🚨 Risk Classification**: Automated Low/Medium/High risk categorization
 - **💡 Decision Recommendations**: Automated approval/rejection recommendations
@@ -35,7 +59,7 @@ cd "Loan delinquency risk"
 
 2. **Install dependencies:**
 ```bash
-pip install flask pandas numpy scikit-learn joblib tabpfn xgboost
+pip install flask pandas numpy scikit-learn joblib
 ```
 
 3. **Run the application:**
@@ -71,7 +95,7 @@ Loan delinquency risk/
 ├── loan_risk_inference_demo.py         # Comprehensive demo script
 ├── approach_train.csv                  # Training dataset (116K+ records)
 ├── models/                             # ML model artifacts
-│   ├── tabpfn.pkl                     # TabPFN foundation model
+│   ├── tabpfn.pkl                     # RandomForestClassifier (legacy filename)
 │   ├── scaler.pkl                     # Feature standardization
 │   ├── dummy_columns.pkl              # Feature schema alignment
 │   └── medians.json                   # Missing data imputation values
@@ -190,7 +214,7 @@ interest_rate,unpaid_principal_bal,loan_term,ltv,source,loan_purpose,credit_scor
 ## 🔧 Model Information
 
 ### Ensemble Models
-- **TabPFN**: Foundation model for tabular data prediction
+- **RandomForestClassifier**: 160 trees, depth 12, class-balanced — the only model used
 - **Random Forest**: 160 trees with balanced class weights
 - **Gradient Boosting**: XGBoost with feature importance
 - **SVM**: Support Vector Machine with RBF kernel
@@ -236,7 +260,7 @@ ls -la models/
 
 **2. Dependencies Issues**
 ```bash
-pip install --upgrade flask pandas numpy scikit-learn joblib tabpfn xgboost
+pip install --upgrade flask pandas numpy scikit-learn joblib
 ```
 
 **3. Data Validation Errors**
@@ -337,7 +361,7 @@ For technical support or questions:
 
 ## 🏆 About PRISM Worklet 8
 
-Part of the Samsung "Preparing and Inspiring Student Minds" initiative, this application demonstrates advanced AI/ML capabilities in financial risk assessment and lending automation. Built with industry-standard TabPFN foundation models and ensemble methods for production-ready deployment.
+Part of the Samsung "Preparing and Inspiring Student Minds" initiative, this application demonstrates advanced AI/ML capabilities in financial risk assessment and lending automation. It uses a class-balanced RandomForest (AUC 0.72 held-out); no tabular foundation model is involved.
 
 ---
 

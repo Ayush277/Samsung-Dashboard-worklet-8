@@ -18,3 +18,21 @@ node_modules
 uploads/
 logs/
 .ipynb_checkpoints
+.github
+.claude
+
+# The deployed function needs the ONNX graphs only. The training artifacts,
+# notebooks and source projects stay in the repo but never enter the bundle —
+# tabpfn.pkl alone is 9 MB, and the source CSVs are ~40 MB combined.
+*.pkl
+*.ipynb
+*.pdf
+*.docx
+tools/
+Loan delinquency risk/
+Campaign performance (marketing)/
+Sell-out performance forecasting (sales uplift)/
+dashboard/
+Images/
+Visual Documentation & Schematics/
+docs/assets/

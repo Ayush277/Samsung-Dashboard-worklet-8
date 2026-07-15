@@ -1,0 +1,69 @@
+name: Build ONNX models
+
+# Converts the trained .pkl artifacts into ONNX and verifies every export against
+# the original model before committing it. Runs on GitHub's runners so no model
+# training, conversion or inference ever happens on a developer laptop.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "tools/convert_models.py"
+      - ".github/workflows/build-models.yml"
+      - "**/*.pkl"
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      # Pinned to the versions the .pkl files were verified to load under.
+      # Unpinning risks a pickle that loads but rebuilds subtly different trees.
+      - name: Install conversion toolchain
+        run: |
+          python -m pip install --upgrade pip
+          pip install \
+            numpy==1.26.4 pandas==2.2.3 scikit-learn==1.6.1 joblib==1.5.1 \
+            catboost==1.2.8 lightgbm==4.6.0 xgboost==3.2.0 \
+            skl2onnx==1.20.0 onnxmltools==1.14.0 onnx==1.19.1 onnxruntime==1.23.2
+
+      - name: Convert and verify
+        run: python tools/convert_models.py
+
+      - name: Report artifacts
+        run: |
+          echo "### ONNX build" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          ls -lh prism/models/ >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "Drift vs original model:" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat prism/models/manifest.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: onnx-models
+          path: prism/models/
+
+      # Only reached if conversion + verification succeeded: the script exits
+      # non-zero on any drift, so unverified graphs can never land on main.
+      - name: Commit verified models
+        run: |
+          git config user.name "Ayush Kumar"
+          git config user.email "prince908ayush@gmail.com"
+          git add -f prism/models/
+          if git diff --staged --quiet; then
+            echo "models unchanged"
+          else
+            git commit -m "Build verified ONNX models from trained artifacts"
+            git push
+          fi

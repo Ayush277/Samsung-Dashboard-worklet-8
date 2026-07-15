@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}PRISM Worklet 8 — real-time inference for financing, campaign and sales{% endblock %}
+
+{% block body %}
+<section class="hero">
+  <canvas id="ambient" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="reveal d1"><div><span class="pill pill-live"><span class="dot dot-pulse"></span> <span data-health-pill>checking models…</span></span></div></div>
+    <div class="reveal d2">
+      <h1 class="display">Three models. <span class="grad">Live inference.</span> No mock data.</h1>
+    </div>
+    <div class="reveal d3">
+      <p class="lede">
+        Loan delinquency risk, store/item campaign demand, and sell-out forecasting —
+        each served by the model that was actually trained on its data, running on
+        ONNX Runtime at the edge. Move an input and the prediction re-scores against
+        a real model, not a formula.
+      </p>
+    </div>
+    <div class="reveal d4">
+      <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
+        <a class="btn" href="/loan">Open the loan console</a>
+        <a class="btn btn-ghost" href="/architecture">How it works</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="cases">
+    {% for uc in use_cases %}
+    <a class="case card" href="/{{ uc.slug }}">
+      <span class="label label-accent">{{ uc.task }}</span>
+      <h3>{{ uc.name }}</h3>
+      <p>{{ uc.tagline }}</p>
+      <div class="case-foot">
+        <span class="pill">{{ uc.model }}</span>
+        <span class="pill">{{ uc.metric }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="label label-accent">Live system check</span>
+      <h2 class="section-title">Health is measured, not asserted</h2>
+      <p class="lede" style="font-size:16px">
+        This panel calls <code>/api/health</code>, which loads every model and runs a
+        real inference through each one before answering. The version this replaced
+        returned <code>running: true</code> unconditionally and linked to routes that
+        did not exist.
+      </p>
+    </div>
+
+    <div class="console" style="margin-top:28px">
+      <div class="console-bar on-dark">
+        <span class="pill"><span class="dot" style="color:var(--accent)"></span> GET /api/health</span>
+        <span class="label" data-health-time style="margin-left:auto">—</span>
+      </div>
+      <div class="console-body on-dark">
+        <div class="rows" data-health-rows>
+          <div class="row"><span class="row-name">contacting models…</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="label label-accent">Provenance</span>
+      <h2 class="section-title">Every number is labelled</h2>
+    </div>
+    <div class="cases" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="card">
+        <span class="tag tag-model" style="color:var(--primary);background:rgba(79,70,229,.1)">Model</span>
+        <h3 style="font-size:17px;margin:12px 0 6px">Trained on the data</h3>
+        <p style="font-size:14px;color:var(--text-secondary);margin:0">
+          Predictions come from RandomForest, CatBoost, LightGBM, Ridge and XGBoost
+          artifacts trained in this repo, converted to ONNX and verified to match
+          their originals before shipping.
+        </p>
+      </div>
+      <div class="card">
+        <span class="tag tag-measured" style="color:#0891b2;background:rgba(6,182,212,.1)">Measured</span>
+        <h3 style="font-size:17px;margin:12px 0 6px">Counted from history</h3>
+        <p style="font-size:14px;color:var(--text-secondary);margin:0">
+          Campaign uplift compares a prediction against what that store and item
+          actually sold across 913,000 rows of sales history — not against an
+          invented baseline.
+        </p>
+      </div>
+      <div class="card">
+        <span class="tag tag-rule" style="color:#b45309;background:rgba(245,158,11,.12)">Rule</span>
+        <h3 style="font-size:17px;margin:12px 0 6px">A decision, not a prediction</h3>
+        <p style="font-size:14px;color:var(--text-secondary);margin:0">
+          Channel choice and cost-per-contact are business rules with configurable
+          inputs. They are shown as rules because that is what they are — no dataset
+          here contains channel spend.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(async () => {
+  const rows = document.querySelector("[data-health-rows]");
+  const pill = document.querySelector("[data-health-pill]");
+  const time = document.querySelector("[data-health-time]");
+  try {
+    const t0 = performance.now();
+    const res = await fetch("/api/health");
+    const d = await res.json();
+    time.textContent = `${d.total_ms} ms · ${Math.round(performance.now()-t0)} ms round trip`;
+
+    const ok = Object.values(d.checks).filter(c => c.ok).length;
+    const n = Object.keys(d.checks).length;
+    pill.textContent = d.ok ? `${ok}/${n} models live` : `${ok}/${n} models responding`;
+    pill.closest(".pill").style.color = d.ok ? "" : "var(--warn)";
+
+    rows.innerHTML = Object.entries(d.checks).map(([name, c]) => `
+      <div class="row">
+        <span class="dot" style="color:${c.ok ? "var(--ok)" : "var(--danger)"}"></span>
+        <span class="row-name">${name}</span>
+        <span class="row-val">${c.ok
+          ? `<span class="tag tag-measured">${c.inference_ms} ms</span>`
+          : `<span class="tag" style="background:rgba(239,68,68,.16);color:#fca5a5">${c.error}</span>`}</span>
+      </div>`).join("") + `
+      <div class="row">
+        <span class="dot" style="color:${d.campaign_baselines.loaded ? "var(--ok)" : "var(--warn)"}"></span>
+        <span class="row-name">campaign baselines</span>
+        <span class="row-val">${d.campaign_baselines.loaded
+          ? `${d.campaign_baselines.pairs} pairs from ${d.campaign_baselines.rows_of_history.toLocaleString()} rows`
+          : "not built"}</span>
+      </div>
+      <div class="row">
+        <span class="dot" style="color:var(--accent)"></span>
+        <span class="row-name">onnxruntime</span>
+        <span class="row-val">${d.runtime.onnxruntime || "not installed"}</span>
+      </div>`;
+  } catch (e) {
+    pill.textContent = "health check failed";
+    rows.innerHTML = `<div class="err">${e.message}</div>`;
+  }
+})();
+</script>
+{% endblock %}

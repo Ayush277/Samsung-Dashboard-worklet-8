@@ -1,2 +1,14 @@
-Flask==2.3.3
-Werkzeug==2.3.7
+# Runtime dependencies for the deployed app.
+#
+# Inference runs on ONNX Runtime, not on the training libraries. scikit-learn,
+# CatBoost, LightGBM and XGBoost together weigh ~330 MB installed and cannot fit
+# Vercel's 250 MB serverless bundle — which is why the ML was never deployed
+# before. ONNX Runtime executes all four model families from one ~16 MB wheel.
+#
+# The training libraries are still needed to *convert* the models, but that runs
+# in GitHub Actions (see .github/workflows/build-models.yml), never here.
+
+Flask==3.0.3
+Werkzeug==3.0.3
+numpy==1.26.4
+onnxruntime==1.19.2

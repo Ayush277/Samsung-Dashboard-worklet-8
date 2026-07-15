@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Sell-out forecasting — PRISM Worklet 8{% endblock %}
+
+{% block body %}
+<section class="hero" style="padding:56px 0 32px">
+  <canvas id="ambient" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="reveal d1"><div><span class="label label-accent">Regression · XGBoost</span></div></div>
+    <div class="reveal d2">
+      <h1 class="display" style="font-size:clamp(32px,4.4vw,46px);max-width:22ch">Sell-out forecasting</h1>
+    </div>
+    <div class="reveal d3">
+      <p class="lede" style="font-size:16px">
+        Daily store revenue from promotion, competition and calendar context — the
+        Rossmann forecasting task. Tuned by randomised search over 10 candidates and
+        3-fold cross-validation.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="console">
+    <div class="console-bar on-dark">
+      <span class="pill pill-live"><span class="dot dot-pulse"></span> <span data-status>starting</span></span>
+      <span class="label mono" data-latency>—</span>
+      <a class="btn btn-ghost" href="/api/sellout/sample.csv"
+         style="margin-left:auto;height:30px;padding:0 12px;font-size:12px">Sample CSV</a>
+    </div>
+
+    <div class="split">
+      <div class="console-body on-dark">
+        <form id="sellout-form" autocomplete="off">
+          <div class="label" style="margin-bottom:14px">Trading context</div>
+          <div class="grid-2">
+            {% for f in fields if f.kind == 'select' %}
+            <div class="field">
+              <div class="field-head"><label for="{{ f.name }}">{{ f.label }}</label></div>
+              <select id="{{ f.name }}" name="{{ f.name }}">
+                {% for c in f.choices %}
+                <option value="{{ c }}" {% if c == f.default %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="label" style="margin:26px 0 14px">Calendar &amp; competition</div>
+          {% for f in fields if f.kind == 'number' %}
+          <div class="field">
+            <div class="field-head">
+              <label for="{{ f.name }}_r">{{ f.label }}{% if f.unit %} <span style="opacity:.6">({{ f.unit }})</span>{% endif %}</label>
+              <span class="field-val" data-val="{{ f.name }}_r">{{ f.default }}</span>
+            </div>
+            <input type="range" id="{{ f.name }}_r" name="{{ f.name }}_r"
+                   min="{{ f.minimum }}" max="{{ f.maximum }}" step="{{ f.step }}"
+                   value="{{ f.default }}" data-mirror="{{ f.name }}">
+            <input type="hidden" name="{{ f.name }}" value="{{ f.default }}">
+          </div>
+          {% endfor %}
+        </form>
+      </div>
+
+      <div>
+        <div class="readout on-dark">
+          <div class="label">Predicted daily sales</div>
+          <div style="display:flex;align-items:flex-end;gap:10px;margin-top:10px">
+            <div class="big-unit" style="padding-bottom:10px;margin:0">€</div>
+            <div class="big-number" data-sales style="color:var(--accent)">—</div>
+          </div>
+          <p class="hint" style="margin-top:10px">
+            Closing the store (<code style="background:var(--surface-3);border:0;color:var(--on-surface-dim)">Open = 0</code>)
+            should collapse this toward zero — the clearest way to see a real model
+            responding rather than a formula.
+          </p>
+
+          <div class="label" style="margin:28px 0 8px">Feature vector sent to the model</div>
+          <div class="rows" data-vector></div>
+
+          <div class="label" style="margin:28px 0 8px">Tuned hyperparameters</div>
+          <div class="rows" data-params></div>
+          <div data-error style="margin-top:16px"></div>
+        </div>
+        <div class="basis-key">
+          <span><span class="tag tag-model">Model</span> trained output</span>
+          <span>17 features · one-hot levels encoded against the fitted columns</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const form = document.getElementById("sellout-form");
+let paramsDone = false;
+
+PRISM.live(form, "/api/sellout/predict", (d) => {
+  document.querySelector("[data-sales]").textContent = PRISM.fmt(d.predicted_sales, 0);
+  document.querySelector("[data-error]").innerHTML = "";
+
+  const skip = new Set(["StoreType", "Assortment", "PromoInterval"]);
+  document.querySelector("[data-vector]").innerHTML = Object.entries(d.resolved_inputs)
+    .filter(([k, v]) => !skip.has(k) && v !== 0)
+    .map(([k, v]) => `
+      <div class="row">
+        <span class="row-name">${k.replace(/_/g, " ")}</span>
+        <span class="row-val">${typeof v === "number" ? PRISM.fmt(v, 0) : v}</span>
+      </div>`).join("");
+
+  if (!paramsDone) {
+    paramsDone = true;
+    const p = d.model.best_params || {};
+    document.querySelector("[data-params]").innerHTML = Object.keys(p).length
+      ? Object.entries(p).map(([k, v]) => `
+          <div class="row"><span class="row-name">${k}</span><span class="row-val">${v}</span></div>`).join("")
+      : `<div class="row"><span class="row-name">not recorded in the artifact</span></div>`;
+  }
+});
+</script>
+{% endblock %}

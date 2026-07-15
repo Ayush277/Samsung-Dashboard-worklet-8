@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block title %}Architecture — PRISM Worklet 8{% endblock %}
+
+{% block body %}
+<section class="hero" style="padding:56px 0 24px">
+  <canvas id="ambient" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="reveal d1"><div><span class="label label-accent">System design</span></div></div>
+    <div class="reveal d2">
+      <h1 class="display" style="font-size:clamp(32px,4.4vw,46px);max-width:20ch">How a prediction actually happens</h1>
+    </div>
+    <div class="reveal d3">
+      <p class="lede" style="font-size:16px">
+        Training runs offline. Conversion runs in CI. Only inference runs at request
+        time — which is the only reason three model families fit in a serverless
+        function at all.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+
+<h2 class="section-title" style="margin-top:32px">The constraint that shaped everything</h2>
+<div class="prose">
+  <p>
+    Vercel gives a Python serverless function a 250 MB unzipped bundle. Installed
+    together, the libraries these models were trained with weigh far more than that:
+  </p>
+</div>
+
+<div class="scroll-x">
+<table class="data" style="max-width:640px">
+  <tr><th>Package</th><th>Installed size</th><th>Needed at inference?</th></tr>
+  <tr><td>scipy</td><td class="num">90.6 MB</td><td>No</td></tr>
+  <tr><td>catboost</td><td class="num">87.2 MB</td><td>No</td></tr>
+  <tr><td>pandas</td><td class="num">56.6 MB</td><td>No</td></tr>
+  <tr><td>numpy</td><td class="num">53.5 MB</td><td>Yes</td></tr>
+  <tr><td>scikit-learn</td><td class="num">45.2 MB</td><td>No</td></tr>
+  <tr><td>xgboost + lightgbm</td><td class="num">~50 MB</td><td>No</td></tr>
+  <tr style="border-top:2px solid var(--text-primary)">
+    <td><strong>Training stack total</strong></td>
+    <td class="num"><strong>~330 MB</strong></td>
+    <td><strong>over budget</strong></td>
+  </tr>
+  <tr style="color:var(--primary)">
+    <td><strong>onnxruntime + numpy</strong></td>
+    <td class="num"><strong>~95 MB</strong></td>
+    <td><strong>ships</strong></td>
+  </tr>
+</table>
+</div>
+
+<div class="prose">
+  <p>
+    A trained tree ensemble is just a set of split thresholds. It does not need the
+    library that grew it in order to evaluate — it needs something that can walk the
+    tree. ONNX Runtime does that for all four model families out of one ~16 MB wheel.
+    Every export is replayed against its original and the build fails on any drift
+    beyond 1e-3, so what serves traffic is the model that was trained.
+  </p>
+  <div class="note">
+    <strong>This is why the site was a mock.</strong>
+    <p>
+      The previous deployment shipped Flask and Werkzeug only — no ML libraries at
+      all. The models existed on a laptop, and the deployed page hardcoded
+      <code>running: true</code> beside links to routes that returned 404. The
+      dependency budget above is the wall it hit.
+    </p>
+  </div>
+</div>
+
+<h2 class="section-title" style="margin-top:56px">Pipeline</h2>
+<div class="console" style="padding:32px 24px;margin-top:16px">
+<svg viewBox="0 0 980 300" style="width:100%;height:auto" role="img"
+     aria-label="Three-stage pipeline: offline training, CI conversion, and request-time inference">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#6366f1"/>
+    </marker>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4F46E5"/><stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- lanes -->
+  <g font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#9b9ba3">
+    <text x="16" y="40">OFFLINE · already done</text>
+    <text x="350" y="40">CI · GitHub Actions</text>
+    <text x="700" y="40">REQUEST TIME · Vercel</text>
+  </g>
+  <line x1="330" y1="20" x2="330" y2="285" stroke="#35353a" stroke-dasharray="3 4"/>
+  <line x1="680" y1="20" x2="680" y2="285" stroke="#35353a" stroke-dasharray="3 4"/>
+
+  <g font-family="Inter, sans-serif" font-size="12">
+    <!-- offline -->
+    <rect x="16" y="60" width="290" height="52" rx="8" fill="#262629" stroke="#35353a"/>
+    <text x="30" y="82" fill="#f5f5f7" font-weight="600">Training data</text>
+    <text x="30" y="99" fill="#9b9ba3" font-size="11">116k loans · 913k sales rows · Rossmann</text>
+
+    <rect x="16" y="128" width="290" height="52" rx="8" fill="#262629" stroke="#35353a"/>
+    <text x="30" y="150" fill="#f5f5f7" font-weight="600">Trained artifacts (.pkl)</text>
+    <text x="30" y="167" fill="#9b9ba3" font-size="11">RandomForest · CatBoost · LGBM · Ridge · XGB</text>
+
+    <rect x="16" y="196" width="290" height="52" rx="8" fill="#1c1c1e" stroke="#35353a" stroke-dasharray="4 3"/>
+    <text x="30" y="218" fill="#9b9ba3" font-weight="600">Never runs on a laptop</text>
+    <text x="30" y="235" fill="#6b6b75" font-size="11">no torch, no training at request time</text>
+
+    <!-- CI -->
+    <rect x="350" y="60" width="300" height="52" rx="8" fill="#262629" stroke="#35353a"/>
+    <text x="364" y="82" fill="#f5f5f7" font-weight="600">Convert to ONNX</text>
+    <text x="364" y="99" fill="#9b9ba3" font-size="11">skl2onnx · onnxmltools · catboost export</text>
+
+    <rect x="350" y="128" width="300" height="52" rx="8" fill="#262629" stroke="url(#g1)" stroke-width="1.5"/>
+    <text x="364" y="150" fill="#f5f5f7" font-weight="600">Verify parity vs original</text>
+    <text x="364" y="167" fill="#67e8f9" font-size="11">fails the build above 1e-3 drift</text>
+
+    <rect x="350" y="196" width="300" height="52" rx="8" fill="#262629" stroke="#35353a"/>
+    <text x="364" y="218" fill="#f5f5f7" font-weight="600">Precompute baselines</text>
+    <text x="364" y="235" fill="#9b9ba3" font-size="11">500 store/item means from 913k rows</text>
+
+    <!-- runtime -->
+    <rect x="700" y="60" width="264" height="52" rx="8" fill="#262629" stroke="#35353a"/>
+    <text x="714" y="82" fill="#f5f5f7" font-weight="600">Flask + ONNX Runtime</text>
+    <text x="714" y="99" fill="#9b9ba3" font-size="11">~95 MB · sessions cached per instance</text>
+
+    <rect x="700" y="128" width="264" height="52" rx="8" fill="#262629" stroke="#35353a"/>
+    <text x="714" y="150" fill="#f5f5f7" font-weight="600">Encode → scale → predict</text>
+    <text x="714" y="167" fill="#9b9ba3" font-size="11">scaler.onnx then model.onnx</text>
+
+    <rect x="700" y="196" width="264" height="52" rx="8" fill="#262629" stroke="url(#g1)" stroke-width="1.5"/>
+    <text x="714" y="218" fill="#f5f5f7" font-weight="600">Labelled JSON response</text>
+    <text x="714" y="235" fill="#67e8f9" font-size="11">model · measured · rule · assumption</text>
+  </g>
+
+  <g stroke="#6366f1" stroke-width="1.4" fill="none" marker-end="url(#ar)">
+    <path d="M161 112 L161 126"/>
+    <path d="M306 154 L344 154"/>
+    <path d="M500 112 L500 126"/>
+    <path d="M500 180 L500 194"/>
+    <path d="M650 154 L694 154"/>
+    <path d="M832 112 L832 126"/>
+    <path d="M832 180 L832 194"/>
+  </g>
+</svg>
+</div>
+
+<h2 class="section-title" style="margin-top:56px">Request path</h2>
+<div class="prose">
+  <p>
+    A single prediction is two ONNX graph executions. The scaler is exported as its
+    own graph rather than reimplemented in Python, because a hand-rolled
+    standardisation that disagrees with the fitted one by a fraction is the kind of
+    bug that never announces itself.
+  </p>
+<pre><code>POST /api/loan/predict
+  │
+  ├─ build_loan_vector(payload)
+  │    ├─ numeric  → clamp to training range, fall back to median
+  │    └─ categorical → explicit one-hot against fitted dummy columns
+  │         (the old app used get_dummies(drop_first=True) on one row,
+  │          which silently zeroed every categorical it was given)
+  │
+  ├─ loan_scaler.onnx          → standardise 30 features
+  ├─ loan_random_forest.onnx   → P(mx=1), P(mx=0)
+  │
+  ├─ p_default = P(mx=0)       ← target is inverted: mx=1 marks a GOOD loan
+  └─ JSON: probability, band, ranked drivers, inference_ms</code></pre>
+
+  <div class="note note-warn">
+    <strong>The inverted target.</strong>
+    <p>
+      In <code>approach_train.csv</code>, <code>mx = 1</code> means a good loan, not a
+      delinquent one. Reading column 1 of <code>predict_proba</code> as the risk — the
+      obvious thing to do — returns the probability the loan is <em>fine</em>. The
+      service reads column 0. This is the single easiest way to ship a model that is
+      confidently backwards, and it is why the inversion is asserted in code and
+      documented here.
+    </p>
+  </div>
+</div>
+
+<h2 class="section-title" style="margin-top:56px">Why CI builds the models</h2>
+<div class="prose">
+  <p>
+    The conversion needs CatBoost, LightGBM, XGBoost and scikit-learn — the whole
+    330 MB stack. Putting that in
+    <a href="https://github.com/Ayush277/Samsung-Dashboard-worklet-8/blob/main/.github/workflows/build-models.yml">a GitHub Actions workflow</a>
+    keeps it off both the laptop and the serverless bundle, and makes the model build
+    reproducible: the workflow pins every library to the version the pickles were
+    verified to load under, so a rebuild produces the same graphs rather than
+    whatever the toolchain drifted to.
+  </p>
+  <p>
+    The parity check is the gate. <code>tools/convert_models.py</code> exits non-zero on
+    any drift, and the commit step only runs on success — an unverified graph cannot
+    reach <code>main</code>, and therefore cannot reach production.
+    <a href="/api/models">The live manifest</a> reports the measured drift of every
+    deployed graph.
+  </p>
+</div>
+
+</div>
+{% endblock %}

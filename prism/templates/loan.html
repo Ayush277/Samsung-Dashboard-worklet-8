@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block title %}Loan delinquency risk — PRISM Worklet 8{% endblock %}
+
+{% block body %}
+<section class="hero" style="padding:56px 0 32px">
+  <canvas id="ambient" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="reveal d1"><div><span class="label label-accent">Binary classification · RandomForest</span></div></div>
+    <div class="reveal d2">
+      <h1 class="display" style="font-size:clamp(32px,4.4vw,46px);max-width:22ch">Loan delinquency risk</h1>
+    </div>
+    <div class="reveal d3">
+      <p class="lede" style="font-size:16px">
+        Every input change re-scores against a 160-tree RandomForest trained on
+        116,058 loans. Held-out AUC is <strong>0.72</strong> against a 0.50 baseline —
+        real signal, and the console shows you exactly where it comes from.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="console">
+    <div class="console-bar on-dark">
+      <span class="pill pill-live"><span class="dot dot-pulse"></span> <span data-status>starting</span></span>
+      <span class="label mono" data-latency>—</span>
+      <a class="btn btn-ghost" href="/api/loan/sample.csv"
+         style="margin-left:auto;height:30px;padding:0 12px;font-size:12px">Sample CSV</a>
+    </div>
+
+    <div class="split">
+      <!-- inputs -->
+      <div class="console-body on-dark">
+        <form id="loan-form" autocomplete="off">
+          <div class="label" style="margin-bottom:14px">Payment history — 87% of model importance</div>
+          {% for f in fields if f.name in ('total_on_time_payments','total_late_payments','current_dpd','avg_payment_delay') %}
+          <div class="field">
+            <div class="field-head">
+              <label for="{{ f.name }}">{{ f.label }}{% if f.unit %} <span style="opacity:.6">({{ f.unit }})</span>{% endif %}</label>
+              <span class="field-val" data-val="{{ f.name }}_r">{{ f.default }}</span>
+            </div>
+            <input type="range" id="{{ f.name }}_r" name="{{ f.name }}_r"
+                   min="{{ f.minimum }}" max="{{ f.maximum }}" step="{{ f.step }}"
+                   value="{{ f.default }}" data-mirror="{{ f.name }}">
+            <input type="hidden" name="{{ f.name }}" value="{{ f.default }}">
+            {% if f.hint %}<div class="hint">{{ f.hint }}</div>{% endif %}
+          </div>
+          {% endfor %}
+
+          <div class="label" style="margin:26px 0 14px">Credit &amp; loan terms</div>
+          <div class="grid-2">
+            {% for f in fields if f.name in ('borrower_credit_score','co-borrower_credit_score','interest_rate','loan_to_value','debt_to_income_ratio','unpaid_principal_bal','Annual_Income','Loan_term','Age','NumberOfDependents','number_of_borrowers','insurance_percent') %}
+            <div class="field">
+              <div class="field-head">
+                <label for="{{ f.name }}">{{ f.label }}{% if f.unit %} <span style="opacity:.6">{{ f.unit }}</span>{% endif %}</label>
+              </div>
+              <input type="number" id="{{ f.name }}" name="{{ f.name }}"
+                     min="{{ f.minimum }}" max="{{ f.maximum }}" step="{{ f.step }}"
+                     value="{{ f.default }}">
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="label" style="margin:26px 0 14px">Applicant profile</div>
+          <div class="grid-2">
+            {% for f in fields if f.kind == 'select' %}
+            <div class="field">
+              <div class="field-head"><label for="{{ f.name }}">{{ f.label }}</label></div>
+              <select id="{{ f.name }}" name="{{ f.name }}">
+                {% for c in f.choices %}
+                <option value="{{ c }}" {% if c == f.default %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endfor %}
+          </div>
+          <p class="hint" style="margin-top:14px">
+            These six categorical inputs reach the model. In the previous version they
+            never did — single-row one-hot encoding silently collapsed every one to its
+            reference level.
+          </p>
+        </form>
+      </div>
+
+      <!-- readout -->
+      <div>
+        <div class="readout on-dark">
+          <div class="label">Probability of delinquency</div>
+          <div style="display:flex;align-items:flex-end;gap:12px;margin-top:10px">
+            <div class="big-number" data-pd>—</div>
+            <div class="big-unit" style="padding-bottom:10px">%</div>
+            <span class="pill" data-band style="margin-left:auto;margin-bottom:12px">—</span>
+          </div>
+          <div class="meter"><div class="meter-fill" data-meter style="width:0%"></div></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag tag-model" data-verdict>—</span>
+            <span class="tag tag-assumption" data-modelinfo>—</span>
+          </div>
+
+          <div class="label" style="margin:30px 0 4px">Why — ranked by model importance</div>
+          <p class="hint" style="margin:0 0 8px">
+            Importance is the trained forest's own <code style="background:var(--surface-3);border:0;color:var(--on-surface-dim)">feature_importances_</code>;
+            direction compares your input against the training median.
+          </p>
+          <div class="rows" data-drivers></div>
+          <div data-error style="margin-top:16px"></div>
+        </div>
+        <div class="basis-key">
+          <span><span class="tag tag-model">Model</span> trained output</span>
+          <span><span class="tag tag-measured">Measured</span> from training data</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:28px">
+    <strong>What this model does and does not know.</strong>
+    <p>
+      Payment history carries the signal: on-time payments (0.36), late payments
+      (0.26), current DPD (0.14) and average delay (0.10) account for 87% of total
+      importance. Credit score contributes 0.015 — on this dataset it correlates
+      +0.002 with the target, which is effectively zero. Move the credit score slider
+      and watch how little happens; that is the data, not a bug.
+      See <a href="/docs#loan">the model card</a>.
+    </p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const form = document.getElementById("loan-form");
+const bandClass = b => "band-" + (b || "").toLowerCase();
+
+PRISM.live(form, "/api/loan/predict", (d) => {
+  const pct = d.probability_of_default * 100;
+  const pd = document.querySelector("[data-pd]");
+  pd.textContent = PRISM.fmt(pct, 1);
+  pd.className = "big-number " + bandClass(d.risk_band);
+
+  const band = document.querySelector("[data-band]");
+  band.textContent = d.risk_band;
+  band.className = "pill " + bandClass(d.risk_band);
+
+  const meter = document.querySelector("[data-meter]");
+  meter.style.width = Math.min(100, pct) + "%";
+
+  document.querySelector("[data-verdict]").textContent = d.prediction;
+  document.querySelector("[data-modelinfo]").textContent =
+    `${d.model.type} · ${d.model.n_estimators} trees · depth ${d.model.max_depth}`;
+  document.querySelector("[data-error]").innerHTML = "";
+
+  const max = Math.max(...d.drivers.map(x => x.importance), 0.001);
+  document.querySelector("[data-drivers]").innerHTML = d.drivers.map(x => `
+    <div class="row">
+      <span class="row-bar"><i style="width:${(x.importance / max) * 100}%"></i></span>
+      <span class="row-name">${x.feature.replace(/_/g, " ")}</span>
+      <span class="tag ${x.direction === "raises risk" ? "tag-rule" : "tag-measured"}">${x.direction}</span>
+      <span class="row-val">${PRISM.fmt(x.value, 1)} <span style="color:var(--on-surface-dim)">vs ${PRISM.fmt(x.median, 1)}</span></span>
+    </div>`).join("") || `<div class="row"><span class="row-name">All inputs at the training median.</span></div>`;
+});
+</script>
+{% endblock %}

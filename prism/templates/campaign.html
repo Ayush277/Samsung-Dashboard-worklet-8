@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Campaign performance — PRISM Worklet 8{% endblock %}
+
+{% block body %}
+<section class="hero" style="padding:56px 0 32px">
+  <canvas id="ambient" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="reveal d1"><div><span class="label label-accent">Regression · CatBoost / LightGBM / Ridge</span></div></div>
+    <div class="reveal d2">
+      <h1 class="display" style="font-size:clamp(32px,4.4vw,46px);max-width:22ch">Campaign performance</h1>
+    </div>
+    <div class="reveal d3">
+      <p class="lede" style="font-size:16px">
+        Predict demand for a store and item on a date, then compare it against what
+        that pair <em>actually sold</em> across 913,001 rows of history. Three models
+        score the same input side by side.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="console">
+    <div class="console-bar on-dark">
+      <span class="pill pill-live"><span class="dot dot-pulse"></span> <span data-status>starting</span></span>
+      <span class="label mono" data-latency>—</span>
+      <a class="btn btn-ghost" href="/api/campaign/sample.csv"
+         style="margin-left:auto;height:30px;padding:0 12px;font-size:12px">Sample CSV</a>
+    </div>
+
+    <div class="split">
+      <div class="console-body on-dark">
+        <form id="campaign-form" autocomplete="off">
+          <div class="label" style="margin-bottom:14px">Input</div>
+          {% for f in fields %}
+          <div class="field">
+            <div class="field-head">
+              <label for="{{ f.name }}_r">{{ f.label }}</label>
+              <span class="field-val" data-val="{{ f.name }}_r">{{ f.default }}</span>
+            </div>
+            <input type="range" id="{{ f.name }}_r" name="{{ f.name }}_r"
+                   min="{{ f.minimum }}" max="{{ f.maximum }}" step="{{ f.step }}"
+                   value="{{ f.default }}" data-mirror="{{ f.name }}">
+            <input type="hidden" name="{{ f.name }}" value="{{ f.default }}">
+          </div>
+          {% endfor %}
+
+          <div class="field" style="margin-top:22px">
+            <div class="field-head"><label for="model">Scoring model</label></div>
+            <select id="model" name="model">
+              {% for m in models %}<option value="{{ m }}">{{ m }}</option>{% endfor %}
+            </select>
+            <div class="hint">All three are compared below regardless of this choice.</div>
+          </div>
+          <input type="hidden" name="compare" value="1">
+        </form>
+      </div>
+
+      <div>
+        <div class="readout on-dark">
+          <div class="label">Predicted units sold</div>
+          <div style="display:flex;align-items:flex-end;gap:12px;margin-top:10px">
+            <div class="big-number" data-sales style="color:var(--accent)">—</div>
+            <span class="pill" data-action style="margin-left:auto;margin-bottom:12px">—</span>
+          </div>
+
+          <div class="rows" style="margin-top:22px">
+            <div class="row">
+              <span class="tag tag-measured">Measured</span>
+              <span class="row-name">Historical baseline</span>
+              <span class="row-val" data-baseline>—</span>
+            </div>
+            <div class="row">
+              <span class="tag tag-measured">Measured</span>
+              <span class="row-name">Uplift vs history</span>
+              <span class="row-val" data-uplift>—</span>
+            </div>
+            <div class="row">
+              <span class="tag tag-measured">Measured</span>
+              <span class="row-name">Deviation from this pair's spread</span>
+              <span class="row-val" data-sigma>—</span>
+            </div>
+            <div class="row">
+              <span class="tag tag-rule">Rule</span>
+              <span class="row-name">Recommended channel</span>
+              <span class="row-val" data-channel>—</span>
+            </div>
+            <div class="row">
+              <span class="tag tag-assumption">Assumption</span>
+              <span class="row-name">Cost per contact</span>
+              <span class="row-val" data-cost>—</span>
+            </div>
+          </div>
+          <p class="hint" data-rationale style="margin-top:12px"></p>
+
+          <div class="label" style="margin:28px 0 8px">All three models, same input</div>
+          <div class="rows" data-compare></div>
+          <div data-error style="margin-top:16px"></div>
+        </div>
+        <div class="basis-key">
+          <span><span class="tag tag-model">Model</span> trained output</span>
+          <span><span class="tag tag-measured">Measured</span> counted from history</span>
+          <span><span class="tag tag-rule">Rule</span> business logic</span>
+          <span><span class="tag tag-assumption">Assumption</span> planning input</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note note-warn" style="margin-top:28px">
+    <strong>Uplift is measured now; it used to be invented.</strong>
+    <p>
+      The previous version derived a baseline from <code>store_id % 10</code> and
+      <code>item_id % 20</code>, and a "conversion probability" from
+      <code>0.8 + (store_id % 7) * 0.1</code> — arbitrary arithmetic on an ID, labelled
+      in the source as "simulate store quality impact" and shown to users as AI output.
+      Store 8 outranked store 7 because 8 % 7 is 1. This console compares against the
+      real mean for that store and item instead. Conversion probability is gone
+      entirely: no dataset in this project records impressions, clicks or conversions,
+      so there is nothing to predict it from. See <a href="/docs#campaign">the model card</a>.
+    </p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const form = document.getElementById("campaign-form");
+
+PRISM.live(form, "/api/campaign/predict", (d) => {
+  document.querySelector("[data-sales]").textContent = PRISM.fmt(d.predicted_sales, 1);
+  document.querySelector("[data-error]").innerHTML = "";
+
+  const c = d.campaign || {};
+  const set = (sel, txt) => document.querySelector(sel).textContent = txt;
+
+  if (!c.available) {
+    ["[data-baseline]","[data-uplift]","[data-sigma]","[data-channel]","[data-cost]"]
+      .forEach(s => set(s, "—"));
+    set("[data-action]", "no baseline");
+    document.querySelector("[data-rationale]").textContent = c.reason || "";
+  } else {
+    const up = c.uplift_pct * 100;
+    set("[data-baseline]", `${PRISM.fmt(c.baseline.value, 1)} units`);
+    const u = document.querySelector("[data-uplift]");
+    u.textContent = `${up >= 0 ? "+" : ""}${PRISM.fmt(up, 1)}%  (${c.uplift_absolute >= 0 ? "+" : ""}${PRISM.fmt(c.uplift_absolute, 1)})`;
+    u.style.color = up >= 15 ? "var(--ok)" : up >= 0 ? "var(--accent)" : "var(--warn)";
+    set("[data-sigma]", `${c.uplift_sigma >= 0 ? "+" : ""}${PRISM.fmt(c.uplift_sigma, 2)}σ`);
+    set("[data-channel]", c.recommended_channel.replace(/_/g, " "));
+    set("[data-cost]", `${PRISM.fmt(c.channel_cost_per_contact, 2)} / contact`);
+
+    const a = document.querySelector("[data-action]");
+    a.textContent = c.recommended_action;
+    a.className = "pill " + (up >= 15 ? "band-low" : up >= 0 ? "band-moderate" : "band-high");
+
+    document.querySelector("[data-rationale]").innerHTML =
+      `${c.channel_rationale} <br><span style="opacity:.7">Baseline basis: ${c.baseline.basis} — ${c.baseline.observations} observations, ${c.baseline.date_range[0]} to ${c.baseline.date_range[1]}.</span>`;
+  }
+
+  const all = d.all_models || {};
+  const vals = Object.values(all).filter(v => v.predicted_sales != null)
+    .map(v => v.predicted_sales);
+  const max = Math.max(...vals, 1);
+  document.querySelector("[data-compare]").innerHTML = Object.entries(all).map(([name, v]) => v.error
+    ? `<div class="row"><span class="row-name">${name}</span><span class="row-val" style="color:var(--danger)">${v.error}</span></div>`
+    : `<div class="row">
+         <span class="row-bar"><i style="width:${(v.predicted_sales / max) * 100}%"></i></span>
+         <span class="row-name">${name}${name === d.model ? " <span class='tag tag-model'>scoring</span>" : ""}</span>
+         <span class="row-val">${PRISM.fmt(v.predicted_sales, 1)} <span style="color:var(--on-surface-dim)">· ${v.inference_ms} ms</span></span>
+       </div>`).join("");
+});
+</script>
+{% endblock %}

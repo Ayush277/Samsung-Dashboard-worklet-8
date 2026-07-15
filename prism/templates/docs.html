@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+{% block title %}Documentation — PRISM Worklet 8{% endblock %}
+
+{% block body %}
+<section class="hero" style="padding:56px 0 24px">
+  <canvas id="ambient" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="reveal d1"><div><span class="label label-accent">Documentation · v{{ version }}</span></div></div>
+    <div class="reveal d2">
+      <h1 class="display" style="font-size:clamp(32px,4.4vw,46px);max-width:20ch">Model cards &amp; API</h1>
+    </div>
+    <div class="reveal d3">
+      <p class="lede" style="font-size:16px">
+        What each model is, what it was measured at, where it is weak, and how to call
+        it. Numbers on this page come from held-out evaluation runs, not from
+        aspiration.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap docs-layout">
+  <nav class="toc">
+    <span class="label" style="display:block;margin-bottom:8px">On this page</span>
+    <a href="#demo">Demo flow</a>
+    <a href="#loan">Loan · model card</a>
+    <a href="#campaign">Campaign · model card</a>
+    <a href="#sellout">Sell-out · model card</a>
+    <a href="#tabfm">On TabFM</a>
+    <a href="#api">API reference</a>
+    <a href="#limits">Limitations</a>
+  </nav>
+
+  <div class="prose">
+
+    <h2 id="demo">Demo flow</h2>
+    <p>Five minutes, in this order. Each step is designed to show that a real model is on the other end.</p>
+    <ol style="color:var(--text-secondary)">
+      <li>
+        <strong>Start at <a href="/">the landing page</a>.</strong> The pill at the top
+        calls <code>/api/health</code>, which loads all three models and runs a real
+        inference through each. The millisecond timings are measured per request.
+      </li>
+      <li>
+        <strong>Open <a href="/sellout">Sell-out</a> and set <code>Open</code> to 0.</strong>
+        The forecast collapses toward zero. No formula was told to do that — a closed
+        store sells nothing, and the model learned it from Rossmann's history.
+      </li>
+      <li>
+        <strong>Open <a href="/loan">Loan risk</a> and drag <em>on-time payments</em>.</strong>
+        Risk moves sharply. Now drag <em>credit score</em> across its whole range: almost
+        nothing happens. That is the honest finding — on this dataset credit score
+        correlates +0.002 with the target.
+      </li>
+      <li>
+        <strong>Open <a href="/campaign">Campaign</a>.</strong> Three models score the
+        same input side by side with individual latencies. Uplift is compared against
+        what that store and item really sold.
+      </li>
+      <li>
+        <strong>Check <a href="/api/models">the manifest</a>.</strong> Every deployed
+        graph reports its measured drift from the original model it was converted from.
+      </li>
+    </ol>
+
+    <h2 id="loan">Loan delinquency · model card</h2>
+    <table class="data">
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>Model</td><td class="num">RandomForestClassifier — 160 trees, max_depth 12, min_samples_leaf 25, class_weight balanced</td></tr>
+      <tr><td>Training data</td><td class="num">approach_train.csv — 116,058 rows, 30 features after encoding</td></tr>
+      <tr><td>Target</td><td class="num">mx — <strong>inverted</strong>: 1 = good loan, 0 = delinquent</td></tr>
+      <tr><td>Class balance</td><td class="num">69.0% mx=1 / 31.0% mx=0</td></tr>
+      <tr><td>Held-out AUC</td><td class="num"><strong>0.7209</strong> (25% split, stratified, seed 42)</td></tr>
+      <tr><td>Majority baseline</td><td class="num">AUC 0.500 · accuracy 0.690</td></tr>
+      <tr><td>Accuracy</td><td class="num">0.664 — below the 0.690 majority baseline, by design</td></tr>
+    </table>
+
+    <div class="note">
+      <strong>Why accuracy is below the baseline, and why that is correct.</strong>
+      <p>
+        Predicting "good loan" for everyone scores 69% accuracy and catches zero
+        delinquencies. <code>class_weight='balanced'</code> makes the model pay for
+        missing the minority class, which costs raw accuracy and buys ranking ability
+        — AUC 0.72 versus 0.50. For triage, ranking is the useful property. Anyone
+        quoting accuracy alone on a 69/31 split is quoting the baseline.
+      </p>
+    </div>
+
+    <h3>Where the signal is</h3>
+    <table class="data">
+      <tr><th>Feature</th><th>Importance</th><th>Reading</th></tr>
+      <tr><td>total_on_time_payments</td><td class="num">0.364</td><td>Payment history</td></tr>
+      <tr><td>total_late_payments</td><td class="num">0.262</td><td>Payment history</td></tr>
+      <tr><td>current_dpd</td><td class="num">0.136</td><td>Payment history</td></tr>
+      <tr><td>avg_payment_delay</td><td class="num">0.105</td><td>Payment history</td></tr>
+      <tr><td>Annual Income</td><td class="num">0.016</td><td>Marginal</td></tr>
+      <tr><td>borrower_credit_score</td><td class="num">0.015</td><td>Effectively unused</td></tr>
+    </table>
+    <p>
+      Payment history is 87% of total importance. Credit score is 1.5%, and its raw
+      correlation with the target is <code>+0.0018</code>. On a real lending book credit
+      score is the canonical predictor of delinquency, so a near-zero correlation is a
+      strong signal that this dataset is synthetic or scrambled in its demographic
+      columns. Treat the model as a demonstration of a working pipeline, not as a
+      credit policy.
+    </p>
+
+    <h3>Known defects fixed in this version</h3>
+    <ul>
+      <li>
+        <strong>Categoricals never reached the model.</strong> The previous app called
+        <code>pd.get_dummies(..., drop_first=True)</code> on a single row at inference.
+        One row has one category, <code>drop_first</code> drops it, and the reindex filled
+        every dummy with 0 — so all six categorical inputs silently collapsed to their
+        reference level. Encoding is now explicit against the fitted columns.
+      </li>
+      <li>
+        <strong>The artifact was called <code>tabpfn.pkl</code>.</strong> It is, and always
+        was, a RandomForest — see <a href="#tabfm">On TabFM</a>.
+      </li>
+    </ul>
+
+    <h2 id="campaign">Campaign performance · model card</h2>
+    <table class="data">
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>Models</td><td class="num">CatBoostRegressor · LGBMRegressor · Ridge — all three deployed</td></tr>
+      <tr><td>Task</td><td class="num">Predict units sold for a store/item on a date</td></tr>
+      <tr><td>Features</td><td class="num">store, item, month, day, dayofweek, dayofyear, weekofyear</td></tr>
+      <tr><td>History</td><td class="num">train2.csv — 913,001 rows, 2013-01-01 → 2017-12-31, 10 stores × 50 items</td></tr>
+      <tr><td>Baseline source</td><td class="num">Measured per store/item, seasonal by month where available</td></tr>
+    </table>
+
+    <div class="note note-warn">
+      <strong>What was removed, and why.</strong>
+      <p>
+        The previous version reported a "conversion probability" and an uplift built
+        from <code>store_id % 10</code>, <code>item_id % 20</code> and
+        <code>0.8 + (store_id % 7) * 0.1</code>, with source comments reading "simulate
+        store quality impact" and "simulate item appeal". These are arbitrary
+        arithmetic on identifiers — store 8 scored above store 7 because 8 % 7 is 1 —
+        and they were presented in the UI as model output.
+      </p>
+      <p>
+        Uplift is now measured against the real historical mean for that store and
+        item. Conversion probability is gone: no dataset in this project contains
+        impressions, clicks or conversions, so there is nothing to estimate it from,
+        and a number with no source is worse than a blank.
+      </p>
+    </div>
+
+    <h3>The decision layer</h3>
+    <p>
+      Channel selection is a documented rule, not a prediction, and the UI labels it as
+      one. Uplift bands: high ≥ +15%, moderate 0–15%, low &lt; 0%. Volume bands: high ≥ 60
+      units, moderate 25–60, low &lt; 25. The pair selects a channel; cost per contact is a
+      configurable planning input in <code>prism/campaign_rules.py</code>. Separating the
+      model output from the business rule is the point — both are legitimate, and
+      conflating them is what made the old version misleading.
+    </p>
+
+    <h2 id="sellout">Sell-out forecasting · model card</h2>
+    <table class="data">
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>Model</td><td class="num">XGBRegressor, selected by RandomizedSearchCV (10 candidates, 3-fold)</td></tr>
+      <tr><td>Tuned params</td><td class="num">max_depth 10 · learning_rate 0.2 · min_child_weight 5 · gamma 0.1 · colsample_bytree 0.7</td></tr>
+      <tr><td>Task</td><td class="num">Daily store sales (Rossmann)</td></tr>
+      <tr><td>Features</td><td class="num">17 — promo, competition, calendar, store type, assortment</td></tr>
+      <tr><td>Validation split</td><td class="num">Time-based: train &lt; 2015-06-19, test ≥ 2015-06-19</td></tr>
+    </table>
+    <p>
+      A time-based split is the right call for a forecasting task — a random split lets
+      the model see the future of the series it is predicting. Held-out error was not
+      recorded in the shipped artifact, so no accuracy figure is quoted here rather
+      than one being invented. Recovering it needs a rerun of the training script.
+    </p>
+
+    <h2 id="tabfm">On TabFM</h2>
+    <div class="note note-warn">
+      <strong>This repository is titled "Harnessing TabFM and AI", and no tabular foundation model is used.</strong>
+      <p>
+        The loan artifact ships as <code>models/tabpfn.pkl</code> and loads as
+        <code>sklearn.ensemble.RandomForestClassifier</code>. The code that produced it
+        trains a RandomForest as a fallback and saves it under that filename; the
+        <code>tabpfn</code> package is imported nowhere that runs. Earlier documentation
+        stated "TabPFN foundation model integration" as fact. That claim was not true,
+        and it has been corrected rather than carried forward.
+      </p>
+    </div>
+    <p>
+      TabPFN was evaluated for this deployment and ruled out on a hard constraint: it
+      requires PyTorch (~2 GB installed) against a 250 MB serverless budget. It cannot
+      serve real-time predictions on this URL under any arrangement — roughly 8× over
+      budget before the model weights are counted.
+    </p>
+    <p>
+      If the worklet brief requires a tabular foundation model, the honest options are
+      to run TabPFN offline and publish the comparison as a result, or to move
+      inference to a host with room for PyTorch. What is <em>not</em> an option is
+      leaving a RandomForest named <code>tabpfn.pkl</code> and describing it as a
+      foundation model. The RandomForest is a reasonable choice here and needs no
+      cover story: AUC 0.72 on 116k rows, 4.4 MB, single-digit millisecond inference.
+    </p>
+
+    <h2 id="api">API reference</h2>
+    <p>All prediction endpoints accept form-encoded or JSON bodies and return JSON.</p>
+<pre><code># Loan — any omitted field falls back to its training median
+curl -X POST https://samsung-dashboard-worklet-8.vercel.app/api/loan/predict \
+  -H 'Content-Type: application/json' \
+  -d '{"borrower_credit_score": 610, "current_dpd": 45,
+       "total_late_payments": 14, "total_on_time_payments": 3}'
+
+# Campaign — compare=1 scores all three models on the same input
+curl -X POST https://samsung-dashboard-worklet-8.vercel.app/api/campaign/predict \
+  -d 'store=3&item=12&month=12&day=20&model=catboost&compare=1'
+
+# Sell-out
+curl -X POST https://samsung-dashboard-worklet-8.vercel.app/api/sellout/predict \
+  -d 'Open=1&Promo=1&DayOfWeek=6&StoreType=d&Assortment=c&WeekOfYear=50'
+
+# Batch — CSV in, CSV out, up to 2000 rows
+curl -X POST https://samsung-dashboard-worklet-8.vercel.app/api/loan/batch \
+  -F 'file=@applications.csv' -o scored.csv
+
+# Health — loads every model and runs a real inference through each
+curl https://samsung-dashboard-worklet-8.vercel.app/api/health
+
+# Manifest — measured drift of each deployed graph vs its original
+curl https://samsung-dashboard-worklet-8.vercel.app/api/models</code></pre>
+
+    <h3>Response shape</h3>
+<pre><code>{
+  "probability_of_default": 0.5281,
+  "risk_band": "Critical",
+  "prediction": "Delinquent",
+  "drivers": [
+    {"feature": "total_on_time_payments", "value": 3.0, "median": 9.0,
+     "importance": 0.364, "direction": "raises risk"}
+  ],
+  "inference_ms": 1.84,
+  "model": {"type": "RandomForestClassifier", "n_estimators": 160, "max_depth": 12}
+}</code></pre>
+
+    <h2 id="limits">Limitations</h2>
+    <ul>
+      <li>
+        <strong>The loan dataset looks synthetic in its demographic columns.</strong>
+        Credit score correlates +0.002 with the target and DPD correlates in a
+        direction that does not survive scrutiny. The pipeline is real; the data is
+        not a lending book.
+      </li>
+      <li>
+        <strong>No sell-out error metric is published</strong> because none was recorded
+        in the artifact. Quoting one would mean inventing it.
+      </li>
+      <li>
+        <strong>Channel costs are assumptions.</strong> They are planning inputs, labelled
+        as such in the response payload and the UI.
+      </li>
+      <li>
+        <strong>Campaign uplift needs a known store/item pair.</strong> Pairs outside the
+        913k-row history get no baseline and the API says so rather than guessing.
+      </li>
+      <li>
+        <strong>Cold starts.</strong> The first request to an idle instance pays ONNX
+        session construction. Later requests on that instance reuse it.
+      </li>
+      <li>
+        <strong>These models are demonstrations.</strong> None has been validated for
+        lending, pricing or inventory decisions.
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

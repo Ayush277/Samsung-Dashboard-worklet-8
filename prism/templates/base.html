@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}PRISM Worklet 8{% endblock %}</title>
+<meta name="description" content="{% block description %}Three production ML models served in real time — loan delinquency risk, campaign demand, and sell-out forecasting.{% endblock %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='prism.css') }}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%234F46E5'/><circle cx='16' cy='16' r='6' fill='%2306B6D4'/></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/"><span class="brand-mark"></span> PRISM <span style="color:var(--text-secondary);font-weight:400">Worklet 8</span></a>
+    <div class="nav-links">
+      <a href="/loan" {% if request.path=='/loan' %}class="active"{% endif %}>Loan risk</a>
+      <a href="/campaign" {% if request.path=='/campaign' %}class="active"{% endif %}>Campaign</a>
+      <a href="/sellout" {% if request.path=='/sellout' %}class="active"{% endif %}>Sell-out</a>
+      <a href="/architecture" {% if request.path=='/architecture' %}class="active"{% endif %}>Architecture</a>
+      <a href="/docs" {% if request.path=='/docs' %}class="active"{% endif %}>Docs</a>
+    </div>
+  </div>
+</nav>
+
+{% block body %}{% endblock %}
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span class="mono">PRISM Worklet 8</span>
+    <span>Loan · Campaign · Sell-out</span>
+    <span style="margin-left:auto">
+      <a href="/api/health">Health</a> ·
+      <a href="/api/models">Model manifest</a> ·
+      <a href="https://github.com/Ayush277/Samsung-Dashboard-worklet-8">Source</a>
+    </span>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='prism.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
