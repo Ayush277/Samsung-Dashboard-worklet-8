@@ -70,8 +70,15 @@
           </div>
           <p class="hint" style="margin-top:10px">
             Closing the store (<code style="background:var(--surface-3);border:0;color:var(--on-surface-dim)">Open = 0</code>)
-            should collapse this toward zero — the clearest way to see a real model
+            collapses this to roughly zero — the clearest way to see a real model
             responding rather than a formula.
+          </p>
+          <p class="hint" data-negative-note style="display:none;margin-top:8px;color:var(--warn)">
+            <strong>This value is slightly negative.</strong> Sales cannot be, but the
+            model is an unclamped regressor: with nothing constraining its output it
+            can undershoot a touch past zero rather than landing exactly on it. The
+            raw number is shown rather than clipped — a zero forced by the UI would
+            look identical whether the model had learned anything or not.
           </p>
 
           <div class="label" style="margin:28px 0 8px">Feature vector sent to the model</div>
@@ -97,7 +104,13 @@ const form = document.getElementById("sellout-form");
 let paramsDone = false;
 
 PRISM.live(form, "/api/sellout/predict", (d) => {
-  document.querySelector("[data-sales]").textContent = PRISM.fmt(d.predicted_sales, 0);
+  // Shown to 1dp when negative: rounding -0.3 to "-0" reads as a rendering bug
+  // rather than the real output it is.
+  const negative = d.predicted_sales < 0;
+  const sales = document.querySelector("[data-sales]");
+  sales.textContent = PRISM.fmt(d.predicted_sales, negative ? 1 : 0);
+  sales.style.color = negative ? "var(--warn)" : "var(--accent)";
+  document.querySelector("[data-negative-note]").style.display = negative ? "" : "none";
   document.querySelector("[data-error]").innerHTML = "";
 
   const skip = new Set(["StoreType", "Assortment", "PromoInterval"]);

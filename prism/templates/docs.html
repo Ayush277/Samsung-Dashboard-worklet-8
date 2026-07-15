@@ -173,6 +173,18 @@
       recorded in the shipped artifact, so no accuracy figure is quoted here rather
       than one being invented. Recovering it needs a rerun of the training script.
     </p>
+    <div class="note">
+      <strong>A closed store forecasts about −0.3, and the UI shows it.</strong>
+      <p>
+        Sales cannot be negative. This is an unclamped regressor: nothing constrains
+        its output to be positive, so with <code>Open = 0</code> it lands slightly past
+        zero instead of exactly on it (measured: −0.3 closed against 89.0 open with a
+        promotion). The raw value is displayed rather than clipped, because a zero
+        forced by the interface would look identical whether the model had learned
+        anything or not. The gap between −0.3 and 89.0 is the model demonstrating it
+        learned what closing a store does.
+      </p>
+    </div>
 
     <h2 id="tabfm">On TabFM</h2>
     <div class="note note-warn">
