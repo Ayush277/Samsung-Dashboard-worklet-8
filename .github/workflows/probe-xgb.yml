@@ -1,0 +1,77 @@
+name: Probe xgboost/onnxmltools combos
+
+# Throwaway diagnostic. onnxmltools 1.14 fails three different ways against
+# xgboost 3.2 (base_score encoding, n_targets, bool-vs-int in tree attrs), so
+# rather than patch each symptom, find a combination that both LOADS the
+# existing pickle and CONVERTS it. Delete once the answer is known.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - xgb: "1.7.6"
+            tools: "1.12.0"
+          - xgb: "2.0.3"
+            tools: "1.12.0"
+          - xgb: "2.0.3"
+            tools: "1.14.0"
+          - xgb: "2.1.4"
+            tools: "1.14.0"
+          - xgb: "3.2.0"
+            tools: "1.14.0"
+    name: xgb ${{ matrix.xgb }} / onnxmltools ${{ matrix.tools }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install
+        run: |
+          pip install -q numpy==1.26.4 scikit-learn==1.6.1 \
+            xgboost==${{ matrix.xgb }} onnxmltools==${{ matrix.tools }} \
+            onnx==1.19.1 onnxruntime==1.23.2 skl2onnx==1.20.0 2>&1 | tail -2
+      - name: Load + convert + verify
+        run: |
+          python - <<'PY'
+          import pickle, warnings, numpy as np, traceback
+          warnings.filterwarnings("ignore")
+          import xgboost, onnxmltools
+          print(f"xgboost {xgboost.__version__} / onnxmltools {onnxmltools.__version__}")
+
+          P = "Sell-out performance forecasting (sales uplift)/pipeline/xgb_model.pkl"
+          try:
+              search = pickle.load(open(P, "rb"))
+              model = getattr(search, "best_estimator_", search)
+              print(f"LOAD    ok -> {type(model).__name__}")
+          except Exception as e:
+              print(f"LOAD    FAIL {type(e).__name__}: {str(e)[:140]}")
+              raise SystemExit(1)
+
+          try:
+              from onnxmltools.convert import convert_xgboost
+              from skl2onnx.common.data_types import FloatTensorType
+              n = model.n_features_in_
+              onx = convert_xgboost(
+                  model, initial_types=[("X", FloatTensorType([None, n]))],
+                  target_opset=13)
+              open("/tmp/x.onnx", "wb").write(onx.SerializeToString())
+              print("CONVERT ok")
+          except Exception as e:
+              print(f"CONVERT FAIL {type(e).__name__}: {str(e)[:140]}")
+              raise SystemExit(1)
+
+          import onnxruntime as ort
+          rng = np.random.default_rng(0)
+          X = rng.normal(0, 1, (200, n)).astype(np.float32)
+          got = ort.InferenceSession("/tmp/x.onnx").run(None, {"X": X})[0].ravel()
+          exp = model.predict(X).ravel()
+          drift = float(np.abs(got - exp).max())
+          print(f"PARITY  max drift {drift:.3e} -> {'ok' if drift < 1e-3 else 'FAIL'}")
+          raise SystemExit(0 if drift < 1e-3 else 1)
+          PY
