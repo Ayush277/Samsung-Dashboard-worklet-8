@@ -1,0 +1,50 @@
+{
+  "loan_scaler": {
+    "file": "prism/models/loan_scaler.onnx",
+    "max_drift_vs_original": 6.665744387013284e-07,
+    "size_mb": 0.001,
+    "verified_rows": 15000
+  },
+  "loan_random_forest": {
+    "file": "prism/models/loan_random_forest.onnx",
+    "max_drift_vs_original": 4.152345631780463e-07,
+    "size_mb": 4.378,
+    "verified_rows": 1000
+  },
+  "campaign_scaler": {
+    "file": "prism/models/campaign_scaler.onnx",
+    "max_drift_vs_original": 1.4400387726709596e-07,
+    "size_mb": 0.0,
+    "verified_rows": 3500
+  },
+  "campaign_ridge": {
+    "file": "prism/models/campaign_ridge.onnx",
+    "max_drift_vs_original": 0.0001102767382334946,
+    "size_mb": 0.0,
+    "verified_rows": 500
+  },
+  "campaign_lightgbm": {
+    "file": "prism/models/campaign_lightgbm.onnx",
+    "max_drift_vs_original": 1.439409350467713e-05,
+    "size_mb": 0.223,
+    "verified_rows": 500
+  },
+  "campaign_catboost": {
+    "file": "prism/models/campaign_catboost.onnx",
+    "max_drift_vs_original": 3.2384543359853524e-05,
+    "size_mb": 4.775,
+    "verified_rows": 500
+  },
+  "sellout_scaler": {
+    "file": "prism/models/sellout_scaler.onnx",
+    "max_drift_vs_original": 4.159550178184368e-07,
+    "size_mb": 0.0,
+    "verified_rows": 5100
+  },
+  "sellout_xgboost": {
+    "file": "prism/models/sellout_xgboost.onnx",
+    "max_drift_vs_original": 5.340576171875e-05,
+    "size_mb": 4.521,
+    "verified_rows": 300
+  }
+}
