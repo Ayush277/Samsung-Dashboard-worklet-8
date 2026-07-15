@@ -15,17 +15,26 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # The model loads under every xgboost version tried; only conversion
+          # breaks, and "Expected an int, got a boolean" smells like onnx's
+          # protobuf binding tightening up (bool subclasses int in Python, so
+          # older onnx accepted it silently). Vary onnx, hold xgboost steady.
+          - xgb: "2.0.3"
+            tools: "1.12.0"
+            onnx: "1.14.1"
+          - xgb: "2.0.3"
+            tools: "1.12.0"
+            onnx: "1.15.0"
+          - xgb: "2.0.3"
+            tools: "1.14.0"
+            onnx: "1.16.2"
+          - xgb: "2.0.3"
+            tools: "1.14.0"
+            onnx: "1.17.0"
           - xgb: "1.7.6"
             tools: "1.12.0"
-          - xgb: "2.0.3"
-            tools: "1.12.0"
-          - xgb: "2.0.3"
-            tools: "1.14.0"
-          - xgb: "2.1.4"
-            tools: "1.14.0"
-          - xgb: "3.2.0"
-            tools: "1.14.0"
-    name: xgb ${{ matrix.xgb }} / onnxmltools ${{ matrix.tools }}
+            onnx: "1.14.1"
+    name: xgb ${{ matrix.xgb }} / tools ${{ matrix.tools }} / onnx ${{ matrix.onnx }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -35,7 +44,8 @@ jobs:
         run: |
           pip install -q numpy==1.26.4 scikit-learn==1.6.1 \
             xgboost==${{ matrix.xgb }} onnxmltools==${{ matrix.tools }} \
-            onnx==1.19.1 onnxruntime==1.23.2 skl2onnx==1.20.0 2>&1 | tail -2
+            onnx==${{ matrix.onnx }} onnxruntime==1.19.2 skl2onnx==1.16.0 2>&1 | tail -2
+          python -c "import onnx,onnxmltools,xgboost;print('onnx',onnx.__version__,'tools',onnxmltools.__version__,'xgb',xgboost.__version__)"
       - name: Load + convert + verify
         run: |
           python - <<'PY'
