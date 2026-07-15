@@ -67,7 +67,12 @@ def _onnx_run(path: str, X: np.ndarray, output_index: int = 0) -> np.ndarray:
 
 def verify(key: str, path: str, expected: np.ndarray, X: np.ndarray,
            output_index: int = 0) -> None:
-    """Replay the exported graph against the original model's own output."""
+    """Replay the exported graph against the original model's own output.
+
+    Both sides are flattened, so a classifier's full (n, 2) probability matrix is
+    compared element-wise against predict_proba — every class, not just one
+    column.
+    """
     got = _onnx_run(path, X, output_index).ravel()
     exp = np.asarray(expected).ravel()
     if got.shape != exp.shape:
@@ -131,8 +136,10 @@ def convert_loan() -> None:
     # dicts, which ONNX Runtime can return without any Python-side conversion.
     export_sklearn(model, Xs, os.path.join(OUT_DIR, "loan_random_forest.onnx"),
                    options={id(model): {"zipmap": False}})
+    # Compare the whole (n, 2) probability matrix, not one column: the service
+    # reads P(mx=0) because the target is inverted, so both columns must match.
     verify("loan_random_forest", os.path.join(OUT_DIR, "loan_random_forest.onnx"),
-           model.predict_proba(Xs)[:, 1], Xs, output_index=1)
+           model.predict_proba(Xs), Xs, output_index=1)
 
     with open(os.path.join(OUT_DIR, "loan_meta.json"), "w") as fh:
         json.dump({
@@ -247,6 +254,34 @@ def build_campaign_baselines() -> None:
           f"{os.path.getsize(dest)/1e6:.2f} MB")
 
 
+def _normalise_xgb_base_score(model) -> None:
+    """Make XGBoost 3.x's base_score readable by onnxmltools.
+
+    XGBoost >= 2.1 serialises base_score as a JSON *array* ("[6.752716E1]") to
+    support multi-output targets. onnxmltools does `float(base_score)` on it and
+    dies with `could not convert string to float: '[6.752716E1]'`.
+
+    For a single-target regressor the array holds exactly one value, so rewriting
+    it as a scalar is lossless. The value itself is untouched — only its
+    encoding — and the parity check downstream is what proves that.
+    """
+    booster = model.get_booster()
+    try:
+        cfg = json.loads(booster.save_config())
+        params = cfg["learner"]["learner_model_param"]
+        raw = params.get("base_score", "")
+        if isinstance(raw, str) and raw.strip().startswith("["):
+            values = json.loads(raw)
+            if len(values) != 1:
+                raise ValueError(f"multi-output base_score {values!r} cannot be "
+                                 f"flattened to a scalar")
+            params["base_score"] = repr(float(values[0]))
+            booster.load_config(json.dumps(cfg))
+            print(f"  normalised base_score {raw} -> {params['base_score']}")
+    except Exception as exc:
+        print(f"  WARN could not normalise base_score: {type(exc).__name__}: {exc}")
+
+
 # --------------------------------------------------------------------------
 # Sell-out — StandardScaler(17) + XGBRegressor (unwrapped from RandomizedSearchCV)
 # --------------------------------------------------------------------------
@@ -280,12 +315,15 @@ def convert_sellout() -> None:
     export_sklearn(scaler, X, os.path.join(OUT_DIR, "sellout_scaler.onnx"))
     verify("sellout_scaler", os.path.join(OUT_DIR, "sellout_scaler.onnx"), Xs, X)
 
+    _normalise_xgb_base_score(model)
     from onnxmltools.convert import convert_xgboost
     onx = convert_xgboost(model, initial_types=[("X", FloatTensorType([None, n]))],
                           target_opset=OPSET)
     dest = os.path.join(OUT_DIR, "sellout_xgboost.onnx")
     with open(dest, "wb") as fh:
         fh.write(onx.SerializeToString())
+    # Parity here is the only thing that makes the base_score rewrite safe: if the
+    # patch corrupted the intercept, predictions shift and the build fails.
     verify("sellout_xgboost", dest, model.predict(Xs.astype(np.float32)), Xs)
 
     try:
