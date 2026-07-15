@@ -309,7 +309,30 @@ def _patch_onnxmltools_base_score() -> None:
             return parsed
 
     _common.json = _JsonShim()
-    print("  shimmed onnxmltools config parsing for array-encoded base_score")
+
+    # Second incompatibility: onnxmltools emits Python bools into ONNX's `ints`
+    # attribute field, and protobuf rejects them:
+    #   TypeError: Field onnx.AttributeProto.ints: Expected an int, got a boolean.
+    # Confirmed not to be a version skew — xgboost 1.7/2.0/2.1/3.2 against onnx
+    # 1.14/1.15/1.16/1.17 all fail identically. The affected attributes
+    # (nodes_missing_value_tracks_true, nodes_falsenodeids ...) are 0/1 flags, so
+    # widening bool to int is the encoding upstream already intends. Only bools
+    # inside a list are touched; nothing else is reinterpreted.
+    import onnx.helper as _helper
+
+    if not getattr(_helper, "_prism_bool_coercion", False):
+        _make_attribute = _helper.make_attribute
+
+        def make_attribute(key, value, *args, **kwargs):
+            if isinstance(value, (list, tuple)) and any(
+                    isinstance(v, bool) for v in value):
+                value = [int(v) if isinstance(v, bool) else v for v in value]
+            return _make_attribute(key, value, *args, **kwargs)
+
+        _helper.make_attribute = make_attribute
+        _helper._prism_bool_coercion = True
+
+    print("  shimmed onnxmltools: array base_score + bool→int tree attributes")
 
 
 # --------------------------------------------------------------------------
