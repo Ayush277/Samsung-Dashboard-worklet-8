@@ -14,6 +14,13 @@
 }
 
 :root {
+  /* Samsung brand — used for identity only: logo lockup, nav mark, footer.
+   * Kept distinct from the UI palette so the programme's brand reads as brand
+   * and never gets mistaken for a data colour in a chart or a risk band. */
+  --samsung-blue: #1428a0;
+  --samsung-blue-light: #034ea2;
+
+  /* Product UI — the Auralis design tokens. */
   --primary: #4f46e5;
   --primary-bright: #6366f1;
   --accent: #06b6d4;
@@ -105,6 +112,9 @@ a:hover { text-decoration: underline; }
   gap: 32px;
   height: 64px;
 }
+/* Brand lockup: Samsung PRISM identity, then a divider, then the worklet name.
+ * The divider keeps the programme's mark visually separate from this project's
+ * name — they are different things and shouldn't read as one compound logo. */
 .brand {
   display: flex;
   align-items: center;
@@ -114,11 +124,59 @@ a:hover { text-decoration: underline; }
   color: var(--text-primary);
 }
 .brand:hover { text-decoration: none; }
+
+.brand-logo {
+  height: 22px;
+  width: auto;
+  max-width: 132px;
+  display: block;
+}
+.on-dark .brand-logo,
+.brand-logo-invert { filter: brightness(0) invert(1); }
+
+/* Typographic fallback when no logo file is present. Not an imitation of any
+ * mark — just the programme name set in Samsung blue. */
+.brand-word {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--samsung-blue);
+  font-size: 15px;
+  white-space: nowrap;
+}
+.brand-word em {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--samsung-blue-light);
+}
+.on-dark .brand-word { color: #fff; }
+.on-dark .brand-word em { color: rgba(255, 255, 255, 0.72); }
+
+.brand-div {
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+  flex: none;
+}
+.on-dark .brand-div { background: var(--border-dark); }
+
+.brand-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.on-dark .brand-sub { color: var(--on-surface-dim); }
+
 .brand-mark {
   width: 22px;
   height: 22px;
   border-radius: 6px;
-  background: conic-gradient(from 140deg, var(--primary), var(--accent), var(--primary));
+  flex: none;
+  background: conic-gradient(from 140deg, var(--samsung-blue),
+    var(--samsung-blue-light), var(--samsung-blue));
 }
 .nav-links { display: flex; gap: 24px; margin-left: auto; align-items: center; }
 .nav-links a {

@@ -9,13 +9,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='prism.css') }}">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%234F46E5'/><circle cx='16' cy='16' r='6' fill='%2306B6D4'/></svg>">
+{% if brand_logo %}
+<link rel="icon" href="{{ url_for('static', filename=brand_logo) }}">
+{% else %}
+{# Samsung blue placeholder until the official logo lands in static/brand/. #}
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231428A0'/><circle cx='16' cy='16' r='6' fill='%2306B6D4'/></svg>">
+{% endif %}
 </head>
 <body>
 
 <nav class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="/"><span class="brand-mark"></span> PRISM <span style="color:var(--text-secondary);font-weight:400">Worklet 8</span></a>
+    <a class="brand" href="/" aria-label="Samsung PRISM — Worklet 8, home">
+      {% if brand_logo %}
+        <img class="brand-logo" src="{{ url_for('static', filename=brand_logo) }}"
+             alt="Samsung PRISM">
+      {% else %}
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-word">SAMSUNG <em>PRISM</em></span>
+      {% endif %}
+      <span class="brand-div" aria-hidden="true"></span>
+      <span class="brand-sub">Worklet 8</span>
+    </a>
     <div class="nav-links">
       <a href="/loan" {% if request.path=='/loan' %}class="active"{% endif %}>Loan risk</a>
       <a href="/campaign" {% if request.path=='/campaign' %}class="active"{% endif %}>Campaign</a>
@@ -30,7 +45,16 @@
 
 <footer class="footer">
   <div class="wrap footer-inner">
-    <span class="mono">PRISM Worklet 8</span>
+    <span style="display:flex;align-items:center;gap:10px">
+      {% if brand_logo %}
+        <img class="brand-logo" style="height:18px"
+             src="{{ url_for('static', filename=brand_logo) }}" alt="Samsung PRISM">
+      {% else %}
+        <span class="brand-word" style="font-size:13px">SAMSUNG <em>PRISM</em></span>
+      {% endif %}
+      <span class="brand-div" aria-hidden="true"></span>
+      <span class="mono">Worklet 8</span>
+    </span>
     <span>Loan · Campaign · Sell-out</span>
     <span style="margin-left:auto">
       <a href="/api/health">Health</a> ·

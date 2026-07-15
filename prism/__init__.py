@@ -30,4 +30,28 @@ def create_app() -> Flask:
     from .routes import bp
 
     app.register_blueprint(bp)
+
+    @app.context_processor
+    def brand():
+        return {"brand_logo": find_brand_logo()}
+
     return app
+
+
+# Drop the official Samsung PRISM logo at prism/static/brand/logo.svg (or .png)
+# and every page picks it up. Ordered by preference: SVG scales to any density.
+_BRAND_CANDIDATES = ("logo.svg", "logo.png", "logo.webp", "logo.jpg")
+
+
+def find_brand_logo() -> str | None:
+    """Return the brand logo's static filename, or None if it isn't present.
+
+    Templates fall back to a typographic lockup when this is None, so a missing
+    asset renders as deliberate wordmark rather than a broken image icon.
+    """
+    brand_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "static", "brand")
+    for name in _BRAND_CANDIDATES:
+        if os.path.exists(os.path.join(brand_dir, name)):
+            return f"brand/{name}"
+    return None
