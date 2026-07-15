@@ -254,32 +254,53 @@ def build_campaign_baselines() -> None:
           f"{os.path.getsize(dest)/1e6:.2f} MB")
 
 
-def _normalise_xgb_base_score(model) -> None:
-    """Make XGBoost 3.x's base_score readable by onnxmltools.
+def _patch_onnxmltools_base_score() -> None:
+    """Teach onnxmltools to read XGBoost >= 2.1's array-encoded base_score.
 
-    XGBoost >= 2.1 serialises base_score as a JSON *array* ("[6.752716E1]") to
-    support multi-output targets. onnxmltools does `float(base_score)` on it and
-    dies with `could not convert string to float: '[6.752716E1]'`.
+    XGBoost serialises base_score as a JSON array ("[6.752716E1]") to support
+    multi-output targets. onnxmltools calls float() straight on that string:
 
-    For a single-target regressor the array holds exactly one value, so rewriting
-    it as a scalar is lossless. The value itself is untouched — only its
-    encoding — and the parity check downstream is what proves that.
+        ValueError: could not convert string to float: '[6.752716E1]'
+
+    Rewriting the booster's own config does not help — base_score lives in
+    `learner_model_param`, which is derived from the trained model, so
+    `load_config` silently discards the change (the first attempt printed a
+    successful rewrite and converted nothing). The read has to be fixed instead.
+
+    Patching a third-party function is not free, so this keeps the original's
+    behaviour exactly and only unwraps a one-element array. A genuine
+    multi-output score raises rather than being silently flattened, and the
+    parity check downstream is what proves the intercept survived.
+
+    Preferable to pinning an older XGBoost: 3.2.0 is the version these pickles
+    were verified to load under, and downgrading risks not loading them at all.
     """
-    booster = model.get_booster()
-    try:
-        cfg = json.loads(booster.save_config())
-        params = cfg["learner"]["learner_model_param"]
-        raw = params.get("base_score", "")
+    import json as _json
+
+    from onnxmltools.convert.xgboost import common as _common
+    from onnxmltools.convert.xgboost.operator_converters import XGBoost as _ops
+
+    def get_xgb_params(xgb_node):
+        params = (xgb_node.get_xgb_params() if hasattr(xgb_node, "kwargs")
+                  else xgb_node.__dict__)
+        booster = xgb_node.get_booster() if hasattr(xgb_node, "get_booster") else xgb_node
+        config = _json.loads(booster.save_config())
+        raw = config["learner"]["learner_model_param"]["base_score"]
         if isinstance(raw, str) and raw.strip().startswith("["):
-            values = json.loads(raw)
+            values = _json.loads(raw)
             if len(values) != 1:
                 raise ValueError(f"multi-output base_score {values!r} cannot be "
                                  f"flattened to a scalar")
-            params["base_score"] = repr(float(values[0]))
-            booster.load_config(json.dumps(cfg))
-            print(f"  normalised base_score {raw} -> {params['base_score']}")
-    except Exception as exc:
-        print(f"  WARN could not normalise base_score: {type(exc).__name__}: {exc}")
+            raw = values[0]
+        params = {k: v for k, v in params.items() if v is not None}
+        params["base_score"] = float(raw)
+        return params
+
+    # XGBoost.py does `from ..common import get_xgb_params`, so it holds its own
+    # reference — patching the source module alone would not take effect.
+    _common.get_xgb_params = get_xgb_params
+    _ops.get_xgb_params = get_xgb_params
+    print("  patched onnxmltools to read array-encoded base_score")
 
 
 # --------------------------------------------------------------------------
@@ -315,7 +336,7 @@ def convert_sellout() -> None:
     export_sklearn(scaler, X, os.path.join(OUT_DIR, "sellout_scaler.onnx"))
     verify("sellout_scaler", os.path.join(OUT_DIR, "sellout_scaler.onnx"), Xs, X)
 
-    _normalise_xgb_base_score(model)
+    _patch_onnxmltools_base_score()
     from onnxmltools.convert import convert_xgboost
     onx = convert_xgboost(model, initial_types=[("X", FloatTensorType([None, n]))],
                           target_opset=OPSET)
